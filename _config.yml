@@ -80,3 +80,8 @@ deploy:
   type: git
   repo: git@github.com:tuobaye0711/tuobaye0711.github.io.git
   branch: master
+
+server:
+  port: 4001
+  compress: true
+  header: true
