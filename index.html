@@ -213,7 +213,20 @@ classes that you can use:
             <footer class="footer">
 
     <span class="footer__copyright">&copy; 2016-2017. |  拓跋的<a href="https://tuobaye0711.github.io/">前端客栈</a>给您敬茶 |  主题基于<a href="https://github.com/someus/huno">Huno</a>改写</span>
-    
+    <script>
+        (function(){
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
 </footer>
         </div>
     </div>
