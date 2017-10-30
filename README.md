@@ -8,6 +8,7 @@
 
 1. 基于[huno](https://github.com/letiantian/huno)的主题
 2. 基于[gitment](https://github.com/imsun/gitment)的评论系统
-3. 方便博客载入图片资源的组件[hexo-asset-image](https://github.com/CodeFalling/hexo-asset-image)
+3. 基于[不蒜子](http://busuanzi.ibruce.info/)的统计系统
+4. 方便博客载入图片资源的组件[hexo-asset-image](https://github.com/CodeFalling/hexo-asset-image)
 
 后续再有新内容继续补充~
