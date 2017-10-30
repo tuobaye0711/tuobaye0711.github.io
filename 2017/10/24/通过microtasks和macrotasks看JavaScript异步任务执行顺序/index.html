@@ -24,7 +24,7 @@
 <meta property="og:site_name" content="拓跋的前端客栈">
 <meta property="og:description" content="1. 初探 — setTimeout()的那些事儿 相信很多人在初学JavaScript的时候都遇到过类似的代码： 1234567891011121314// part1console.log(1);setTimeout(function()&amp;#123;    console.log(2);&amp;#125;,100);console.log(3);console.log(4);// part2cons">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-30T05:48:44.533Z">
+<meta property="og:updated_time" content="2017-10-30T06:04:55.857Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="通过microtasks和macrotasks看JavaScript异步任务执行顺序 | 拓跋的前端客栈">
 <meta name="twitter:description" content="1. 初探 — setTimeout()的那些事儿 相信很多人在初学JavaScript的时候都遇到过类似的代码： 1234567891011121314// part1console.log(1);setTimeout(function()&amp;#123;    console.log(2);&amp;#125;,100);console.log(3);console.log(4);// part2cons">
@@ -272,7 +272,8 @@ classes that you can use:
 <p>如此分析输出顺序是：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="number">2</span></div><div class="line"><span class="number">3</span></div><div class="line"><span class="number">5</span></div><div class="line"><span class="number">4</span></div><div class="line"><span class="number">1</span></div></pre></td></tr></table></figure>
 <p>看吧，这次分析对了呢ヾ(◍°∇°◍)ﾉﾞ</p>
-<h3 id="3-总结和参考资料"><a href="#3-总结和参考资料" class="headerlink" title="3. 总结和参考资料"></a>3. 总结和参考资料</h3><p>microtask和macrotask看起来很容易混淆，实际上还剩容易区分的。macrotask就是我们常说的任务队列(task queue)。</p>
+<h3 id="3-总结和参考资料"><a href="#3-总结和参考资料" class="headerlink" title="3. 总结和参考资料"></a>3. 总结和参考资料</h3><hr>
+<p>microtask和macrotask看起来很容易混淆，实际上还剩容易区分的。macrotask就是我们常说的任务队列(task queue)。</p>
 <p>JavaScript执行顺序可以简要总结如下：</p>
 <p>开始 -&gt; <font color="red">取task queue第一个task执行 -&gt; 取microtask全部任务依次执行 -&gt; 取task queue下一个任务执行 -&gt; 再次取出microtask全部任务执行 -&gt; …  </font></p>
 <p>循环往复，直至两个队列全部任务执行完毕。</p>
