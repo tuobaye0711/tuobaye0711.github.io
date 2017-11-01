@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>zEditor</title>
+    <style>
+        .btn {
+            display: block;
+            font-size: 12px;
+            text-decoration: none !important;
+            padding: 3px 5px;
+            border-radius: 3px;
+            box-shadow: inset 0px 0px 2px #fff;
+        }
+        #text-area {
+            background: #272822;
+            padding: 10px;
+            height: auto;
+            min-height: 100px;
+            color: #e5e5e5;
+            border-radius: 15px;
+        }
+        #control-area {
+            margin-bottom: 5px;
+        }
+        .left {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        .middle {
+            border-radius: 0;
+        }
+        .right {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        .btn-group {
+            display: inline-block;
+        }
+        .btn-group .btn {
+            margin-right: -5px;
+            display: inline-block;
+        }
+        .btn-group .right {
+            margin-right: 20px;
+        }
+        .grey {
+            color: #444;
+            border: 1px solid #d0d0d0;
+            background-image: -moz-linear-gradient(#ededed, #e1e1e1);
+            background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e1e1e1), to(#ededed));
+            background-image: -webkit-linear-gradient(#ededed, #e1e1e1);
+            background-image: -o-linear-gradient(#ededed, #e1e1e1);
+            text-shadow: 1px 1px 1px #fff;
+            background-color: #e1e1e1;
+        }
+        .blue {
+            color: #41788c;
+            border: 1px solid #6fb1c7;
+            background-image: -moz-linear-gradient(#aae5f7, #73d0f1);
+            background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#73d0f1), to(#aae5f7));
+            background-image: -webkit-linear-gradient(#aae5f7, #73d0f1);
+            background-image: -o-linear-gradient(#aae5f7, #73d0f1);
+            text-shadow: 1px 1px 1px #bfeafb;
+            background-color: #73d0f1;
+        }
+    </style>
+</head>
+<body>
+<div id="wrapper">
+    <div id="control-area">
+        <div class="btn-group">
+            <a href="#" class='btn left grey' data-style='italic' onclick="changeStyle(this.dataset.style)">斜体</a>
+            <a href="#" class='btn middle grey' data-style='bold' onclick="changeStyle(this.dataset.style)">粗体</a>
+            <a href="#" class='btn middle grey' data-style='underline' onclick="changeStyle(this.dataset.style)">下划线</a>
+            <a href="#" class='btn right grey' data-style='strikeThrough' onclick="changeStyle(this.dataset.style)">删除线</a>
+        </div>
+        <div class="btn-group">
+            <a href="#" class='btn left blue' data-style='justifyLeft' onclick="changeStyle(this.dataset.style)">左</a>
+            <a href="#" class='btn middle blue' data-style='justifyCenter' onclick="changeStyle(this.dataset.style)">居中</a>
+            <a href="#" class='btn middle blue' data-style='justifyRight' onclick="changeStyle(this.dataset.style)">右</a>
+            <a href="#" class='btn right blue' data-style='justifyFull' onclick="changeStyle(this.dataset.style)">两端</a>
+        </div>
+        <div class="btn-group">
+            <a href="#" class='btn left grey' data-style='indent' onclick="changeStyle(this.dataset.style)">右缩进</a>
+            <a href="#" class='btn right grey' data-style='outdent' onclick="changeStyle(this.dataset.style)">左缩进</a>
+        </div>
+        <div class="btn-group">
+            <a href="#" class='btn left blue' data-style='insertOrderedList' onclick="changeStyle(this.dataset.style)">有序列表</a>
+            <a href="#" class='btn right blue' data-style='insertUnorderedList' onclick="changeStyle(this.dataset.style)">无序列表</a>
+        </div>
+        <div class="btn-group">
+            <a href="#" class='btn left grey' data-style='superscript' onclick="changeStyle(this.dataset.style)">上标</a>
+            <a href="#" class='btn right grey' data-style='subscript' onclick="changeStyle(this.dataset.style)">下标</a>
+        </div>
+        <div class="btn-group">
+            <a href="#" class='btn left blue' data-style='undo' onclick="changeStyle(this.dataset.style)">◀撤销</a>
+            <a href="#" class='btn right blue' data-style='redo' onclick="changeStyle(this.dataset.style)">重做▶</a>
+        </div>
+        <div class="btn-group">
+            <a href="#" class='btn left grey' data-style='h1' onclick="changeStyle(this.dataset.style)">h1</a>
+            <a href="#" class='btn middle grey' data-style='h2' onclick="changeStyle(this.dataset.style)">h2</a>
+            <a href="#" class='btn middle grey' data-style='h3' onclick="changeStyle(this.dataset.style)">h3</a>
+            <a href="#" class='btn middle grey' data-style='h4' onclick="changeStyle(this.dataset.style)">h4</a>
+            <a href="#" class='btn right grey' data-style='p' onclick="changeStyle(this.dataset.style)">p</a>
+        </div>
+    </div>
+    <div id="text-area" contenteditable>
+        <h1>欢迎使用zEditor</h1>
+        <p>
+            没有任何依赖，纯粹原生JS+HTML实现一个文本编辑器。想要看更多技术文章，欢迎访问http://tuobaye.com，或者给我的这个github项目https://github.com/tuobaye0711/zEditor点个star哦，谢谢啦~</p>
+    </div>
+</div>
+<script>
+    const changeStyle = (style) => {
+        if (style === 'h1' || style === 'h2' || style === 'h3' || style === 'h4' || style === 'p') {
+            document.execCommand('formatBlock', false, '<' + style + '>');
+        } else {
+            document.execCommand(style, false, null);
+        }
+    }
+</script>
+</body>
+</html>
