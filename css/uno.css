@@ -1698,6 +1698,8 @@ th, td {
 .highlight table {
   border: none;
 }
-pre {
-  font-family: 
+
+.picture img {
+  max-width: 100%;
+  margin-top: 10px;
 }

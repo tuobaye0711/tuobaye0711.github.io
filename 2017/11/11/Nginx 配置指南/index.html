@@ -16,18 +16,20 @@
     
     
 
-    <meta name="description" content="什么是Nginx？ 没有什么文档比直接从Nginx官网来的更准确清晰了。  Nginx [engine x] is an HTTP and reverse proxy server, a mail proxy server, and a generic TCP/UDP proxy server, originally written by Igor Sysoev. For a long time,">
+    <meta name="description" content="Nginx是最初由Igor Sysoev编写的HTTP和反向代理服务器，邮件代理服务器和通用TCP/UDP代理服务器。很长时间以来，它一直在许多重负荷的俄罗斯网站上运行，包括Yandex，Mail.Ru，VK和Rambler。根据Netcraft，2017年10月，Nginx服务或代理了29.43％最繁忙的站点。下面是一些成功案例：Dropbox，Netflix，Wordpress.com，Fas">
 <meta name="keywords" content="Nginx">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Nginx 配置指南 | 拓跋的前端客栈">
 <meta property="og:url" content="https://tuobaye0711.github.io/2017/11/11/Nginx 配置指南/index.html">
 <meta property="og:site_name" content="拓跋的前端客栈">
-<meta property="og:description" content="什么是Nginx？ 没有什么文档比直接从Nginx官网来的更准确清晰了。  Nginx [engine x] is an HTTP and reverse proxy server, a mail proxy server, and a generic TCP/UDP proxy server, originally written by Igor Sysoev. For a long time,">
+<meta property="og:description" content="Nginx是最初由Igor Sysoev编写的HTTP和反向代理服务器，邮件代理服务器和通用TCP/UDP代理服务器。很长时间以来，它一直在许多重负荷的俄罗斯网站上运行，包括Yandex，Mail.Ru，VK和Rambler。根据Netcraft，2017年10月，Nginx服务或代理了29.43％最繁忙的站点。下面是一些成功案例：Dropbox，Netflix，Wordpress.com，Fas">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-13T07:35:16.950Z">
+<meta property="og:image" content="https://tuobaye0711.github.io/2017/11/11/Nginx%20配置指南/nginx.png">
+<meta property="og:updated_time" content="2017-11-16T08:04:59.544Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nginx 配置指南 | 拓跋的前端客栈">
-<meta name="twitter:description" content="什么是Nginx？ 没有什么文档比直接从Nginx官网来的更准确清晰了。  Nginx [engine x] is an HTTP and reverse proxy server, a mail proxy server, and a generic TCP/UDP proxy server, originally written by Igor Sysoev. For a long time,">
+<meta name="twitter:description" content="Nginx是最初由Igor Sysoev编写的HTTP和反向代理服务器，邮件代理服务器和通用TCP/UDP代理服务器。很长时间以来，它一直在许多重负荷的俄罗斯网站上运行，包括Yandex，Mail.Ru，VK和Rambler。根据Netcraft，2017年10月，Nginx服务或代理了29.43％最繁忙的站点。下面是一些成功案例：Dropbox，Netflix，Wordpress.com，Fas">
+<meta name="twitter:image" content="https://tuobaye0711.github.io/2017/11/11/Nginx%20配置指南/nginx.png">
     
     
     
@@ -185,6 +187,7 @@ classes that you can use:
 
   <section id="post-content" class="article-content post">
     <h2 id="什么是Nginx？"><a href="#什么是Nginx？" class="headerlink" title="什么是Nginx？"></a>什么是Nginx？</h2><hr>
+<p><img src="/2017/11/11/Nginx 配置指南/nginx.png" alt="Nginx"></p>
 <p>没有什么文档比直接从<a href="">Nginx官网</a>来的更准确清晰了。</p>
 <blockquote>
 <p>Nginx [engine x] is an HTTP and reverse proxy server, a mail proxy server, and a generic TCP/UDP proxy server, originally written by Igor Sysoev. For a long time, it has been running on many heavily loaded Russian sites including Yandex, Mail.Ru, VK, and Rambler. According to Netcraft, Nginx served or proxied 29.43% busiest sites in October 2017. Here are some of the success stories: Dropbox, Netflix, Wordpress.com, FastMail.FM.</p>
@@ -209,20 +212,20 @@ classes that you can use:
 <p>Nginx的安装，启动，关闭等步骤的教程在这里我们就不做赘述了，我们来主要谈一谈nginx.conf文件应该如何配置，这是nginx的灵魂所在。</p>
 <h3 id="Nginx配置文件结构"><a href="#Nginx配置文件结构" class="headerlink" title="Nginx配置文件结构"></a>Nginx配置文件结构</h3><p>nginx包含由配置文件中指定的指令控制的模块。指令分为<strong>简单指令</strong>和<strong>块指令</strong>。</p>
 <p>一个简单的指令由<strong>名称</strong>和<strong>参数</strong>组成，以空格分隔，并以分号（;）结束:</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">root</span> /data/www;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root /data/www;</div></pre></td></tr></table></figure>
 <p>一个block指令和一个简单的指令有相同的结构，但是<strong>不是以分号结尾，而是用一系列由大括号（{和}）包围的附加指令来结束</strong>。如果一个block指令在大括号内可以有其他的指令，它就被称为一个context（上下文，例如：events，http，server和location）:</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="section">http</span> &#123;</div><div class="line">    <span class="section">server</span> &#123;</div><div class="line">        <span class="comment">#location / &#123;</span></div><div class="line">             <span class="attribute">proxy_pass</span>   http://127.0.0.1:8090/;</div><div class="line">             <span class="attribute">proxy_redirect</span>  http://127.0.0.1:8090/ /;</div><div class="line">             <span class="attribute">proxy_connect_timeout</span> <span class="number">600s</span>;</div><div class="line">             <span class="attribute">proxy_read_timeout</span> <span class="number">600s</span>;</div><div class="line">             <span class="attribute">proxy_send_timeout</span> <span class="number">600s</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">    server &#123;</div><div class="line">        #location / &#123;</div><div class="line">             proxy_pass   http:<span class="comment">//127.0.0.1:8090/;</span></div><div class="line">             proxy_redirect  http:<span class="comment">//127.0.0.1:8090/ /;</span></div><div class="line">             proxy_connect_timeout <span class="number">600</span>s;</div><div class="line">             proxy_read_timeout <span class="number">600</span>s;</div><div class="line">             proxy_send_timeout <span class="number">600</span>s;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>置于任何context之外的配置文件中的指令被认为是在main context中。在<em>events</em>和<em>http</em>指令驻留在main content中，<em>server</em>是在<em>http</em>中，<em>location</em>则在<em>server</em>中。</p>
 <p>#后面的部分是注释：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 这是一段注释</span></div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"># 这是一段注释</div></pre></td></tr></table></figure>
 <h3 id="Nginx作为静态服务器使用"><a href="#Nginx作为静态服务器使用" class="headerlink" title="Nginx作为静态服务器使用"></a>Nginx作为静态服务器使用</h3><p>作为一个Web服务器，其最主要的任务是作为静态服务器使用。</p>
 <p>你需要将静态网页和文件放到一个目录（例如/data/www），将图片等文件放到另一个目录（例如/data/images），然后在nginx.conf中进行配置。这需要在<em>http</em>模块下的<em>server</em>模块内新建两个<em>location</em>模块：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="section">http</span> &#123;</div><div class="line">    <span class="section">server</span> &#123;</div><div class="line">        <span class="attribute">location</span> / &#123;</div><div class="line">            <span class="attribute">root</span> /data/www;</div><div class="line">        &#125;</div><div class="line">        <span class="attribute">location</span> /images/ &#123;</div><div class="line">            <span class="attribute">root</span> /data;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">    server &#123;</div><div class="line">        location / &#123;</div><div class="line">            root /data/www;</div><div class="line">        &#125;</div><div class="line">        location /images/ &#123;</div><div class="line">            root /data;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>看起来很好理解吧~也可以直接把文件放到一块，直接location配置绝对路径：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">location</span> / &#123;</div><div class="line">    <span class="attribute">root</span>   F:\webapp\portal;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">location / &#123;</div><div class="line">    root   F:\webapp\portal;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>Nginx在未配置监听端口的情况下默认监听80端口，因此，你可以通过在本地访问 <a href="http://localhost/" target="_blank" rel="external">http://localhost/</a> 或者 <a href="http://127.0.0.1/" target="_blank" rel="external">http://127.0.0.1/</a> 来访问你的网站。</p>
 <p>怎么样？赶紧启动一下Nginx吧，你的静态网站已经可以在本地运行了！修改配置后重启Nginx的命令是：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">nginx</span> -s reload</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nginx -s reload</div></pre></td></tr></table></figure>
 <p>如果您的Nginx无法启动或者出现其他错误，您可以尝试在 <em>/usr/local/nginx/logs</em> 或者 <em>/var/log/nginx</em> 中的 <em>access.log</em> 以及 <em>error.log</em> 中查找原因</p>
 <h3 id="搭建简单的代理服务器"><a href="#搭建简单的代理服务器" class="headerlink" title="搭建简单的代理服务器"></a>搭建简单的代理服务器</h3><p>Nginx经常作为反向代理服务器来使用，这意味着Nginx服务器接收请求，将其传递给被代理服务器，从中检索响应并将其发送给客户端。</p>
 <blockquote>
@@ -243,9 +246,7 @@ classes that you can use:
 <p>该服务器将过滤以.gif、.jpg或者.png结尾的请求，并将它们映射到/data/images目录（通过添加URI到root指令的参数），并将所有其他请求传递给上述代理服务器。</p>
 <p>要应用新配置，请保存修改后的配置文件，并nginx -s reload一下。</p>
 <p>更多Nginx代理配置指令，尽在<a href="https://nginx.org/en/docs/http/ngx_http_proxy_module.html" target="_blank" rel="external">ngx_http_proxy_module</a></p>
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><hr>
-<p><a href="https://nginx.org/" target="_blank" rel="external">Nginx官方网站</a><br><a href="https://nginx.org/en/docs/beginners_guide.html" target="_blank" rel="external">Nginx官方入门文档</a></p>
-
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2>
   </section>
 
   <section class="post-comments">

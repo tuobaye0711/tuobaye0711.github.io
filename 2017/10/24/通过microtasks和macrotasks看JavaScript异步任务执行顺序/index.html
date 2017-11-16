@@ -16,18 +16,18 @@
     
     
 
-    <meta name="description" content="1. 初探 — setTimeout()的那些事儿 相信很多人在初学JavaScript的时候都遇到过类似的代码： 1234567891011121314// part1console.log(1);setTimeout(function()&amp;#123;    console.log(2);&amp;#125;,100);console.log(3);console.log(4);// part2cons">
+    <meta name="description" content="JS引擎是单线程的。这意味着在任何环境中，只有一段JS代码会被执行。当JS引擎开始执行一个函数时，它就会把这个函数执行完，也就是说只有执行完这段代码才会继续执行后面的代码。这种模式的好处是实现起来比较简单，执行环境相对单纯；坏处是只要有一个任务耗时很长，后面的任务都必须排队等着，会拖延整个程序的执行。因此，JavaScript采用了一种“异步”的方式，在浏览器端，耗时很长的操作都应该异步执行。本文">
 <meta name="keywords" content="JavaScript">
 <meta property="og:type" content="article">
 <meta property="og:title" content="通过microtasks和macrotasks看JavaScript异步任务执行顺序 | 拓跋的前端客栈">
 <meta property="og:url" content="https://tuobaye0711.github.io/2017/10/24/通过microtasks和macrotasks看JavaScript异步任务执行顺序/index.html">
 <meta property="og:site_name" content="拓跋的前端客栈">
-<meta property="og:description" content="1. 初探 — setTimeout()的那些事儿 相信很多人在初学JavaScript的时候都遇到过类似的代码： 1234567891011121314// part1console.log(1);setTimeout(function()&amp;#123;    console.log(2);&amp;#125;,100);console.log(3);console.log(4);// part2cons">
+<meta property="og:description" content="JS引擎是单线程的。这意味着在任何环境中，只有一段JS代码会被执行。当JS引擎开始执行一个函数时，它就会把这个函数执行完，也就是说只有执行完这段代码才会继续执行后面的代码。这种模式的好处是实现起来比较简单，执行环境相对单纯；坏处是只要有一个任务耗时很长，后面的任务都必须排队等着，会拖延整个程序的执行。因此，JavaScript采用了一种“异步”的方式，在浏览器端，耗时很长的操作都应该异步执行。本文">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-30T06:17:57.502Z">
+<meta property="og:updated_time" content="2017-11-16T08:36:01.193Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="通过microtasks和macrotasks看JavaScript异步任务执行顺序 | 拓跋的前端客栈">
-<meta name="twitter:description" content="1. 初探 — setTimeout()的那些事儿 相信很多人在初学JavaScript的时候都遇到过类似的代码： 1234567891011121314// part1console.log(1);setTimeout(function()&amp;#123;    console.log(2);&amp;#125;,100);console.log(3);console.log(4);// part2cons">
+<meta name="twitter:description" content="JS引擎是单线程的。这意味着在任何环境中，只有一段JS代码会被执行。当JS引擎开始执行一个函数时，它就会把这个函数执行完，也就是说只有执行完这段代码才会继续执行后面的代码。这种模式的好处是实现起来比较简单，执行环境相对单纯；坏处是只要有一个任务耗时很长，后面的任务都必须排队等着，会拖延整个程序的执行。因此，JavaScript采用了一种“异步”的方式，在浏览器端，耗时很长的操作都应该异步执行。本文">
     
     
     
