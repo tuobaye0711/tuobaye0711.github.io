@@ -7,7 +7,7 @@
     
 
     <title>
-      谈一谈大文件上传————前台分片和后台合并 | 拓跋的前端客栈 
+      谈一谈大文件上传——前台分片和后台合并 | 拓跋的前端客栈 
     </title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -16,17 +16,18 @@
     
     
 
-    <meta name="description" content="最近做了一个需求，需要上传镜像的tar包，小的3、5G，大的可能会达到20多G，而要求在浏览器中上传，因此普通的上传方式肯定无法满足需求，必须要使用到分片上传，前台分片后台就需要合并，一系列做完以后踩了很多坑，在这边总结记录一下。 前台分片上传 所谓上传，实际上就是一个把文件通过客户端传给服务端的过程，也就是通过前端传给后台的过程。在这个过程中，如果要传输的内容太过庞大，在传输过程中就容易遇到各种">
+    <meta name="description" content="最近做了一个需求，需要上传镜像的tar包，小的3、5G，大的可能会达到20多G，而要求在浏览器中上传，因此普通的上传方式肯定无法满足需求，必须要使用到分片上传，前台分片后台就需要合并，一系列做完以后踩了很多坑，在这边总结记录一下。">
+<meta name="keywords" content="Node.js">
 <meta property="og:type" content="article">
-<meta property="og:title" content="谈一谈大文件上传————前台分片和后台合并 | 拓跋的前端客栈">
-<meta property="og:url" content="https://tuobaye0711.github.io/2017/12/01/谈一谈大文件上传————前台分片和后台合并/index.html">
+<meta property="og:title" content="谈一谈大文件上传——前台分片和后台合并 | 拓跋的前端客栈">
+<meta property="og:url" content="https://tuobaye0711.github.io/2017/12/01/谈一谈大文件上传——前台分片和后台合并/index.html">
 <meta property="og:site_name" content="拓跋的前端客栈">
-<meta property="og:description" content="最近做了一个需求，需要上传镜像的tar包，小的3、5G，大的可能会达到20多G，而要求在浏览器中上传，因此普通的上传方式肯定无法满足需求，必须要使用到分片上传，前台分片后台就需要合并，一系列做完以后踩了很多坑，在这边总结记录一下。 前台分片上传 所谓上传，实际上就是一个把文件通过客户端传给服务端的过程，也就是通过前端传给后台的过程。在这个过程中，如果要传输的内容太过庞大，在传输过程中就容易遇到各种">
+<meta property="og:description" content="最近做了一个需求，需要上传镜像的tar包，小的3、5G，大的可能会达到20多G，而要求在浏览器中上传，因此普通的上传方式肯定无法满足需求，必须要使用到分片上传，前台分片后台就需要合并，一系列做完以后踩了很多坑，在这边总结记录一下。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-08T09:32:46.773Z">
+<meta property="og:updated_time" content="2017-12-15T08:41:44.971Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="谈一谈大文件上传————前台分片和后台合并 | 拓跋的前端客栈">
-<meta name="twitter:description" content="最近做了一个需求，需要上传镜像的tar包，小的3、5G，大的可能会达到20多G，而要求在浏览器中上传，因此普通的上传方式肯定无法满足需求，必须要使用到分片上传，前台分片后台就需要合并，一系列做完以后踩了很多坑，在这边总结记录一下。 前台分片上传 所谓上传，实际上就是一个把文件通过客户端传给服务端的过程，也就是通过前端传给后台的过程。在这个过程中，如果要传输的内容太过庞大，在传输过程中就容易遇到各种">
+<meta name="twitter:title" content="谈一谈大文件上传——前台分片和后台合并 | 拓跋的前端客栈">
+<meta name="twitter:description" content="最近做了一个需求，需要上传镜像的tar包，小的3、5G，大的可能会达到20多G，而要求在浏览器中上传，因此普通的上传方式肯定无法满足需求，必须要使用到分片上传，前台分片后台就需要合并，一系列做完以后踩了很多坑，在这边总结记录一下。">
     
     
     
@@ -155,7 +156,7 @@ classes that you can use:
 
   <header class="post-header">
     
-    <h1 class="post-title">谈一谈大文件上传————前台分片和后台合并</h1>
+    <h1 class="post-title">谈一谈大文件上传——前台分片和后台合并</h1>
 
     
 
@@ -166,6 +167,11 @@ classes that you can use:
 
           
 
+          
+             &#8226; 标签:
+            <font class="tags">
+              <a class="tags-link" href="/tags/Node-js/">Node.js</a>
+            </font>
           
 
       </span> | <span id="busuanzi_container_page_pv" style="font-size: 0.8em">
@@ -187,12 +193,33 @@ classes that you can use:
 <p>具体在使用webuploader的过程中，只需要在创建webuploader实例的过程中如下配置一下：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> uploader = WebUploader.create(&#123;</div><div class="line">    <span class="comment">// 文件接收服务端。</span></div><div class="line">    server: <span class="string">'./ftp/images'</span>,</div><div class="line"></div><div class="line">    <span class="comment">// 选择文件的按钮。可选。</span></div><div class="line">    <span class="comment">// 内部根据当前运行是创建，可能是input元素，也可能是flash.</span></div><div class="line">    pick: <span class="string">'#picker'</span>,</div><div class="line"></div><div class="line">    chunked: <span class="literal">true</span>,<span class="comment">//开启分片上传</span></div><div class="line">    chunkSize: <span class="number">50</span>*<span class="number">1024</span>*<span class="number">1024</span>,<span class="comment">//每片大小50M</span></div><div class="line">    chunkRetry: <span class="number">1</span>,<span class="comment">//失败后重试次数</span></div><div class="line">    threads: <span class="number">1</span>,<span class="comment">//上传并发数目</span></div><div class="line">    fileNumLimit: <span class="number">1</span>,<span class="comment">//验证文件总数量，超出则不允许加入队列</span></div><div class="line"></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <h2 id="后台合并"><a href="#后台合并" class="headerlink" title="后台合并"></a>后台合并</h2><hr>
-<p>对于分片上传上来的文件，后台肯定要再次合并起来。重新生成跟原文件一模一样的文件。后台合并的方法有很多，以node.js为例，可以使用以下方式：</p>
+<p>对于分片上传上来的文件，后台肯定要再次合并起来，重新生成跟原文件一模一样的文件。后台合并的方法有很多，以Node.js为例，可以使用以下方式：</p>
 <h3 id="buffer合并"><a href="#buffer合并" class="headerlink" title="buffer合并"></a>buffer合并</h3><p>按照惯例，先贴代码：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 合并分片</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">mergeChunks</span>(<span class="params">fileName, chunks, callback</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'chunks:'</span> + chunks);</div><div class="line">    <span class="keyword">let</span> chunkPaths = chunks.map(<span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> path.join(process.env.IMAGESDIR, name)</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="comment">// 采用Buffer方式合并</span></div><div class="line">    <span class="keyword">const</span> readStream = <span class="function"><span class="keyword">function</span> (<span class="params">chunkArray, cb</span>) </span>&#123;</div><div class="line">        <span class="keyword">let</span> buffers = [];</div><div class="line">        chunkPaths.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">path</span>) </span>&#123;</div><div class="line">            <span class="keyword">let</span> buffer = fs.readFileSync(path);</div><div class="line">            buffers.push(buffer);</div><div class="line">        &#125;);</div><div class="line"></div><div class="line">        <span class="keyword">let</span> concatBuffer = Buffer.concat(buffers);</div><div class="line">        <span class="keyword">let</span> concatFilePath = path.join(process.env.IMAGESDIR, fileName);</div><div class="line">        fs.writeFileSync(concatFilePath, concatBuffer);</div><div class="line"></div><div class="line">        chunkPaths.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">path</span>) </span>&#123;</div><div class="line">            fs.unlinkSync(path)</div><div class="line">        &#125;)</div><div class="line">        cb();</div><div class="line">    &#125;;</div><div class="line"></div><div class="line"></div><div class="line">    readStream(chunkPaths, callback);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="stream合并"><a href="#stream合并" class="headerlink" title="stream合并"></a>stream合并</h3><p>按照惯例，先贴代码：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 合并分片</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">mergeChunks</span>(<span class="params">fileName, chunks, callback</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'chunks:'</span> + chunks);</div><div class="line">    <span class="keyword">let</span> chunkPaths = chunks.map(<span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> path.join(process.env.IMAGESDIR, name)</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="comment">// 采用Stream方式合并</span></div><div class="line">    <span class="keyword">let</span> targetStream = fs.createWriteStream(path.join(process.env.IMAGESDIR, fileName));</div><div class="line">    <span class="keyword">const</span> readStream = <span class="function"><span class="keyword">function</span> (<span class="params">chunkArray, cb</span>) </span>&#123;</div><div class="line">        <span class="keyword">let</span> path = chunkArray.shift();</div><div class="line">        <span class="keyword">let</span> originStream = fs.createReadStream(path);</div><div class="line">        originStream.pipe(targetStream, &#123;<span class="attr">end</span>: <span class="literal">false</span>&#125;);</div><div class="line">        originStream.on(<span class="string">"end"</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="comment">// 删除文件</span></div><div class="line">            fs.unlinkSync(path);</div><div class="line">            <span class="keyword">if</span> (chunkArray.length &gt; <span class="number">0</span>) &#123;</div><div class="line">                readStream(chunkArray, callback)</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="comment">// 文件合并完成，开始加载镜像</span></div><div class="line">                cb()</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    readStream(chunkPaths, callback);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="追加文件方式合并"><a href="#追加文件方式合并" class="headerlink" title="追加文件方式合并"></a>追加文件方式合并</h3>
+<p>buffer方式合并是一种常见的文件合并方式，方法是将各个分片文件分别用fs.readFile()方式读取，然后通过Buffer.concat()进行合并。</p>
+<p>这种方法简单易理解，但有个最大的缺点，就是你读取的文件有多大，合并的过程占用的内存就有多大，因为我们相当于把这个大文件的全部内容都一次性载入到内存中了，这是非常低效的。同时，Node默认的缓冲区大小的上限是2GB，一旦我们上传的大文件超出2GB，那使用这种方法就会失败。虽然可以通过修改缓冲区大小上限的方法来规避这个问题，但是鉴于这种合并方式极吃内存，我不建议您这么做。</p>
+<p>那么，有更好的方式吗？那是当然，下面介绍一种stream合并方式。</p>
+<h3 id="stream合并"><a href="#stream合并" class="headerlink" title="stream合并"></a>stream合并</h3><p>显然，stream（流，下面都用‘流’来表示stream）就是这种更好的方式。</p>
+<p>按照惯例，先贴代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 合并分片</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">mergeChunks</span>(<span class="params">fileName, chunks, callback</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'chunks:'</span> + chunks);</div><div class="line">    <span class="keyword">let</span> chunkPaths = chunks.map(<span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> path.join(process.env.IMAGESDIR, name)</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="comment">// 采用Stream方式合并</span></div><div class="line">    <span class="keyword">let</span> targetStream = fs.createWriteStream(path.join(process.env.IMAGESDIR, fileName));</div><div class="line">    <span class="keyword">const</span> readStream = <span class="function"><span class="keyword">function</span> (<span class="params">chunkArray, cb</span>) </span>&#123;</div><div class="line">        <span class="keyword">let</span> path = chunkArray.shift();</div><div class="line">        <span class="keyword">let</span> originStream = fs.createReadStream(path);</div><div class="line">        originStream.pipe(targetStream, &#123;<span class="attr">end</span>: <span class="literal">false</span>&#125;);</div><div class="line">        originStream.on(<span class="string">"end"</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="comment">// 删除文件</span></div><div class="line">            fs.unlinkSync(path);</div><div class="line">            <span class="keyword">if</span> (chunkArray.length &gt; <span class="number">0</span>) &#123;</div><div class="line">                readStream(chunkArray, callback)</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                cb()</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    readStream(chunkPaths, callback);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="为什么说流更好呢？流到底是什么呢？"><a href="#为什么说流更好呢？流到底是什么呢？" class="headerlink" title="为什么说流更好呢？流到底是什么呢？"></a>为什么说流更好呢？流到底是什么呢？</h4><p>流是数据的集合 —— 就像数组或字符串一样。区别在于流中的数据可能不会立刻就全部可用，并且你无需一次性的把这些数据全部放入内存。这使得流在操作大量数据或是数据从外部来源逐段发送过来的时候变得非常有用。</p>
+<p>换句话说，当你使用buffer方式来处理一个2GB的文件，占用的内存可能是2GB以上，而当你使用流来处理这个文件，可能只会占用几十个M。这就是我们为什么选择流的原因所在。</p>
+<p>在Node.js中，有4种基本类型的流，分别是可读流，可写流，双向流以及变换流。</p>
+<ul>
+<li>可读流是对一个可以读取数据的源的抽象。fs.createReadStream 方法是一个可读流的例子。</li>
+<li>可写流是对一个可以写入数据的目标的抽象。fs.createWriteStream 方法是一个可写流的例子。</li>
+<li>双向流既是可读的，又是可写的。TCP socket 就属于这种。</li>
+<li>变换流是一种特殊的双向流，它会基于写入的数据生成可供读取的数据。</li>
+</ul>
+<p>所有的流都是EventEmitter的实例。它们发出可用于读取或写入数据的事件。然而，我们可以利用pipe方法以一种更简单的方式使用流中的数据。</p>
+<p>在上面那段代码中，我们首先通过fs.createWriteStream()创建了一个可写流，用来存放最终合并的文件。然后使用fs.createReadStream()分别读取各个分片后的文件，再通过pipe()方式将读取的数据像倒水一样“倒”到可写流中，到监控到一杯水倒完后，马上接着倒下一杯，直到全部倒完为止。此时，全部文件合并完毕。</p>
+<h3 id="追加文件方式合并"><a href="#追加文件方式合并" class="headerlink" title="追加文件方式合并"></a>追加文件方式合并</h3><p>追加文件方式合并指的是使用fs.appendFile()的方式来进行合并。fs.appendFile()的作用是异步地追加数据到一个文件，如果文件不存在则创建文件。data可以是一个字符串或buffer。例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">fs.appendFile(<span class="string">'message.txt'</span>, <span class="string">'data to append'</span>, (err) =&gt; &#123;</div><div class="line">  <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'The "data to append" was appended to file!'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>使用这种方法也可以将文件合并，但是由于我没在实际项目中实验，但通过在网上查的资料来看，性能强过buffer合并方式，但不及流合并方式。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><hr>
+<p>这篇文章虽然是谈前台分片和后台合并，但是由于前台分片主要是使用webUploader实现的，因此侧重点都在后台合并上。</p>
+<p>后台合并主要有3种方式：buffer合并、流合并、追加文件方式合并。三种方式各有各的特点，但是在大文件合并上，我推荐使用流方式合并，流合并占内存最少，效率最高，是处理大文件的最佳选择。</p>
+
   </section>
 
   <section class="post-comments">
@@ -219,7 +246,7 @@ classes that you can use:
 
             <footer class="footer">
 
-    <span class="footer__copyright">&copy; 2016-2017. |  拓跋的<a href="https://tuobaye0711.github.io/">前端客栈</a>给您敬茶 |  主题基于<a
+    <span class="footer__copyright">&copy; 2016-2017. |  <a href="https://tuobaye0711.github.io/">拓跋的前端客栈</a>给您敬茶 |  主题基于<a
                 href="https://github.com/someus/huno">Huno</a>改写 | <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span> | <span id="busuanzi_container_site_uv" style="font-size: 0.8em">
   本站访客数<span id="busuanzi_value_site_uv"></span>人次
 </span></span>
