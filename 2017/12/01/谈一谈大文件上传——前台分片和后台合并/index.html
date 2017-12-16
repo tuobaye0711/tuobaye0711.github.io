@@ -24,7 +24,7 @@
 <meta property="og:site_name" content="拓跋的前端客栈">
 <meta property="og:description" content="最近做了一个需求，需要上传镜像的tar包，小的3、5G，大的可能会达到20多G，而要求在浏览器中上传，因此普通的上传方式肯定无法满足需求，必须要使用到分片上传，前台分片后台就需要合并，一系列做完以后踩了很多坑，在这边总结记录一下。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-15T08:41:44.971Z">
+<meta property="og:updated_time" content="2017-12-16T05:22:27.085Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="谈一谈大文件上传——前台分片和后台合并 | 拓跋的前端客栈">
 <meta name="twitter:description" content="最近做了一个需求，需要上传镜像的tar包，小的3、5G，大的可能会达到20多G，而要求在浏览器中上传，因此普通的上传方式肯定无法满足需求，必须要使用到分片上传，前台分片后台就需要合并，一系列做完以后踩了很多坑，在这边总结记录一下。">
@@ -215,7 +215,7 @@ classes that you can use:
 <p>在上面那段代码中，我们首先通过fs.createWriteStream()创建了一个可写流，用来存放最终合并的文件。然后使用fs.createReadStream()分别读取各个分片后的文件，再通过pipe()方式将读取的数据像倒水一样“倒”到可写流中，到监控到一杯水倒完后，马上接着倒下一杯，直到全部倒完为止。此时，全部文件合并完毕。</p>
 <h3 id="追加文件方式合并"><a href="#追加文件方式合并" class="headerlink" title="追加文件方式合并"></a>追加文件方式合并</h3><p>追加文件方式合并指的是使用fs.appendFile()的方式来进行合并。fs.appendFile()的作用是异步地追加数据到一个文件，如果文件不存在则创建文件。data可以是一个字符串或buffer。例：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">fs.appendFile(<span class="string">'message.txt'</span>, <span class="string">'data to append'</span>, (err) =&gt; &#123;</div><div class="line">  <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'The "data to append" was appended to file!'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>使用这种方法也可以将文件合并，但是由于我没在实际项目中实验，但通过在网上查的资料来看，性能强过buffer合并方式，但不及流合并方式。</p>
+<p>使用这种方法也可以将文件合并，虽然我没有在项目中实验，但通过在网上查的资料来看，性能强过buffer合并方式，但不及流合并方式。</p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><hr>
 <p>这篇文章虽然是谈前台分片和后台合并，但是由于前台分片主要是使用webUploader实现的，因此侧重点都在后台合并上。</p>
 <p>后台合并主要有3种方式：buffer合并、流合并、追加文件方式合并。三种方式各有各的特点，但是在大文件合并上，我推荐使用流方式合并，流合并占内存最少，效率最高，是处理大文件的最佳选择。</p>
