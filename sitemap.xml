@@ -1,14 +1,125 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-       http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">	
-<url>
-<loc>http://tuobaye.com</loc>
-<priority>1.00</priority>
-<lastmod>2017-10-30</lastmod>
-<changefreq>weekly</changefreq>
-</url>
+<?xml-stylesheet type="text/xsl" href="sitemap.xsl"?>
+<!-- Free Sitemap Generator http://www.sitemapx.com -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>http://tuobaye.com/</loc>
+        <priority>1.0</priority>
+        <lastmod>2017-12-22T02:52:49+00:00</lastmod>
+        <changefreq>Daily</changefreq>
+    </url>
+    <url>
+        <loc>http://tuobaye.com/about/</loc>
+        <priority>0.6</priority>
+        <lastmod>2017-12-22T02:52:48+00:00</lastmod>
+        <changefreq>Daily</changefreq>
+    </url>
+    <url>
+        <loc>http://tuobaye.com/archive/</loc>
+        <priority>0.6</priority>
+        <lastmod>2017-12-22T02:52:48+00:00</lastmod>
+        <changefreq>Daily</changefreq>
+    </url>
+    <url>
+        <loc>http://tuobaye.com/tags/Nginx/</loc>
+        <priority>0.4</priority>
+        <lastmod>2017-12-22T02:52:49+00:00</lastmod>
+        <changefreq>Daily</changefreq>
+    </url>
+    <url>
+        <loc>http://tuobaye.com/tags/Node-js/</loc>
+        <priority>0.4</priority>
+        <lastmod>2017-12-22T02:52:49+00:00</lastmod>
+        <changefreq>Daily</changefreq>
+    </url>
+    <url>
+        <loc>http://tuobaye.com/tags/拾遗/</loc>
+        <priority>0.4</priority>
+        <lastmod>2017-12-22T02:52:49+00:00</lastmod>
+        <changefreq>Daily</changefreq>
+    </url>
+    <url>
+        <loc>http://tuobaye.com/tags/随笔/</loc>
+        <priority>0.4</priority>
+        <lastmod>2017-12-22T02:52:49+00:00</lastmod>
+        <changefreq>Daily</changefreq>
+    </url>
+    <url>
+        <loc>http://tuobaye.com/archives/2017/09/</loc>
+        <priority>0.6</priority>
+        <lastmod>2017-12-22T02:52:48+00:00</lastmod>
+        <changefreq>Daily</changefreq>
+    </url>
+    <url>
+        <loc>http://tuobaye.com/archives/2017/10/</loc>
+        <priority>0.6</priority>
+        <lastmod>2017-12-22T02:52:48+00:00</lastmod>
+        <changefreq>Daily</changefreq>
+    </url>
+    <url>
+        <loc>http://tuobaye.com/archives/2017/11/</loc>
+        <priority>0.6</priority>
+        <lastmod>2017-12-22T02:52:48+00:00</lastmod>
+        <changefreq>Daily</changefreq>
+    </url>
+    <url>
+        <loc>http://tuobaye.com/archives/2017/12/</loc>
+        <priority>0.6</priority>
+        <lastmod>2017-12-22T02:52:48+00:00</lastmod>
+        <changefreq>Daily</changefreq>
+    </url>
+    <url>
+        <loc>http://tuobaye.com/demo/zEditor/index/</loc>
+        <priority>0.6</priority>
+        <lastmod>2017-12-22T02:52:48+00:00</lastmod>
+        <changefreq>Daily</changefreq>
+    </url>
+    <url>
+        <loc>http://tuobaye.com/2017/09/15/坚持这件事儿/</loc>
+        <priority>0.6</priority>
+        <lastmod>2017-12-22T02:52:48+00:00</lastmod>
+        <changefreq>Daily</changefreq>
+    </url>
+    <url>
+        <loc>http://tuobaye.com/2017/10/17/一个简单的promise实现/</loc>
+        <priority>0.6</priority>
+        <lastmod>2017-12-22T02:52:48+00:00</lastmod>
+        <changefreq>Daily</changefreq>
+    </url>
+    <url>
+        <loc>http://tuobaye.com/2017/10/24/通过microtasks和macrotasks看JavaScript异步任务执行顺序/</loc>
+        <priority>0.6</priority>
+        <lastmod>2017-12-22T02:52:48+00:00</lastmod>
+        <changefreq>Daily</changefreq>
+    </url>
+    <url>
+        <loc>http://tuobaye.com/2017/11/03/仅用1行核心JS代码实现一个轻量级富文本编辑器/</loc>
+        <priority>0.6</priority>
+        <lastmod>2017-12-22T02:52:48+00:00</lastmod>
+        <changefreq>Daily</changefreq>
+    </url>
+    <url>
+        <loc>http://tuobaye.com/2017/11/11/Nginx%20%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/</loc>
+        <priority>0.6</priority>
+        <lastmod>2017-12-22T02:52:48+00:00</lastmod>
+        <changefreq>Daily</changefreq>
+    </url>
+    <url>
+        <loc>http://tuobaye.com/2017/11/17/深入探讨正斜杠和反斜杠/</loc>
+        <priority>0.6</priority>
+        <lastmod>2017-12-22T02:52:48+00:00</lastmod>
+        <changefreq>Daily</changefreq>
+    </url>
+    <url>
+        <loc>http://tuobaye.com/2017/12/01/谈一谈大文件上传——前台分片和后台合并/</loc>
+        <priority>0.6</priority>
+        <lastmod>2017-12-22T02:52:48+00:00</lastmod>
+        <changefreq>Daily</changefreq>
+    </url>
+    <url>
+        <loc>http://tuobaye.com/2017/12/19/web超时配置总结/</loc>
+        <priority>0.6</priority>
+        <lastmod>2017-12-22T02:52:48+00:00</lastmod>
+        <changefreq>Daily</changefreq>
+    </url>
 </urlset>
-
