@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面 | 拓跋的前端客栈 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="zhleven">
+    
+    
+
+    <meta name="description" content="是不是看腻了自己博客的背景图片？赶紧来自己动手做一个吧！看完这篇文章，你将会从零开始学会写一个实用的小项目，然后在线上部署，在相当低成本的情况下将自己的接口暴露出去，造福自己，造福别人~">
+<meta name="keywords" content="Node.js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面 | 拓跋的前端客栈">
+<meta property="og:url" content="https://tuobaye0711.github.io/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/index.html">
+<meta property="og:site_name" content="拓跋的前端客栈">
+<meta property="og:description" content="是不是看腻了自己博客的背景图片？赶紧来自己动手做一个吧！看完这篇文章，你将会从零开始学会写一个实用的小项目，然后在线上部署，在相当低成本的情况下将自己的接口暴露出去，造福自己，造福别人~">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://tuobaye0711.github.io/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/background-cover.jpg">
+<meta property="og:image" content="https://tuobaye0711.github.io/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/bingcn.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/bingen.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/xhr.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/step2.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/step3.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/step4.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/step5.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/step6-1.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/step6-2.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/before.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/after.png">
+<meta property="og:updated_time" content="2018-01-04T06:33:15.106Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面 | 拓跋的前端客栈">
+<meta name="twitter:description" content="是不是看腻了自己博客的背景图片？赶紧来自己动手做一个吧！看完这篇文章，你将会从零开始学会写一个实用的小项目，然后在线上部署，在相当低成本的情况下将自己的接口暴露出去，造福自己，造福别人~">
+<meta name="twitter:image" content="https://tuobaye0711.github.io/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/background-cover.jpg">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    <link rel="stylesheet" href="/css/uno.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">拓跋的前端客栈</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          江湖的尽头是否只剩孤独
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">首页</a></li>
+              
+                
+                <li class="navigation__item"><a href="/about" title="" class="">关于</a></li>
+              
+                
+                <li class="navigation__item"><a href="/archive" title="" class="">归档</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2017-12-26" class="post-meta__date date">2017-12-26</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+
+          
+             &#8226; 标签:
+            <font class="tags">
+              <a class="tags-link" href="/tags/Node-js/">Node.js</a>
+            </font>
+          
+
+      </span> | <span id="busuanzi_container_page_pv" style="font-size: 0.8em">
+  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <p>欢迎光临我的博客<a href="http://tuobaye.com" target="_blank" rel="external">拓跋的前端客栈</a>，这个是原文地址，这个是<a href="https://github.com/tuobaye0711/new-wallpaper-everyday" target="_blank" rel="external">项目地址</a>，这个是<a href="http://tuobaye.duapp.com/" target="_blank" rel="external">线上部署地址</a>。如果您发现我文章中存在错误，请尽情向我吐槽，大家一起学习一起进步φ(&gt;ω&lt;*)</p>
+<h2 id="1、引子"><a href="#1、引子" class="headerlink" title="1、引子"></a>1、引子</h2><hr>
+<p>为什么想做这个功能呢？起因很简单————我看腻了自己博客的封面(特地要提一下，封面是来自<a href="https://github.com/letiantian/huno" target="_blank" rel="external">huno</a>)。</p>
+<p><img src="/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/background-cover.jpg" alt="old cover"></p>
+<p>虽然我的封面很好看的说，但是谁还没有个审美疲劳不是？</p>
+<p>毕竟再好看的图片都有看腻的一天，为了克服审美疲劳，最好能经常换换封面，每天都不一样就更好了！</p>
+<p>想到了就去做，动手~</p>
+<h2 id="2、选图源"><a href="#2、选图源" class="headerlink" title="2、选图源"></a>2、选图源</h2><hr>
+<p>说起每天一张美图，那大伙第一个想到的肯定是<a href="https://www.bing.com" target="_blank" rel="external">必应</a>啦，必应的搜索引擎虽然大多数人用的不多——翻墙的用谷歌的多，不翻墙的用百度的多。但是必应搜索的首页真的很亮眼~就是因为每天都有不同的美图做背景，而且根据地理位置还有不同的图片：</p>
+<p><img src="/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/bingcn.png" alt="bingcn"><br><img src="/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/bingen.png" alt="bingen"></p>
+<p>既美又高清，很适合做壁纸。就是他了！</p>
+<p>既然要做接，首先要抓取bing的api，emmm，打开bing主页，F12，点击Network-XHR，挨个找一下，很容易就能发现在哪里，看图~</p>
+<p><img src="/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/xhr.png" alt="xhr"></p>
+<p>很容易找到是哪条请求。其实这个bing的壁纸接口在网上一搜也能搜到了，<a href="https://stackoverflow.com/questions/10639914/is-there-a-way-to-get-bings-photo-of-the-day" target="_blank" rel="external">看这里</a>。</p>
+<p> 接口格式是这样的：</p>
+<blockquote>
+<p>XML: <a href="http://www.bing.com/HPImageArchive.aspx?format=xml&amp;idx=0&amp;n=1&amp;mkt=en-US" target="_blank" rel="external">http://www.bing.com/HPImageArchive.aspx?format=xml&amp;idx=0&amp;n=1&amp;mkt=en-US</a><br>JSON: <a href="http://www.bing.com/HPImageArchive.aspx?format=js&amp;idx=0&amp;n=1&amp;mkt=en-US" target="_blank" rel="external">http://www.bing.com/HPImageArchive.aspx?format=js&amp;idx=0&amp;n=1&amp;mkt=en-US</a><br>RSS: <a href="http://www.bing.com/HPImageArchive.aspx?format=rss&amp;idx=0&amp;n=1&amp;mkt=en-US" target="_blank" rel="external">http://www.bing.com/HPImageArchive.aspx?format=rss&amp;idx=0&amp;n=1&amp;mkt=en-US</a></p>
+</blockquote>
+<ul>
+<li><em>format</em>表示返回格式，可选字段有xml、js（json）、rss</li>
+<li><em>idx</em>=x表示获取从第x天前开始的图片，最大值为7，n&gt;7时返回的都是n=7的值</li>
+<li><em>n</em>=y表示获取从idx开始连续y天的图片，最大值为9，同时限制最多能获取15天以内的图片</li>
+<li><em>mkt</em>表示地区信息，已知的只有zh-CN和en-US，是否还有其他的我也不清楚</li>
+</ul>
+<p>返回值如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"images"</span>: [</div><div class="line">        &#123;</div><div class="line">            <span class="string">"startdate"</span>: <span class="string">"20171226"</span>, </div><div class="line">            <span class="string">"fullstartdate"</span>: <span class="string">"201712261600"</span>, </div><div class="line">            <span class="string">"enddate"</span>: <span class="string">"20171227"</span>, </div><div class="line">            <span class="string">"url"</span>: <span class="string">"/az/hprichbg/rb/CPNYSnow_ZH-CN13335620157_1920x1080.jpg"</span>, </div><div class="line">            <span class="string">"urlbase"</span>: <span class="string">"/az/hprichbg/rb/CPNYSnow_ZH-CN13335620157"</span>, </div><div class="line">            <span class="string">"copyright"</span>: <span class="string">"中央公园，美国纽约市 (© Nisian Hughes/Getty Images)"</span>, </div><div class="line">            <span class="string">"copyrightlink"</span>: <span class="string">"http://www.bing.com/search?q=%E4%B8%AD%E5%A4%AE%E5%85%AC%E5%9B%AD&amp;form=hpcapt&amp;mkt=zh-cn"</span>, </div><div class="line">            <span class="string">"quiz"</span>: <span class="string">"/search?q=Bing+homepage+quiz&amp;filters=WQOskey:%22HPQuiz_20171226_CPNYSnow%22&amp;FORM=HPQUIZ"</span>,</div><div class="line">            <span class="string">"wp"</span>: <span class="literal">true</span>, </div><div class="line">            <span class="string">"hsh"</span>: <span class="string">"381850a3d2d57acd0ded240e42ffec8e"</span>, </div><div class="line">            <span class="string">"drk"</span>: <span class="number">1</span>, </div><div class="line">            <span class="string">"top"</span>: <span class="number">1</span>, </div><div class="line">            <span class="string">"bot"</span>: <span class="number">1</span>, </div><div class="line">            <span class="string">"hs"</span>: [ ]</div><div class="line">        &#125;</div><div class="line">    ], </div><div class="line">    <span class="string">"tooltips"</span>: &#123;</div><div class="line">        <span class="string">"loading"</span>: <span class="string">"正在加载..."</span>, </div><div class="line">        <span class="string">"previous"</span>: <span class="string">"上一个图像"</span>, </div><div class="line">        <span class="string">"next"</span>: <span class="string">"下一个图像"</span>, </div><div class="line">        <span class="string">"walle"</span>: <span class="string">"此图片不能下载用作壁纸。"</span>, </div><div class="line">        <span class="string">"walls"</span>: <span class="string">"下载今日美图。仅限用作桌面壁纸。"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们只要在 www.bing.com 后面拼上images[0].url就是我们想要的图片的链接了~还是1920x1080的高清图片呢，拿来做壁纸正合适~</p>
+<p>有了这些已知信息，我们终于可以愉快的撸代码了φ(&gt;ω&lt;*)</p>
+<h2 id="3、撸代码"><a href="#3、撸代码" class="headerlink" title="3、撸代码"></a>3、撸代码</h2><hr>
+<p>我选择采用Node.js+express来搭建我们的后台代码。并做一个规划，我们的接口要能返回当日的图片，能根据入参返回几天前的哪个地区的图片，哦对了，能随机返回图片，保证咱每次看到的都不一样。</p>
+<p>很简单，说干就干。</p>
+<p>关于怎么搭建一个Node.js+express服务我就不废话了，这几个接口都要用到请求uri，简单写个公共函数用来获取uri：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getUri</span>(<span class="params">start, number, mkt</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">'https://www.bing.com/HPImageArchive.aspx?format=js&amp;idx='</span> + start + <span class="string">'&amp;n='</span> + number + <span class="string">'&amp;mkt='</span> + mkt</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>另外由于获取随机图片和获取按参数指定的图片肯定是两个不同的接口，但是他们同时要用到一个请求并处理返回值的过程，为了代码好看，我们把他抽离出来：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getWallpaper</span>(<span class="params">res, days_ago, mkt</span>) </span>&#123;</div><div class="line">    <span class="keyword">let</span> uri;</div><div class="line">    <span class="keyword">if</span> (days_ago &lt;= <span class="number">7</span>)&#123;</div><div class="line">        uri = getUri(days_ago, <span class="number">1</span>, mkt)</div><div class="line">    &#125;<span class="keyword">else</span> &#123;</div><div class="line">        uri = getUri(<span class="number">7</span>, days_ago<span class="number">-6</span>, mkt)</div><div class="line">    &#125;</div><div class="line">    request(uri, <span class="function"><span class="keyword">function</span> (<span class="params">error, response, body</span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span> (!error &amp;&amp; response.statusCode === <span class="number">200</span>) &#123;</div><div class="line">            <span class="keyword">let</span> data = <span class="built_in">JSON</span>.parse(body);</div><div class="line">            <span class="keyword">let</span> images = data.images;</div><div class="line">            res.redirect(<span class="string">'https://www.bing.com'</span>+images[images.length<span class="number">-1</span>].url)</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            res.send(<span class="string">'request error!'</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>函数很简单，看一眼就明白了，至于为什么返回的时候使用res.redirect()，这跟我的目的有关系。</p>
+<p>我一开始就提到了，我要实现自己博客每天更换封面的效果，博客的封面使用的是CSS的background样式，这个样式虽然可以用本地图片也可以用线上图片，但是必须是图片！由于我们的服务自己不做存储，因此直接把要获取到的图片的根地址返回过去才是最优解，这就是我们选择使用res.redirect()的原因。</p>
+<p>还有随机接口，我们只要写个自定义范围的随机函数打乱就可以了：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getRandomInteger</span>(<span class="params">min, max</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * (max - min + <span class="number">1</span>)) + min;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>函数getRandomInteger(min, max)返回min和max之间的任意整数。使用这个函数不仅可以随机获取0-15天内的某个天数，也可以使用ta获取随机的地区：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> mkt = getRandomInteger(<span class="number">0</span>,<span class="number">1</span>) ? <span class="string">'zh-CN'</span> : <span class="string">'en-US'</span>;</div></pre></td></tr></table></figure>
+<p>其他都没什么难度了，就是传参。可以自己去看<a href="https://github.com/tuobaye0711/new-wallpaper-everyday" target="_blank" rel="external">源码</a>~</p>
+<h2 id="4、BAE线上部署"><a href="#4、BAE线上部署" class="headerlink" title="4、BAE线上部署"></a>4、BAE线上部署</h2><hr>
+<p>既然我们自己写的接口希望能用在自己的个人网站上，接口肯定不能只能在本地调用吧？我们接下来要做的就是把博客线上部署啦，这样我们就能把接口暴露在互联网上，造福自己，造福大家~</p>
+<p>因为我们的项目相当之轻量，不占存储，不占内存，基本上就是做一个转发的功能，因此不需要什么很高的服务器性能。为了这个项目还要自己租用一个云服务器那就得不偿失了~在你自己本身没有服务器的前提下，我推荐你使用百度的BAE进行线上部署(Baidu Application Engine)，一天只要两毛钱，用到天长地久（我都有点替百度心疼资源o(TωT)o ）。 </p>
+<h3 id="部署步骤"><a href="#部署步骤" class="headerlink" title="部署步骤"></a>部署步骤</h3><ol>
+<li>首先登陆<a href="https://console.bce.baidu.com" target="_blank" rel="external">百度云</a>的首页，没有注册的注册一下，注册以后实名认证一下。这里不细说了~</li>
+<li>点击左侧菜单栏的应用引擎BAE，界面如图所示，点击“添加部署”。<img src="/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/step2.png" alt="step2"></li>
+<li>界面如图所示，按你的需要选择配置，我选择的是这样的（请无视右侧的重叠框，滚动截图工具不支持position: fixed定位方式的锅）。其中，由于我要跑的是Node.js代码，因此类型选择Node能支持的最高版本。代码版本工具依靠个人喜好，我喜欢git。内存选最低，单元个数选最少，OK，一天只需要两毛钱~点击下一步。<img src="/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/step3.png" alt="step3"></li>
+<li>点击“去支付”即可，后付费方式，账号里没有余额也能支付成功。<img src="/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/step4.png" alt="step4"></li>
+<li>OK,开通成功了，去控制台看看吧~<img src="/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/step5.png" alt="step5"></li>
+<li>在部署列表里，直接点名称进到里面，选择发布设置。这里可以看到git地址，我们这就可以通过git clone的方式把代码库同步到本地，然后把本地的代码放到里面，push上来，就大功告成啦~对了，最好把自动发布设置打开，这样每次更新代码都能自动在线上部署最新的版本咯。<img src="/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/step6-1.png" alt="step6-1"> <img src="/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/step6-2.png" alt="step6-2"></li>
+<li>最后，调用一下我的接口试试吧：tuobaye.duapp.com</li>
+</ol>
+<h3 id="BAE部署过程中的几个坑"><a href="#BAE部署过程中的几个坑" class="headerlink" title="BAE部署过程中的几个坑"></a>BAE部署过程中的几个坑</h3><ol>
+<li>BAE代码只能监听18080，要把原来的端口设置改为18080；</li>
+<li>BAE默认不支持ES6语法，所以原来你代码里的let/const什么的老老实实改成var吧，</li>
+<li>我在上传的过程中，把node_modules省略了，然后在package.json里面写上了dependencies，但是报错了。我的解决办法是直接把node_modules上传，把package.json的dependencies删掉，只让他自动执行启动脚本，不管别的，就启动成功了。</li>
+<li><a href="https://cloud.baidu.com/doc/BAE/Nodejs.html" target="_blank" rel="external">BAE文档</a>，有其他问题可以看看这个，有一定参考价值。</li>
+</ol>
+<p>OK，搞定啦</p>
+<h2 id="5、修改背景，目的达成！"><a href="#5、修改背景，目的达成！" class="headerlink" title="5、修改背景，目的达成！"></a>5、修改背景，目的达成！</h2><p>我的博客是用hexo生成的，博客的背景图片在主题文件的样式里面。每个人都有自己的不同情况，但是只要找到这一行样式就行了。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.panel-cover</span> &#123;</div><div class="line">  <span class="attribute">display</span>: block;</div><div class="line">  <span class="attribute">position</span>: fixed;</div><div class="line">  <span class="attribute">z-index</span>: <span class="number">900</span>;</div><div class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">  <span class="attribute">max-width</span>: none;</div><div class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(../images/background-cover.jpg) top left no-repeat <span class="number">#666666</span>;</div><div class="line">  <span class="attribute">background-size</span>: cover;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>把background改成我们自己的接口，这个接口可以获取当天的壁纸图片：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.panel-cover</span> &#123;</div><div class="line">  <span class="attribute">display</span>: block;</div><div class="line">  <span class="attribute">position</span>: fixed;</div><div class="line">  <span class="attribute">z-index</span>: <span class="number">900</span>;</div><div class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">  <span class="attribute">max-width</span>: none;</div><div class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(http://tuobaye.duapp.com/wallpaper) top left no-repeat <span class="number">#666666</span>;</div><div class="line">  <span class="attribute">background-size</span>: cover;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>对比一下，是不是很有成就感~？</p>
+<p><img src="/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/before.png" alt="before"><br><img src="/2017/12/26/【Node.js线上部署小项目】让自己的博客每次打开都有不同的封面/after.png" alt="after"></p>
+<p>如果把url换成 <a href="http://tuobaye.duapp.com/wallpaper/random" target="_blank" rel="external">http://tuobaye.duapp.com/wallpaper/random</a> ，就可以每刷新一次都是新的封面了~帅气！</p>
+<h2 id="6、小结"><a href="#6、小结" class="headerlink" title="6、小结"></a>6、小结</h2><hr>
+<p>看完这篇文章，你将会从零开始学会写一个实用的小项目，然后在线上部署，在相当低成本的情况下将自己的接口暴露出去，造福自己，造福别人~</p>
+<p>从想到换封面的点子，到选图源，抓接口，撸代码，BAE部署到最后自己用上自己最新鲜的接口，实际的工作量一共也不超过一天时间，其中还有一大半时间都是在踩BAE的坑。</p>
+<p>很多时候，限制我们的并不是我们的技术，而是创意和实干的心。</p>
+<p>虽然项目简单，但是能对读到这里的读者一点启发作用，那我觉得就很知足了~</p>
+<p>想到就去做，Just do it!</p>
+
+  </section>
+
+  <section class="post-comments">
+    <div id="container"></div>
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            id: window.location.pathname,
+            owner: 'tuobaye0711',
+            repo: 'tuobaye0711.github.io',
+            oauth: {
+                client_id: '7c63ec766ab0084a9849',
+                client_secret: 'e0bfadcadf48977a1a9b8b083de499d311a8dcfe',
+            },
+        })
+        gitment.render('container')
+    </script>
+</section>
+
+
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2016-2017. |  <a href="https://tuobaye0711.github.io/">拓跋的前端客栈</a>给您敬茶 |  主题基于<a
+                href="https://github.com/someus/huno">Huno</a>改写 | <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span> | <span id="busuanzi_container_site_uv" style="font-size: 0.8em">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span></span>
+
+</footer>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            MathJax.Hub.Config({
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]}
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>
