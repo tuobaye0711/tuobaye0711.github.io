@@ -189,12 +189,12 @@ classes that you can use:
 
   <section id="post-content" class="article-content post">
     <h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><hr>
-<p>为什么要写这篇文章呢？实际上还是源于上一篇文章<a href="http://tuobaye.com/2017/11/11/Nginx%20%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/" target="_blank" rel="external">Nginx 配置指南</a>里面一处配置代码给我带来的小纠结：</p>
+<p>为什么要写这篇文章呢？实际上还是源于上一篇文章<a href="http://tuobaye.com/2017/11/11/Nginx%20%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/" target="_blank" rel="noopener">Nginx 配置指南</a>里面一处配置代码给我带来的小纠结：</p>
 <blockquote>
 <p>你需要将静态网页和文件放到一个目录（例如/data/www），将图片等文件放到另一个目录（例如/data/images），然后在nginx.conf中进行配置。这需要在<em>http</em>模块下的<em>server</em>模块内新建两个<em>location</em>模块：</p>
- <figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="section">http</span> &#123;</div><div class="line">    <span class="section">server</span> &#123;</div><div class="line">        <span class="attribute">location</span> / &#123;</div><div class="line">            <span class="attribute">root</span> /data/www;</div><div class="line">        &#125;</div><div class="line">        <span class="attribute">location</span> /images/ &#123;</div><div class="line">            <span class="attribute">root</span> /data;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+ <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">    <span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">location</span> / &#123;</span><br><span class="line">            <span class="attribute">root</span> /data/www;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="attribute">location</span> /images/ &#123;</span><br><span class="line">            <span class="attribute">root</span> /data;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p> 看起来很好理解吧~也可以直接把文件放到一块，直接location配置绝对路径：</p>
- <figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">location</span> / &#123;</div><div class="line">    <span class="attribute">root</span>   F:\webapp\portal;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+ <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">location</span> / &#123;</span><br><span class="line">    <span class="attribute">root</span>   F:\webapp\portal;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </blockquote>
 <p>发现问题了么？上面的代码块root路径都是以斜杠(/)分隔的，下面的代码块的root路径却是以反斜杠(\)分隔的。两种不同的方式却能同样生效，这个是为什么呢？</p>
 <h2 id="作为路径分隔符在windows和Unix系统下的区别"><a href="#作为路径分隔符在windows和Unix系统下的区别" class="headerlink" title="作为路径分隔符在windows和Unix系统下的区别"></a>作为路径分隔符在windows和Unix系统下的区别</h2><hr>
@@ -212,7 +212,7 @@ classes that you can use:
 </blockquote>
 <p>由于CP/M系统是不支持目录的，/被拿来用作命令行参数的标识符，比如说dir /a, dir /w, dir /q等等（Unix用的是”-“），因此，当MS-DOS系统准备支持目录时，/已被占用，只能使用\来表示路径分隔符了。再后来，windows系统诞生之时，命令行因为要跟MS-DOS兼容，只能把DOS的特性沿用了下来，同时又给支持/作为路径分隔符，于是就造成了现在这种正斜杠(/)反斜杠(\)都支持作为路径分隔符的情况的出现。而Unix不存在这种历史遗留问题，从诞生之初就开始使用斜杠(/)作为路径分隔符，因此，两个系统在这种奇怪的地方出现了分叉。</p>
 <p>而我当时的那段代码</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">location</span> / &#123;</div><div class="line">    <span class="attribute">root</span>   F:\webapp\portal;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">location</span> / &#123;</span><br><span class="line">    <span class="attribute">root</span>   F:\webapp\portal;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>中的root路径，是直接从windows系统中粘贴的路径，因此就会出现这种反斜杠(\)做分隔符的奇怪场景。</p>
 <p>对了，在测试过程中还发现了windows系统中使用/和\做分隔符的一个好玩的区别：</p>
 <ul>
@@ -222,12 +222,12 @@ classes that you can use:
 <p>因此，仅在windows下做目录操作时，还是使用反斜杠(\)做分隔符系统支持度更强些，使用体验也更好一些。</p>
 <h2 id="广义方面的区别"><a href="#广义方面的区别" class="headerlink" title="广义方面的区别"></a>广义方面的区别</h2><hr>
 <h3 id="正斜杠"><a href="#正斜杠" class="headerlink" title="正斜杠(/)"></a>正斜杠(/)</h3><p>正斜杠(/)是我们平时很多时候都会用到的斜杠，我们经常会见到这样的写法：小明/小红/小强，你/我/他等等。这种格式在各种文章里面十分常见，表示“或”或者是“和”的意思。</p>
-<p>浏览器中URL的层级URL标记符(//)以及路径分隔符(/)也是由正斜杠(/)组成，例如”<a href="https://zh.wikipedia.org/wiki/" target="_blank" rel="external">https://zh.wikipedia.org/wiki/</a>“, 可以看到里面清一色的都是正斜杠(/)。使用正斜杠(/)的原因据说是web网站最早是在Unix系统下运行的，于是沿袭了Unix的那一套路径表述方式，因此使用正斜杠(/)作为分隔符。</p>
+<p>浏览器中URL的层级URL标记符(//)以及路径分隔符(/)也是由正斜杠(/)组成，例如”<a href="https://zh.wikipedia.org/wiki/" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/</a>“, 可以看到里面清一色的都是正斜杠(/)。使用正斜杠(/)的原因据说是web网站最早是在Unix系统下运行的，于是沿袭了Unix的那一套路径表述方式，因此使用正斜杠(/)作为分隔符。</p>
 <p>正斜杠(/)也可以用作“除法”或者“分号”的作用，比如说”100÷4”我们在计算机上输入时，由于除号比较难输，经常就会写成”100/4”，效果是完全一致的。这种用法应该是从“分号”演化来的，毕竟”4/3”你看做“三分之四”还是看做“4除以3”，都是可以的。</p>
 <p>连续两个正斜杠(/)可做“注释”之用，在C++/C#/Java/JavaScript/PHP等主流编程语言中基本上通用：</p>
 <p>日期也可以使用正斜杠(/)分隔年月日，例如”2017/11/17”，也可以用美国标准”11/17/2017”，都表示2017年11月17日。</p>
 <p>最后，斜线除了上述用法，也成为连字号的代替品。例如美国空军的飞机序号。”85-1000”是第1000架飞机在1985年制造，使用斜线”85-1001/1050”表示首批连串50部制造的飞机。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 在控制台打印hello world!</span></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'hello world!'</span>)</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在控制台打印hello world!</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'hello world!'</span>)</span><br></pre></td></tr></table></figure>
 <h3 id="反斜杠"><a href="#反斜杠" class="headerlink" title="反斜杠(\)"></a>反斜杠(\)</h3><p>比起正斜杠(/)的诸多用处，反斜杠(\)的用处可就少多了。如果你还是动不动就用到反斜杠(\)，证明你肯定是一个程序员。</p>
 <p>反斜杠(\)除了可以在windows下可以做路径分隔符外，最常用的功能就是做转义字符了。许多正则表达式语言都会将它视为字面意义和元字符之前的切换。例如\n是换行，\0是空字符，它们表示的实际上都是一个字符（char）；而在一些数学软件（如MATLAB）和维基百科上，可以使用反斜线输入希腊字母。\pi会转成π，\lambda会转成λ。由于反斜杠(\)存在转义字符的作用，因此我们常常在一些代码里面看到形如”C:\\Windows\\System32\\cmd.exe”的路径格式（<em>实际上你看到的双反斜杠(\)，我在markdown格式下输入了连续4个反斜杠…</em>），并不代表实际路径是这样的，而是其中连续两个反斜杠(\)发生了“化学反应”，第一个反斜杠(\)代表对后面部分进行转义，而对反斜杠(\)的转义还是反斜杠(\)，因此虽然连续输入两个反斜杠(\)，但是实际输出时只有一个反斜杠(\)。</p>
 <p>另外，在某些程序语言的命令行中，例如在linux中,反斜线常被放在一行的末尾用来指示编译器忽略其后的换行符，使得下一行会被当做同一行语句。这种情况下，反斜线作为一个强制换行符，将代码拆解成“连续行”。</p>

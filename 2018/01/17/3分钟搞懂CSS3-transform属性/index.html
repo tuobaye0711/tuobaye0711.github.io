@@ -7,7 +7,7 @@
     
 
     <title>
-       
+      3分钟搞懂CSS3 Transform属性 | 拓跋的前端客栈 
     </title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -16,17 +16,21 @@
     
     
 
-    <meta name="description" content="刹那芳华 朝露昙花，咫尺天涯，人道是黄河十曲，毕竟东流去。八千年玉老，一夜枯荣，问苍天此生何必？昨夜风吹处，落英听谁细数？九万里苍穹，御风弄影，谁人与共？千秋北斗，瑶宫寒苦，不若神仙眷侣，百年江湖。  欢迎来到拓跋的前端客栈，我的邮箱是 tuobaye0711@163.com ，如果有任何事情，可以直接邮件联系我。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="拓跋的前端客栈">
-<meta property="og:url" content="https://tuobaye0711.github.io/about/index.html">
+    <meta name="description" content="transform是CSS3中非常有用的一个属性，今天我们就来挑战一下3分钟能否搞懂transform的基本用途吧~">
+<meta name="keywords" content="CSS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="3分钟搞懂CSS3 Transform属性 | 拓跋的前端客栈">
+<meta property="og:url" content="https://tuobaye0711.github.io/2018/01/17/3分钟搞懂CSS3-transform属性/index.html">
 <meta property="og:site_name" content="拓跋的前端客栈">
-<meta property="og:description" content="刹那芳华 朝露昙花，咫尺天涯，人道是黄河十曲，毕竟东流去。八千年玉老，一夜枯荣，问苍天此生何必？昨夜风吹处，落英听谁细数？九万里苍穹，御风弄影，谁人与共？千秋北斗，瑶宫寒苦，不若神仙眷侣，百年江湖。  欢迎来到拓跋的前端客栈，我的邮箱是 tuobaye0711@163.com ，如果有任何事情，可以直接邮件联系我。">
+<meta property="og:description" content="transform是CSS3中非常有用的一个属性，今天我们就来挑战一下3分钟能否搞懂transform的基本用途吧~">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-10T09:17:28.961Z">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/01/17/3分钟搞懂CSS3-transform属性/transform转换.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/01/17/3分钟搞懂CSS3-transform属性/skew.png">
+<meta property="og:updated_time" content="2018-01-17T08:29:54.083Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="拓跋的前端客栈">
-<meta name="twitter:description" content="刹那芳华 朝露昙花，咫尺天涯，人道是黄河十曲，毕竟东流去。八千年玉老，一夜枯荣，问苍天此生何必？昨夜风吹处，落英听谁细数？九万里苍穹，御风弄影，谁人与共？千秋北斗，瑶宫寒苦，不若神仙眷侣，百年江湖。  欢迎来到拓跋的前端客栈，我的邮箱是 tuobaye0711@163.com ，如果有任何事情，可以直接邮件联系我。">
+<meta name="twitter:title" content="3分钟搞懂CSS3 Transform属性 | 拓跋的前端客栈">
+<meta name="twitter:description" content="transform是CSS3中非常有用的一个属性，今天我们就来挑战一下3分钟能否搞懂transform的基本用途吧~">
+<meta name="twitter:image" content="https://tuobaye0711.github.io/2018/01/17/3分钟搞懂CSS3-transform属性/transform转换.png">
     
     
     
@@ -155,17 +159,51 @@ classes that you can use:
 
   <header class="post-header">
     
-    <h1 class="post-title"></h1>
+    <h1 class="post-title">3分钟搞懂CSS3 Transform属性</h1>
 
+    
+
+    <div class="post-meta">
+      <time datetime="2018-01-17" class="post-meta__date date">2018-01-17</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+
+          
+             &#8226; 标签:
+            <font class="tags">
+              <a class="tags-link" href="/tags/CSS/">CSS</a>
+            </font>
+          
+
+      </span> | <span id="busuanzi_container_page_pv" style="font-size: 0.8em">
+  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+    </div>
+    
     
 
   </header>
 
   <section id="post-content" class="article-content post">
-    <h3 id="刹那芳华"><a href="#刹那芳华" class="headerlink" title="刹那芳华"></a>刹那芳华</h3><hr>
-<p>朝露昙花，咫尺天涯，<br>人道是黄河十曲，毕竟东流去。<br>八千年玉老，一夜枯荣，问苍天此生何必？<br>昨夜风吹处，落英听谁细数？<br>九万里苍穹，御风弄影，谁人与共？<br>千秋北斗，瑶宫寒苦，不若神仙眷侣，百年江湖。</p>
-<hr>
-<p>欢迎来到拓跋的前端客栈，我的邮箱是 <a href="mailto:tuobaye0711@163.com" target="_blank" rel="noopener">tuobaye0711@163.com</a> ，如果有任何事情，可以直接邮件联系我。</p>
+    <blockquote>
+<p>CSS transform 属性允许你修改CSS视觉格式模型的坐标空间。使用它，元素可以被转换（translate）、旋转（rotate）、缩放（scale）、倾斜（skew）。</p>
+</blockquote>
+<p>首先有个直观的印象，接下来放大招了~</p>
+<p><img src="/2018/01/17/3分钟搞懂CSS3-transform属性/transform转换.png" alt="transform转换"></p>
+<p>怎么样，是不是很直观？如果图片不清晰，在图片上点击右键-“在新标签页中打开图片”，然后在图片上点放大镜就可以查看原图了。</p>
+<p>接下来有更直观的，我手写了一个简单的transform体验器，自己尝试一下吧：</p>
+<p><a href="http://localhost:4001/demo/transform" target="_blank" rel="noopener">transform体验器</a></p>
+<p>不知道你搞懂了吗？</p>
+<p>PS:</p>
+<ul>
+<li>transform是一个理解上很简单，使用起来却很有难度的属性。短时间内能理解80%就不错了，想完全掌握还需要多多练习。</li>
+<li>本例中为了尽可能缩短篇幅，没有涉及到transform中matrix部分和rotate3d的部分，想要继续深入的话可以自行查找资料学习。</li>
+<li>translateZ()是一个很特别的属性，需要结合perspective(透视)来理解。perspective可以简单理解为视点与屏幕之间的距离。当未设置perspective属性时，translateZ()的变化不会有任何影响。而设置perspective以后，translateZ()就符合“近大远小”的规律，Z轴上离你越近，图形显示越大。直到大过perspective值的时候，你就看不见了，这时候你就可以理解为元素到你“脑后”去了，人理所当然的看不见脑后的东西。</li>
+<li>skew比较难搞懂，直接在图里用文字很难描述清楚。这里引用<a href="https://www.zhihu.com/question/21725826" target="_blank" rel="noopener">知乎-css3中-webkit-transform 的 skew 如何使用？</a>中Kori Lee的回复比较容易理解</li>
+</ul>
+<p><img src="/2018/01/17/3分钟搞懂CSS3-transform属性/skew.png" alt="skew"></p>
 
   </section>
 
@@ -223,6 +261,18 @@ classes that you can use:
 
 
     
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
     
     
     <!--kill ie6 -->
