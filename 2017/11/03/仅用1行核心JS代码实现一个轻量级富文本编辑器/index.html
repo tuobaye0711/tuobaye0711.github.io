@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      仅用1行核心JS代码实现一个轻量级富文本编辑器 | 拓跋的前端客栈 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="zhleven">
+    
+    
+
+    <meta name="description" content="富文本编辑器是我们在生活中非常常用到的编辑工具，现在有很多功能完备且强大的编辑器，比如Quill Rich Text Editor、ueditor等，都是很优秀的富文本编辑器。甚至说我们每个人都会用到的word，才是最优秀、国民度最高的富文本编辑器。这篇文章使用极少的代码，实现了一个简洁、无任何依赖的轻量级富文本编辑器。">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="仅用1行核心JS代码实现一个轻量级富文本编辑器 | 拓跋的前端客栈">
+<meta property="og:url" content="https://tuobaye0711.github.io/2017/11/03/仅用1行核心JS代码实现一个轻量级富文本编辑器/index.html">
+<meta property="og:site_name" content="拓跋的前端客栈">
+<meta property="og:description" content="富文本编辑器是我们在生活中非常常用到的编辑工具，现在有很多功能完备且强大的编辑器，比如Quill Rich Text Editor、ueditor等，都是很优秀的富文本编辑器。甚至说我们每个人都会用到的word，才是最优秀、国民度最高的富文本编辑器。这篇文章使用极少的代码，实现了一个简洁、无任何依赖的轻量级富文本编辑器。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://tuobaye0711.github.io/2017/11/03/仅用1行核心JS代码实现一个轻量级富文本编辑器/execCommand.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2017/11/03/仅用1行核心JS代码实现一个轻量级富文本编辑器/zEditor.png">
+<meta property="og:updated_time" content="2018-03-04T15:08:12.819Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="仅用1行核心JS代码实现一个轻量级富文本编辑器 | 拓跋的前端客栈">
+<meta name="twitter:description" content="富文本编辑器是我们在生活中非常常用到的编辑工具，现在有很多功能完备且强大的编辑器，比如Quill Rich Text Editor、ueditor等，都是很优秀的富文本编辑器。甚至说我们每个人都会用到的word，才是最优秀、国民度最高的富文本编辑器。这篇文章使用极少的代码，实现了一个简洁、无任何依赖的轻量级富文本编辑器。">
+<meta name="twitter:image" content="https://tuobaye0711.github.io/2017/11/03/仅用1行核心JS代码实现一个轻量级富文本编辑器/execCommand.png">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    <link rel="stylesheet" href="/css/uno.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">拓跋的前端客栈</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          江湖的尽头是否只剩孤独
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">首页</a></li>
+              
+                
+                <li class="navigation__item"><a href="/about" title="" class="">关于</a></li>
+              
+                
+                <li class="navigation__item"><a href="/archive" title="" class="">归档</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li class="navigation__item">
+        <a href="https://github.com/tuobaye0711" title="GitHub" target="view_window">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+      <!-- email -->
+      <li class="navigation__item">
+          <a href="mailto:tuobaye0711@163.com" title="Email" target="view_window">
+              <i class='icon icon-mail'></i>
+              <span class="label">mail</span>
+          </a>
+      </li>
+      <!-- RSS -->
+      <li class="navigation__item">
+        <a href="/atom.xml" title="RSS" target="view_window">
+            <i class='icon icon-rss'></i>
+            <span class="label">RSS</span>
+        </a>
+    </li>
+    
+
+    <!-- China social icon -->
+    <!--
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+    -->
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">仅用1行核心JS代码实现一个轻量级富文本编辑器</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2017-11-03" class="post-meta__date date">2017-11-03</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+
+          
+             &#8226; 标签:
+            <font class="tags">
+              <a class="tags-link" href="/tags/JavaScript/">JavaScript</a>
+            </font>
+          
+
+      </span> | <span id="busuanzi_container_page_pv" style="font-size: 0.8em">
+  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>把<a href="http://tuobaye.com/demo/zEditor/index" target="_blank" rel="noopener">demo</a>放在显眼的位置</p>
+<hr>
+<p>富文本编辑器是我们在生活中非常常用到的编辑工具，现在有很多功能完备且强大的编辑器，比如<a href="https://github.com/quilljs/quill" target="_blank" rel="noopener">Quill Rich Text Editor</a>、<a href="http://ueditor.baidu.com/website/" target="_blank" rel="noopener">ueditor</a>等，都是很优秀的富文本编辑器。甚至说我们每个人都会用到的word，才是最优秀、国民度最高的富文本编辑器。</p>
+<p>今天我们要实现一个轻量级的编辑器，主要利用的是<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Document/execCommand" target="_blank" rel="noopener">document.execCommand</a>。</p>
+<blockquote>
+<p>当一个HTML文档切换到设计模式(designMode)时，文档对象暴露 execCommand方法，该方法允许运行命令来操纵可编辑区域的内容。大多数命令影响文档的选择（粗体，斜体等），而其他命令插入新元素（添加链接）或影响整行（缩进）。当使用 contentEditable时，调用 execCommand() 将影响当前活动的可编辑元素。</p>
+</blockquote>
+<p>用document.execCommand和contentEditable相互配合，就可以实现我们想要实现的功能。</p>
+<p>在查阅了execCommand的文档后，我们决定实现以下功能</p>
+<ol>
+<li>选中文字样式调整<ul>
+<li>斜体</li>
+<li>粗体</li>
+<li>下划线</li>
+<li>删除线</li>
+</ul>
+</li>
+<li>对齐方式调整<ul>
+<li>左对齐</li>
+<li>右对齐</li>
+<li>居中</li>
+<li>两端对齐</li>
+</ul>
+</li>
+<li>缩进调整<ul>
+<li>右缩进</li>
+<li>左缩进</li>
+</ul>
+</li>
+<li>列表操作<ul>
+<li>有序列表</li>
+<li>无序列表</li>
+</ul>
+</li>
+<li>上下标</li>
+<li>文字操作<ul>
+<li>全选</li>
+<li>复制</li>
+<li>粘贴</li>
+</ul>
+</li>
+<li>基本的字号调整</li>
+<li>基本的颜色调整</li>
+<li>基本的字体调整</li>
+<li>undo&amp;redo</li>
+</ol>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><hr>
+<p>说到编辑器，最基本的会分为上下两部分</p>
+<blockquote>
+<ul>
+<li>上部分为控制区域，用于对文本进行各种控制修改</li>
+<li>下部分为文本区域，用于输入和展示文本的样式</li>
+</ul>
+</blockquote>
+<p>因此我们可以先在HTML里把两部分简单画出来</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"wrapper"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"control-area"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"text-area"</span> <span class="attr">contenteditable</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注意，既然文本区域要可编辑，要加上contenteditable属性，这样就可以自如的在文本区域输入文字了。OK,编辑器雏形已经出来了~</p>
+<p>接下来要对两部分分别进行操作，在控制区域，应该就是各种按钮。参考document.execCommand的语法：<br><img src="/2017/11/03/仅用1行核心JS代码实现一个轻量级富文本编辑器/execCommand.png" alt="document.execCommand"></p>
+<p>主要控制到样式的有两个api：aCommandName和aValueArgument。同时，命令名aCommandName每条execCommand都会有，aCommandName和aValueArgument。因此我们需要在每个按钮上传递两个变量。第一个是必填项aCommandName，第二个是选填项aValueArgument。我们考虑采用HTML5的新属性data-*传递这两个参数:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--调整为斜体--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span> <span class="attr">data-command</span>=<span class="string">'italic'</span> <span class="attr">onclick</span>=<span class="string">"changeStyle(this.dataset)"</span>&gt;</span>斜体<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--调整字号为1号--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span> <span class="attr">data-command</span>=<span class="string">'fontSize'</span> <span class="attr">data-value</span>=<span class="string">"1"</span> <span class="attr">onclick</span>=<span class="string">"changeStyle(this.dataset)"</span>&gt;</span>1号<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>上面是两个基本按钮示例，一个是不传参的，一个是传参的，然后在js端做一个判断即可实现功能：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> changeStyle = <span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//一行核心代码即可实现基本编辑器功能</span></span><br><span class="line">    data.value? <span class="built_in">document</span>.execCommand(data.command, <span class="literal">false</span>, data.value):<span class="built_in">document</span>.execCommand(data.command, <span class="literal">false</span>, <span class="literal">null</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>是不是很简单呢？</p>
+<p>最后，只有两个按钮肯定是不够的，我们要把按钮数和编辑器的功能扩充丰富起来。我们就按照第一节整理的决定要实现的功能列表列出来的功能，按照分类，一一来实现。最后，再把按钮和文本区域的样式美化一下，即可实现我们这个轻量级富文本编辑器啦~</p>
+<p>这是我们的预览图：<br><img src="/2017/11/03/仅用1行核心JS代码实现一个轻量级富文本编辑器/zEditor.png" alt="zEditor"></p>
+<p>大家可以访问<a href="http://tuobaye.com/demo/zEditor/index" target="_blank" rel="noopener">我的博客</a>尝试一下这个小小富文本编辑器，也希望能去我的<a href="https://github.com/tuobaye0711/zEditor" target="_blank" rel="noopener">github项目</a>上点颗star,谢谢啦~</p>
+<p>顺道贴一个codepen的预览，有些网络可能加载不出来…</p>
+<p></p><p data-height="744" data-theme-id="dark" data-slug-hash="LOZRaL" data-default-tab="html,result" data-user="tuobaye0711" data-embed-version="2" data-pen-title="zEditor" class="codepen">See the Pen <a href="https://codepen.io/tuobaye0711/pen/LOZRaL/" target="_blank" rel="noopener">zEditor</a> by zhleven (<a href="https://codepen.io/tuobaye0711" target="_blank" rel="noopener">@tuobaye0711</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</p><p></p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><hr>
+<p>实际上，我们这个富文本编辑器是一种最最简单的实现，仅仅是对contentEditable和document.execCommand进行了一层封装，所有的样式实现都是调用的这同一条api。</p>
+<p>在当前流行的真正功能强大的富文本编辑器中，基本都是实现了自己的contentEditable，抛弃了对浏览器原生的contentEditable特性的依赖。大家都说富文本编辑器是个天坑，事实也正是如此，原生的document.execCommand实现的功能太少，BUG太多，如果使用自己写的功能来编辑文字，又会破坏contentEditable的undo/redo栈。总之，contentEditable最大的特点就是样式、html语意环境跟调用页面混合在一起，非常容易出现覆盖现象，而牛逼的富文本编辑器基本上都会使用一套自己的事件监听机制来实现类似contentEditable的功能，这些东西太繁琐太复杂，不在这里的讨论范围之内了~</p>
+
+  </section>
+
+  <section class="post-comments">
+    <div id="container"></div>
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            id: '仅用1行核心JS代码实现一个轻量级富文本编辑器', //github限制label长度不得超过50，修改label为中文名节省空间
+            owner: 'tuobaye0711',
+            repo: 'tuobaye0711.github.io',
+            oauth: {
+                client_id: '7c63ec766ab0084a9849',
+                client_secret: 'e0bfadcadf48977a1a9b8b083de499d311a8dcfe',
+            },
+        })
+        gitment.render('container')
+    </script>
+</section>
+
+
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2016-2018. |  <a href="https://tuobaye0711.github.io/">拓跋的前端客栈</a>给您敬茶 |  主题基于<a
+                href="https://github.com/someus/huno">Huno</a>改写 | <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span> | <span id="busuanzi_container_site_uv" style="font-size: 0.8em">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+    </span>
+    </span>
+
+</footer>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            MathJax.Hub.Config({
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]}
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>

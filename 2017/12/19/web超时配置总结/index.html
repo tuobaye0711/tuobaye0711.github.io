@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      Web超时配置总结 | 拓跋的前端客栈 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="zhleven">
+    
+    
+
+    <meta name="description" content="前段时间做项目时，由于某个请求在后台要进行长时间的脚本处理，频频超出系统默认的超时时长，于是我就对超时时长进行了检查。由于超时的时候请求报错的提示信息并不明确，为了修改这玩意儿也查了一堆资料，忙活了半天，终于把超时问题解决了，分享在这里供大家参考。">
+<meta name="keywords" content="Nginx,JavaScript,Node.js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web超时配置总结 | 拓跋的前端客栈">
+<meta property="og:url" content="https://tuobaye0711.github.io/2017/12/19/web超时配置总结/index.html">
+<meta property="og:site_name" content="拓跋的前端客栈">
+<meta property="og:description" content="前段时间做项目时，由于某个请求在后台要进行长时间的脚本处理，频频超出系统默认的超时时长，于是我就对超时时长进行了检查。由于超时的时候请求报错的提示信息并不明确，为了修改这玩意儿也查了一堆资料，忙活了半天，终于把超时问题解决了，分享在这里供大家参考。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://tuobaye0711.github.io/2017/12/19/web超时配置总结/timeout.jpg">
+<meta property="og:updated_time" content="2018-03-04T15:08:12.778Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Web超时配置总结 | 拓跋的前端客栈">
+<meta name="twitter:description" content="前段时间做项目时，由于某个请求在后台要进行长时间的脚本处理，频频超出系统默认的超时时长，于是我就对超时时长进行了检查。由于超时的时候请求报错的提示信息并不明确，为了修改这玩意儿也查了一堆资料，忙活了半天，终于把超时问题解决了，分享在这里供大家参考。">
+<meta name="twitter:image" content="https://tuobaye0711.github.io/2017/12/19/web超时配置总结/timeout.jpg">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    <link rel="stylesheet" href="/css/uno.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">拓跋的前端客栈</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          江湖的尽头是否只剩孤独
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">首页</a></li>
+              
+                
+                <li class="navigation__item"><a href="/about" title="" class="">关于</a></li>
+              
+                
+                <li class="navigation__item"><a href="/archive" title="" class="">归档</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li class="navigation__item">
+        <a href="https://github.com/tuobaye0711" title="GitHub" target="view_window">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+      <!-- email -->
+      <li class="navigation__item">
+          <a href="mailto:tuobaye0711@163.com" title="Email" target="view_window">
+              <i class='icon icon-mail'></i>
+              <span class="label">mail</span>
+          </a>
+      </li>
+      <!-- RSS -->
+      <li class="navigation__item">
+        <a href="/atom.xml" title="RSS" target="view_window">
+            <i class='icon icon-rss'></i>
+            <span class="label">RSS</span>
+        </a>
+    </li>
+    
+
+    <!-- China social icon -->
+    <!--
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+    -->
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">Web超时配置总结</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2017-12-19" class="post-meta__date date">2017-12-19</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+
+          
+             &#8226; 标签:
+            <font class="tags">
+              <a class="tags-link" href="/tags/JavaScript/">JavaScript</a>, <a class="tags-link" href="/tags/Nginx/">Nginx</a>, <a class="tags-link" href="/tags/Node-js/">Node.js</a>
+            </font>
+          
+
+      </span> | <span id="busuanzi_container_page_pv" style="font-size: 0.8em">
+  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><hr>
+<p>前段时间做项目时，由于某个请求在后台要进行长时间的脚本处理，频频超出系统默认的超时时长，于是我就对超时时长进行了检查。由于超时的时候请求报错的提示信息并不明确，为了修改这玩意儿也查了一堆资料，忙活了半天，终于把超时问题解决了，在这里做个记录。</p>
+<p>我的项目用的是web前台（这个无所谓用的什么框架，反正归根结底是js）+nginx代理+Node.js后台搭建的，我发现每一节都设了一道timeout超时的关卡，也就是说有<strong>客户端超时</strong>，<strong>代理超时</strong>，<strong>服务端超时</strong>三种情况。下面针对每种超时，我将进行分别讲解。</p>
+<p><img src="/2017/12/19/web超时配置总结/timeout.jpg" alt="timeout!"></p>
+<h2 id="客户端超时"><a href="#客户端超时" class="headerlink" title="客户端超时"></a>客户端超时</h2><hr>
+<h3 id="XMLHttpRequest的超时设置"><a href="#XMLHttpRequest的超时设置" class="headerlink" title="XMLHttpRequest的超时设置"></a>XMLHttpRequest的超时设置</h3><p>讲客户端超时，就要从XMLHttpRequest来谈起。</p>
+<p>XMLHttpRequest是一个API，它为客户端提供了在客户端和服务器之间传输数据的功能。它提供了一个通过URL来获取数据的简单方式，并且不会使整个页面刷新。这使得网页只更新一部分页面而不会打扰到用户。XMLHttpRequest在AJAX中被大量使用。</p>
+<p>XMLHttpRequest一开始只是微软浏览器提供的一个接口，后来各大浏览器纷纷效仿也提供了这个接口，再后来W3C对它进行了标准化，提出了XMLHttpRequest标准。XMLHttpRequest标准又分为Level 1和Level 2。<br>XMLHttpRequest Level 1主要存在以下缺点：</p>
+<ul>
+<li>受同源策略的限制，不能发送跨域请求；</li>
+<li>不能发送二进制文件（如图片、视频、音频等），只能发送纯文本数据；</li>
+<li>在发送和获取数据的过程中，无法实时获取进度信息，只能判断是否完成；</li>
+</ul>
+<p>那么Level 2对Level 1 进行了改进，XMLHttpRequest Level 2中新增了以下功能：</p>
+<ul>
+<li>可以发送跨域请求，在服务端允许的情况下；</li>
+<li>支持发送和接收二进制数据；</li>
+<li>新增formData对象，支持发送表单数据；</li>
+<li>发送和获取数据时，可以获取进度信息；</li>
+<li>可以设置请求的超时时间；</li>
+</ul>
+<p>在Level 2版本的XMLHttpRequest对象，增加了timeout属性，可以设置HTTP请求的时限。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">xhr.timeout = <span class="number">60</span>*<span class="number">1000</span>;</span><br><span class="line">xhr.ontimeout = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">　　　　alert(<span class="string">'timeout！'</span>);</span><br><span class="line">　　&#125;</span><br></pre></td></tr></table></figure>
+<p>在上述代码中，请求超时时间被设为1分钟（xhr.timeout的单位是毫秒），如果超过1分钟的时限，则会自动停止http请求；同时，触发ontimeout事件，弹出“timeout！”的提示框。</p>
+<p>同时值得注意的一点是，超时时间的计算，是从调用xhr.send()开始，至xhr.loadend触发为止的这段时间。即时xhr.timeout的设置是在xhr.send()之后，timeout的计时起点仍为调用xhr.send()的时刻。</p>
+<h3 id="其他超时设置"><a href="#其他超时设置" class="headerlink" title="其他超时设置"></a>其他超时设置</h3><p>其实会了XMLHttpRequest的超时设置，其他前端的框架啊、工具啊的超时设置都不再是问题，这就有点万法归宗的意思。因为我们常用的jQuery.ajax()方法实际上就是对浏览器提供的XMLHttpRequest对象的封装。而又有很多其他框架或者工具的请求模块是对jQuery.ajax()的封装。说到底，都是依赖的XMLHttpRequest对象。因此掌握了XMLHttpRequest，其他都很好学会。</p>
+<p>依jQuery.ajax()的超时设置为例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    url: <span class="string">"test.html"</span>,</span><br><span class="line">    error: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="comment">// will fire when timeout is reached</span></span><br><span class="line">    &#125;,</span><br><span class="line">    success: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line">    &#125;,</span><br><span class="line">    timeout: <span class="number">60</span>*<span class="number">1000</span> <span class="comment">// sets timeout to 1 minute</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>实在是简单，对不对？</p>
+<h2 id="代理超时"><a href="#代理超时" class="headerlink" title="代理超时"></a>代理超时</h2><hr>
+<p>nginx的超时设置主要分3种：</p>
+<ul>
+<li>proxy_connect_timeout</li>
+<li>proxy_read_timeout</li>
+<li>proxy_send_timeout</li>
+</ul>
+<h3 id="proxy-connect-timeout"><a href="#proxy-connect-timeout" class="headerlink" title="proxy_connect_timeout"></a>proxy_connect_timeout</h3><blockquote>
+<p>语法: proxy_connect_timeout timeout_in_seconds<br>上下文: http, server, location<br>默认值: 60s</p>
+</blockquote>
+<p>proxy_connect_timeout是和后端建立连接的超时时间。需要记住的是，这个时间不能超过75秒。</p>
+<p>这个不是等待后端返回页面的时间，那是由proxy_read_timeout声明的。如果你的upstream服务器起来了，但是挂起了（例如，没有足够的线程处理请求，所以把你的请求放到请求池里稍后处理），那么这个声明是没有用的，由于与upstream服务器的连接已经建立了。</p>
+<h3 id="proxy-read-timeout"><a href="#proxy-read-timeout" class="headerlink" title="proxy_read_timeout"></a>proxy_read_timeout</h3><blockquote>
+<p>语法: proxy_read_timeout the_time<br>上下文: http, server, location<br>默认值: 60s</p>
+</blockquote>
+<p>proxy_read_timeout是从后端读取数据的超时时间，两次读取操作的时间间隔如果大于这个值，和后端的连接会被关闭。如果一个请求时间时间非常大，要把这个值设大点。</p>
+<h3 id="proxy-send-timeout"><a href="#proxy-send-timeout" class="headerlink" title="proxy_send_timeout"></a>proxy_send_timeout</h3><blockquote>
+<p>语法: proxy_send_timeout time<br>上下文: http, server, location<br>默认值: 60s</p>
+</blockquote>
+<p>proxy_send_timeout是向后端写数据的超时时间，两次写操作的时间间隔大于这个值，也就是过了这么长时间后端还是没有收到数据，连接会被关闭。</p>
+<h2 id="服务端超时"><a href="#服务端超时" class="headerlink" title="服务端超时"></a>服务端超时</h2><hr>
+<p>Node.js做服务器时，默认的超时时长为2分钟。假设请求发送到服务端，在2分钟内没有响应返回给客户端，客户端的链接就会被重置。这个时长的设置是很必要的，因为过长的请求响应会阻塞IO，造成极差的用户体验。特别对于Node.js这种单线程应用来说，影响可以说是灾难性的，因此如何设置服务端的超时时间也是非常关键的。</p>
+<p>服务端超时设置也不是一刀切的，总体来说，有一个总开关，还可以对每个服务端的请求或者响应单独设置超时时长。</p>
+<p>我们后面的代码均以Node.js+Express搭建的后台为例。</p>
+<h3 id="服务端超时总开关"><a href="#服务端超时总开关" class="headerlink" title="服务端超时总开关"></a>服务端超时总开关</h3><p>使用Node.js的http模块启动服务器，并设置超时时长：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">const</span> config = <span class="built_in">require</span>(./config);</span><br><span class="line"></span><br><span class="line">process.env.PORT = config.webport || <span class="number">8888</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> app = express();</span><br><span class="line"><span class="keyword">let</span> server = app.listen(process.env.PORT);</span><br><span class="line">server.setTimeout(<span class="number">60</span>*<span class="number">1000</span>);</span><br><span class="line">server.on(<span class="string">'timeout'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'timeout!'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>server.setTimeout()是设置server的超时时间设置方法，单位是毫秒，一旦超过设置的超时时长，则触发server对象的’timeout’事件，并传入socket作为一个参数。</p>
+<h3 id="设置Express中间件超时时间"><a href="#设置Express中间件超时时间" class="headerlink" title="设置Express中间件超时时间"></a>设置Express中间件超时时间</h3><blockquote>
+<p>Express是一个路由和中间件Web框架，其自身只具有最低程度的功能：Express应用程序基本上是一系列中间件函数调用。</p>
+</blockquote>
+<blockquote>
+<p>中间件函数能够访问请求对象 (req)、响应对象 (res) 以及应用程序的请求/响应循环中的下一个中间件函数。下一个中间件函数通常由名为 next 的变量来表示。</p>
+</blockquote>
+<blockquote>
+<p>中间件函数可以执行以下任务：</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>执行任何代码。</li>
+<li>对请求和响应对象进行更改。</li>
+<li>结束请求/响应循环。</li>
+<li>调用堆栈中的下一个中间件函数。</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>如果当前中间件函数没有结束请求/响应循环，那么它必须调用next()，以将控制权传递给下一个中间件函数。否则，请求将保持挂起状态。</p>
+</blockquote>
+<p>对于Express的中间件，我们可以在app.js里为每个路由及其处理程序函数的中间件设置请求的响应和超时时间，</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">app.get(<span class="string">'/user/:id'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 设置该中间件下所有HTTP请求的超时时间</span></span><br><span class="line">    req.setTimeout(<span class="number">60</span>*<span class="number">1000</span>);</span><br><span class="line">    <span class="comment">// 设置该中间件下所有HTTP请求的服务器响应超时时间</span></span><br><span class="line">    res.setTimeout(<span class="number">60</span>*<span class="number">1000</span>);</span><br><span class="line">    res.send(<span class="string">'USER'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>Express不仅可以针对中间件设置超时时间，还可以针对某个具体的接口设置请求和响应的超时时长：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">router.get(<span class="string">'/user/:id'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 设置该接口下所有HTTP请求的超时时间</span></span><br><span class="line">    req.setTimeout(<span class="number">60</span>*<span class="number">1000</span>);</span><br><span class="line">    <span class="comment">// 设置该接口下所有HTTP请求的服务器响应超时时间</span></span><br><span class="line">    res.setTimeout(<span class="number">60</span>*<span class="number">1000</span>);</span><br><span class="line">    res.send(<span class="string">'USER'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>全写完了以后，仔细想了想，发现还没有写全，比如说服务端也可以发请求，不管是用http.method还是用request模块，都可以发请求。由于Node.js在很多项目中都是作为中间层，不管是向JAVA后台请求数据，还是用作解决客户端跨域问题的请求中转层，发请求都是很常用的用法。但是只要读者能耐心读到这里，相信随手网上搜一下就知道怎么写了，因此我这里就不再赘述了。</p>
+<p>写这篇文章主要想分享一下我的感受，超时限制就像一道关卡，一个请求从客户端到服务端，再从服务端返回客户端的路上，要“过五关斩六将”。有的时候想要修改超时设置，可能不是简单修改某一处就能解决问题的，这时候一定要仔细检查，把这个系统理一遍，每一个地方的超时设置都看一看，才能解决问题~</p>
+
+  </section>
+
+  <section class="post-comments">
+    <div id="container"></div>
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            id: 'Web超时配置总结', //github限制label长度不得超过50，修改label为中文名节省空间
+            owner: 'tuobaye0711',
+            repo: 'tuobaye0711.github.io',
+            oauth: {
+                client_id: '7c63ec766ab0084a9849',
+                client_secret: 'e0bfadcadf48977a1a9b8b083de499d311a8dcfe',
+            },
+        })
+        gitment.render('container')
+    </script>
+</section>
+
+
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2016-2018. |  <a href="https://tuobaye0711.github.io/">拓跋的前端客栈</a>给您敬茶 |  主题基于<a
+                href="https://github.com/someus/huno">Huno</a>改写 | <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span> | <span id="busuanzi_container_site_uv" style="font-size: 0.8em">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+    </span>
+    </span>
+
+</footer>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            MathJax.Hub.Config({
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]}
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>

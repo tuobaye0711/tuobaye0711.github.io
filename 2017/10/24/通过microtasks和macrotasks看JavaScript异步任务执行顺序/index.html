@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      通过microtasks和macrotasks看JavaScript异步任务执行顺序 | 拓跋的前端客栈 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="zhleven">
+    
+    
+
+    <meta name="description" content="JS引擎是单线程的。这意味着在任何环境中，只有一段JS代码会被执行。当JS引擎开始执行一个函数时，它就会把这个函数执行完，也就是说只有执行完这段代码才会继续执行后面的代码。这种模式的好处是实现起来比较简单，执行环境相对单纯；坏处是只要有一个任务耗时很长，后面的任务都必须排队等着，会拖延整个程序的执行。因此，JavaScript采用了一种“异步”的方式，在浏览器端，耗时很长的操作都应该异步执行。本文">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过microtasks和macrotasks看JavaScript异步任务执行顺序 | 拓跋的前端客栈">
+<meta property="og:url" content="https://tuobaye0711.github.io/2017/10/24/通过microtasks和macrotasks看JavaScript异步任务执行顺序/index.html">
+<meta property="og:site_name" content="拓跋的前端客栈">
+<meta property="og:description" content="JS引擎是单线程的。这意味着在任何环境中，只有一段JS代码会被执行。当JS引擎开始执行一个函数时，它就会把这个函数执行完，也就是说只有执行完这段代码才会继续执行后面的代码。这种模式的好处是实现起来比较简单，执行环境相对单纯；坏处是只要有一个任务耗时很长，后面的任务都必须排队等着，会拖延整个程序的执行。因此，JavaScript采用了一种“异步”的方式，在浏览器端，耗时很长的操作都应该异步执行。本文">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-04T15:08:12.827Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="通过microtasks和macrotasks看JavaScript异步任务执行顺序 | 拓跋的前端客栈">
+<meta name="twitter:description" content="JS引擎是单线程的。这意味着在任何环境中，只有一段JS代码会被执行。当JS引擎开始执行一个函数时，它就会把这个函数执行完，也就是说只有执行完这段代码才会继续执行后面的代码。这种模式的好处是实现起来比较简单，执行环境相对单纯；坏处是只要有一个任务耗时很长，后面的任务都必须排队等着，会拖延整个程序的执行。因此，JavaScript采用了一种“异步”的方式，在浏览器端，耗时很长的操作都应该异步执行。本文">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    <link rel="stylesheet" href="/css/uno.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">拓跋的前端客栈</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          江湖的尽头是否只剩孤独
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">首页</a></li>
+              
+                
+                <li class="navigation__item"><a href="/about" title="" class="">关于</a></li>
+              
+                
+                <li class="navigation__item"><a href="/archive" title="" class="">归档</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li class="navigation__item">
+        <a href="https://github.com/tuobaye0711" title="GitHub" target="view_window">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+      <!-- email -->
+      <li class="navigation__item">
+          <a href="mailto:tuobaye0711@163.com" title="Email" target="view_window">
+              <i class='icon icon-mail'></i>
+              <span class="label">mail</span>
+          </a>
+      </li>
+      <!-- RSS -->
+      <li class="navigation__item">
+        <a href="/atom.xml" title="RSS" target="view_window">
+            <i class='icon icon-rss'></i>
+            <span class="label">RSS</span>
+        </a>
+    </li>
+    
+
+    <!-- China social icon -->
+    <!--
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+    -->
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">通过microtasks和macrotasks看JavaScript异步任务执行顺序</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2017-10-24" class="post-meta__date date">2017-10-24</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+
+          
+             &#8226; 标签:
+            <font class="tags">
+              <a class="tags-link" href="/tags/JavaScript/">JavaScript</a>
+            </font>
+          
+
+      </span> | <span id="busuanzi_container_page_pv" style="font-size: 0.8em">
+  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <h3 id="1-初探-—-setTimeout-的那些事儿"><a href="#1-初探-—-setTimeout-的那些事儿" class="headerlink" title="1. 初探 — setTimeout()的那些事儿"></a>1. 初探 — setTimeout()的那些事儿</h3><hr>
+<p>相信很多人在初学JavaScript的时候都遇到过类似的代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// part1</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">2</span>);</span><br><span class="line">&#125;,<span class="number">100</span>);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">3</span>);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">4</span>);</span><br><span class="line"><span class="comment">// part2</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">2</span>);</span><br><span class="line">&#125;,<span class="number">0</span>);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">3</span>);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">4</span>);</span><br></pre></td></tr></table></figure>
+<p>萌新们看到这个，肯定觉得很简单。part1输出顺序是1,3,4,2;part2输出顺序是1,2,3,4嘛。显而易见，part1中在打印2的时候延迟了100ms，所以被放到了队列的尾端执行，理所当然的最后输出；part2中虽然调用了setTimeout函数，但是延迟设置为0ms，实际上并未延迟，因此应该立即执行，所以输出顺序应该是1,2,3,4。</p>
+<p>看到这里，很多人应该都知道了，上面的说法实际上是错误的。</p>
+<blockquote>
+<p>setTimeout(fn,0)的含义是，指定某个任务在主线程最早可得的空闲时间执行，也就是说，尽可能早得执行。它在”任务队列”的尾部添加一个事件，因此要等到同步任务和”任务队列”现有的事件都处理完，才会得到执行。</p>
+</blockquote>
+<p>上面的这段文字摘自<a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener">阮一峰的博客</a>，即使你的延迟设定的是0，setTimeout仍然会将你的函数给放到队列最尾端，等你的当前任务执行完毕以后,才会去执行该函数。</p>
+<h3 id="2-深入-—-setTimeout-和Promise同场竞技时是什么样呢？"><a href="#2-深入-—-setTimeout-和Promise同场竞技时是什么样呢？" class="headerlink" title="2. 深入 — setTimeout()和Promise同场竞技时是什么样呢？"></a>2. 深入 — setTimeout()和Promise同场竞技时是什么样呢？</h3><hr>
+<p>众所周知，Promise是ES6发布的一种非常流行的异步实现方案，当Promise和setTimeout同时出现在一段代码中，他们的执行顺序是什么样子的呢？请看下面这段代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">&#125;,<span class="number">0</span>);</span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">for</span>( <span class="keyword">var</span> i=<span class="number">100000</span> ; i&gt;<span class="number">0</span> ; i-- )&#123;</span><br><span class="line">        i==<span class="number">1</span> &amp;&amp; resolve()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">3</span>)</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">4</span>)</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+<p>如果按照正常逻辑分析，应该是这样的：</p>
+<ol>
+<li>当运行到setTimeout时，会把setTimeout的回调函数console.log(1)放到任务队列里去，然后继续向下执行。</li>
+<li>接下来会遇到一个Promise。首先执行打印console.log(2)，然后执行for循环，即时for循环要累加到10万，也是在执行栈里面，等待for循环执行完毕以后，将Promise的状态从fulfilled切换到resolve，随后把要执行的回调函数，也就是then里面的console.log(4)推到任务队列里面去。接下来马上执行马上console.log(3)。</li>
+<li>然后出Promise，还剩一个同步的console.log(5)，直接打印。这样第一轮下来，已经依次打印了2，3，5。</li>
+<li>然后再读取任务队列，任务队列里还剩console.log(1)和console.log(4)，因为任务队列是队列嘛，肯定遵循的先进先出的策略，因此更早入列的setTimeout()的回调函数先执行，打印1，最后剩下Promise的回调，打印4。</li>
+</ol>
+<p>因此一通分析下来，得到的打印结果是2,3,5,1,4。那我们实际试一下呢？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>啊嘞嘞？跟我们一开始想象的貌似有点不一样啊！是什么原因导致了原本应该在setTimeout回调后面的Promise的回调反而跑到前面去执行了呢？</p>
+<p>为了搞清这个问题，我专门去翻阅了一下资料，首先找到了<a href="https://promisesaplus.com/#point-67" target="_blank" rel="noopener">Promises/A+标准</a>里面提到：</p>
+<blockquote>
+<p>  Here “platform code” means engine, environment, and promise implementation code. In practice, this requirement ensures that onFulfilled and onRejected execute asynchronously, after the event loop turn in which then is called, and with a fresh stack. <span style="color:red">This can be implemented with either a “macro-task” mechanism such as setTimeout or setImmediate, or with a “micro-task” mechanism such as MutationObserver or process.nextTick. </span>Since the promise implementation is considered platform code, it may itself contain a task-scheduling queue or “trampoline” in which the handlers are called.</p>
+</blockquote>
+<p>这里提到了micro-task和macro-task这两个概念，并分别列举了两种情况：setTimeout和setImmediate属于macro-task，MutationObserver和process.nextTick属于micro-task。但并没有进一步的详述，于是我以此为线索进一步搜索资料，找到<a href="https://stackoverflow.com/questions/25915634/difference-between-microtask-and-macrotask-within-an-event-loop-context" target="_blank" rel="noopener">stackoverflow上的一个问答</a>，终于让我的疑惑得到解决。</p>
+<p>macrotasks和microtasks的划分：</p>
+<h4 id="macrotasks"><a href="#macrotasks" class="headerlink" title="macrotasks:"></a>macrotasks:</h4><ul>
+<li>setTimeout</li>
+<li>setInterval</li>
+<li>setImmediate</li>
+<li>requestAnimationFrame</li>
+<li>I/O</li>
+<li>UI rendering</li>
+</ul>
+<h4 id="microtasks"><a href="#microtasks" class="headerlink" title="microtasks:"></a>microtasks:</h4><ul>
+<li>process.nextTick</li>
+<li>Promises</li>
+<li>Object.observe</li>
+<li>MutationObserver</li>
+</ul>
+<p>那我们上面提到的任务队列到底是什么呢？跟macrotasks和microtasks有什么联系呢？</p>
+<blockquote>
+<ul>
+<li>An event loop has one or more task queues.(task queue is macrotask queue)</li>
+<li>Each event loop has a microtask queue.</li>
+<li>task queue = macrotask queue != microtask queue</li>
+<li>a task may be pushed into macrotask queue,or microtask queue</li>
+<li>when a task is pushed into a queue(micro/macro),we mean preparing work is finished,so the task can be executed now.</li>
+</ul>
+</blockquote>
+<p>翻译一下就是：</p>
+<ul>
+<li>一个事件循环有一个或者多个任务队列；</li>
+<li>每个事件循环都有一个microtask队列</li>
+<li>macrotask队列就是我们常说的任务队列，microtask队列不是任务队列</li>
+<li>一个任务可以被放入到macrotask队列，也可以放入microtask队列</li>
+<li>当一个任务被放入microtask或者macrotask队列后，准备工作就已经结束，这时候可以开始执行任务了。</li>
+</ul>
+<p>可见，setTimeout和Promises不是同一类的任务，处理方式应该会有区别，具体的处理方式有什么不同呢？我从<a href="https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/?utm_source=html5weekly&amp;utm_medium=email" target="_blank" rel="noopener">这篇文章</a>里找到了下面这段话：</p>
+<blockquote>
+<p>Microtasks are usually scheduled for things that should happen straight after the currently executing script, such as reacting to a batch of actions, or to make something async without taking the penalty of a whole new task. The microtask queue is processed after callbacks as long as no other JavaScript is mid-execution, and at the end of each task. Any additional microtasks queued during microtasks are added to the end of the queue and also processed. Microtasks include mutation observer callbacks, and as in the above example, promise callbacks.</p>
+</blockquote>
+<p>通俗的解释一下，<font color="red">microtasks的作用是用来调度应在当前执行的脚本执行结束后立即执行的任务。</font>  例如响应事件、或者异步操作，以避免付出额外的一个task的费用。</p>
+<p>microtask会在两种情况下执行：</p>
+<ol>
+<li>任务队列(macrotask = task queue)回调后执行，前提条件是当前没有其他执行中的代码。</li>
+<li>每个task末尾执行。</li>
+</ol>
+<p>另外在处理microtask期间，如果有新添加的microtasks，也会被添加到队列的末尾并执行。</p>
+<p>也就是说执行顺序是：</p>
+<p>开始 -&gt; <font color="red">取task queue第一个task执行 -&gt; 取microtask全部任务依次执行 -&gt; 取task queue下一个任务执行 -&gt; 再次取出microtask全部任务执行 -&gt; …  </font>  这样循环往复</p>
+<blockquote>
+<p>Once a promise settles, or if it has already settled, it queues a microtask for its reactionary callbacks. This ensures promise callbacks are async even if the promise has already settled. So calling .then(yey, nay) against a settled promise immediately queues a microtask. This is why promise1 and promise2 are logged after script end, as the currently running script must finish before microtasks are handled. promise1 and promise2 are logged before setTimeout, as microtasks always happen before the next task.</p>
+</blockquote>
+<p>Promise一旦状态置为完成态，便为其回调(.then内的函数)安排一个microtask。</p>
+<p>接下来我们看回我们上面的代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">&#125;,<span class="number">0</span>);</span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">for</span>( <span class="keyword">var</span> i=<span class="number">100000</span> ; i&gt;<span class="number">0</span> ; i-- )&#123;</span><br><span class="line">        i==<span class="number">1</span> &amp;&amp; resolve()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">3</span>)</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">4</span>)</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+<p>按照上面的规则重新分析一遍：</p>
+<ol>
+<li>当运行到setTimeout时，会把setTimeout的回调函数console.log(1)放到任务队列里去，然后继续向下执行。</li>
+<li>接下来会遇到一个Promise。首先执行打印console.log(2)，然后执行for循环，即时for循环要累加到10万，也是在执行栈里面，等待for循环执行完毕以后，将Promise的状态从fulfilled切换到resolve，<font color="red">随后把要执行的回调函数，也就是then里面的console.log(4)推到microtask里面去。</font>接下来马上执行马上console.log(3)。</li>
+<li>然后出Promise，还剩一个同步的console.log(5)，直接打印。这样第一轮下来，已经依次打印了2，3，5。</li>
+<li>现在第一轮任务队列已经执行完毕，没有正在执行的代码。符合上面讲的microtask执行条件，因此会将microtask中的任务优先执行，因此执行console.log(4)</li>
+<li>最后还剩macrotask里的setTimeout放入的函数console.log(1)最后执行。</li>
+</ol>
+<p>如此分析输出顺序是：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>看吧，这次分析对了呢ヾ(◍°∇°◍)ﾉﾞ</p>
+<h3 id="3-总结和参考资料"><a href="#3-总结和参考资料" class="headerlink" title="3. 总结和参考资料"></a>3. 总结和参考资料</h3><hr>
+<p>microtask和macrotask看起来容易混淆，实际上还是很好区分的。macrotask就是我们常说的任务队列(task queue)。</p>
+<p>JavaScript执行顺序可以简要总结如下：</p>
+<p>开始 -&gt; <font color="red">取task queue第一个task执行 -&gt; 取microtask全部任务依次执行 -&gt; 取task queue下一个任务执行 -&gt; 再次取出microtask全部任务执行 -&gt; …  </font></p>
+<p>循环往复，直至两个队列全部任务执行完毕。</p>
+<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p><a href="https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/?utm_source=html5weekly&amp;utm_medium=email" target="_blank" rel="noopener">Tasks, microtasks, queues and schedules</a><br><a href="https://github.com/YuzuJS/setImmediate" target="_blank" rel="noopener">github-setImmediate.js</a><br><a href="https://promisesaplus.com/#point-67" target="_blank" rel="noopener">Promises/A+</a><br><a href="https://www.zhihu.com/question/36972010" target="_blank" rel="noopener">知乎-Promise的队列与setTimeout的队列有何关联？</a><br><a href="https://stackoverflow.com/questions/25915634/difference-between-microtask-and-macrotask-within-an-event-loop-context" target="_blank" rel="noopener">stack overflow-Difference between microtask and macrotask within an event loop context
+</a><br><a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener">阮一峰-JavaScript 运行机制详解：再谈Event Loop</a></p>
+
+  </section>
+
+  <section class="post-comments">
+    <div id="container"></div>
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            id: '通过microtasks和macrotasks看JavaScript异步任务执行顺序', //github限制label长度不得超过50，修改label为中文名节省空间
+            owner: 'tuobaye0711',
+            repo: 'tuobaye0711.github.io',
+            oauth: {
+                client_id: '7c63ec766ab0084a9849',
+                client_secret: 'e0bfadcadf48977a1a9b8b083de499d311a8dcfe',
+            },
+        })
+        gitment.render('container')
+    </script>
+</section>
+
+
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2016-2018. |  <a href="https://tuobaye0711.github.io/">拓跋的前端客栈</a>给您敬茶 |  主题基于<a
+                href="https://github.com/someus/huno">Huno</a>改写 | <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span> | <span id="busuanzi_container_site_uv" style="font-size: 0.8em">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+    </span>
+    </span>
+
+</footer>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            MathJax.Hub.Config({
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]}
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>

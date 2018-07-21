@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      谈一谈大文件上传——前台分片和后台合并 | 拓跋的前端客栈 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="zhleven">
+    
+    
+
+    <meta name="description" content="最近做了一个需求，需要上传镜像的tar包，小的3、5G，大的可能会达到20多G，而要求在浏览器中上传，因此普通的上传方式肯定无法满足需求，必须要使用到分片上传，前台分片后台就需要合并，一系列做完以后踩了很多坑，在这边总结记录一下。">
+<meta name="keywords" content="Node.js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="谈一谈大文件上传——前台分片和后台合并 | 拓跋的前端客栈">
+<meta property="og:url" content="https://tuobaye0711.github.io/2017/12/01/谈一谈大文件上传——前台分片和后台合并/index.html">
+<meta property="og:site_name" content="拓跋的前端客栈">
+<meta property="og:description" content="最近做了一个需求，需要上传镜像的tar包，小的3、5G，大的可能会达到20多G，而要求在浏览器中上传，因此普通的上传方式肯定无法满足需求，必须要使用到分片上传，前台分片后台就需要合并，一系列做完以后踩了很多坑，在这边总结记录一下。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-04T15:08:12.826Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="谈一谈大文件上传——前台分片和后台合并 | 拓跋的前端客栈">
+<meta name="twitter:description" content="最近做了一个需求，需要上传镜像的tar包，小的3、5G，大的可能会达到20多G，而要求在浏览器中上传，因此普通的上传方式肯定无法满足需求，必须要使用到分片上传，前台分片后台就需要合并，一系列做完以后踩了很多坑，在这边总结记录一下。">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    <link rel="stylesheet" href="/css/uno.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">拓跋的前端客栈</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          江湖的尽头是否只剩孤独
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">首页</a></li>
+              
+                
+                <li class="navigation__item"><a href="/about" title="" class="">关于</a></li>
+              
+                
+                <li class="navigation__item"><a href="/archive" title="" class="">归档</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li class="navigation__item">
+        <a href="https://github.com/tuobaye0711" title="GitHub" target="view_window">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+      <!-- email -->
+      <li class="navigation__item">
+          <a href="mailto:tuobaye0711@163.com" title="Email" target="view_window">
+              <i class='icon icon-mail'></i>
+              <span class="label">mail</span>
+          </a>
+      </li>
+      <!-- RSS -->
+      <li class="navigation__item">
+        <a href="/atom.xml" title="RSS" target="view_window">
+            <i class='icon icon-rss'></i>
+            <span class="label">RSS</span>
+        </a>
+    </li>
+    
+
+    <!-- China social icon -->
+    <!--
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+    -->
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">谈一谈大文件上传——前台分片和后台合并</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2017-12-01" class="post-meta__date date">2017-12-01</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+
+          
+             &#8226; 标签:
+            <font class="tags">
+              <a class="tags-link" href="/tags/Node-js/">Node.js</a>
+            </font>
+          
+
+      </span> | <span id="busuanzi_container_page_pv" style="font-size: 0.8em">
+  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <p>最近做了一个需求，需要上传镜像的tar包，小的3、5G，大的可能会达到20多G，而要求在浏览器中上传，因此普通的上传方式肯定无法满足需求，必须要使用到分片上传，前台分片后台就需要合并，一系列做完以后踩了很多坑，在这边总结记录一下。</p>
+<h2 id="前台分片上传"><a href="#前台分片上传" class="headerlink" title="前台分片上传"></a>前台分片上传</h2><hr>
+<p>所谓上传，实际上就是一个把文件通过客户端传给服务端的过程，也就是通过前端传给后台的过程。在这个过程中，如果要传输的内容太过庞大，在传输过程中就容易遇到各种各样的问题。为了把出现问题的概率控制在最低，我们往往需要把大文件分成一份一份的小文件来依次上传，这个过程就是我们所说分片上传。</p>
+<p>我前台使用的是webuploader上传插件，参考webuploader的切片方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">CuteFile</span>(<span class="params"> file, chunkSize </span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> pending = [],</span><br><span class="line">        blob = file.source,</span><br><span class="line">        total = blob.size,</span><br><span class="line">        chunks = chunkSize ? <span class="built_in">Math</span>.ceil( total / chunkSize ) : <span class="number">1</span>,</span><br><span class="line">        start = <span class="number">0</span>,</span><br><span class="line">        index = <span class="number">0</span>,</span><br><span class="line">        len, api;</span><br><span class="line"></span><br><span class="line">    api = &#123;</span><br><span class="line">        file: file,</span><br><span class="line"></span><br><span class="line">        has: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> !!pending.length;</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line">        shift: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> pending.shift();</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line">        unshift: <span class="function"><span class="keyword">function</span>(<span class="params"> block </span>) </span>&#123;</span><br><span class="line">            pending.unshift( block );</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> ( index &lt; chunks ) &#123;</span><br><span class="line">        len = <span class="built_in">Math</span>.min( chunkSize, total - start );</span><br><span class="line"></span><br><span class="line">        pending.push(&#123;</span><br><span class="line">            file: file,</span><br><span class="line">            start: start,</span><br><span class="line">            end: chunkSize ? (start + len) : total,</span><br><span class="line">            total: total,</span><br><span class="line">            chunks: chunks,</span><br><span class="line">            chunk: index++,</span><br><span class="line">            cuted: api</span><br><span class="line">        &#125;);</span><br><span class="line">        start += len;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    file.blocks = pending.concat();</span><br><span class="line">    file.remaning = pending.length;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> api;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中，chunkSize表示每片大小，chunks表示切片的数目，具体切分方法也很简单，看代码就好了。</p>
+<p>具体在使用webuploader的过程中，只需要在创建webuploader实例的过程中如下配置一下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> uploader = WebUploader.create(&#123;</span><br><span class="line">    <span class="comment">// 文件接收服务端。</span></span><br><span class="line">    server: <span class="string">'./ftp/images'</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 选择文件的按钮。可选。</span></span><br><span class="line">    <span class="comment">// 内部根据当前运行是创建，可能是input元素，也可能是flash.</span></span><br><span class="line">    pick: <span class="string">'#picker'</span>,</span><br><span class="line"></span><br><span class="line">    chunked: <span class="literal">true</span>,<span class="comment">//开启分片上传</span></span><br><span class="line">    chunkSize: <span class="number">50</span>*<span class="number">1024</span>*<span class="number">1024</span>,<span class="comment">//每片大小50M</span></span><br><span class="line">    chunkRetry: <span class="number">1</span>,<span class="comment">//失败后重试次数</span></span><br><span class="line">    threads: <span class="number">1</span>,<span class="comment">//上传并发数目</span></span><br><span class="line">    fileNumLimit: <span class="number">1</span>,<span class="comment">//验证文件总数量，超出则不允许加入队列</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="后台合并"><a href="#后台合并" class="headerlink" title="后台合并"></a>后台合并</h2><hr>
+<p>对于分片上传上来的文件，后台肯定要再次合并起来，重新生成跟原文件一模一样的文件。后台合并的方法有很多，以Node.js为例，可以使用以下方式：</p>
+<h3 id="buffer合并"><a href="#buffer合并" class="headerlink" title="buffer合并"></a>buffer合并</h3><p>按照惯例，先贴代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 合并分片</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mergeChunks</span>(<span class="params">fileName, chunks, callback</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'chunks:'</span> + chunks);</span><br><span class="line">    <span class="keyword">let</span> chunkPaths = chunks.map(<span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> path.join(process.env.IMAGESDIR, name)</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 采用Buffer方式合并</span></span><br><span class="line">    <span class="keyword">const</span> readStream = <span class="function"><span class="keyword">function</span> (<span class="params">chunkArray, cb</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> buffers = [];</span><br><span class="line">        chunkPaths.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">path</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">let</span> buffer = fs.readFileSync(path);</span><br><span class="line">            buffers.push(buffer);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> concatBuffer = Buffer.concat(buffers);</span><br><span class="line">        <span class="keyword">let</span> concatFilePath = path.join(process.env.IMAGESDIR, fileName);</span><br><span class="line">        fs.writeFileSync(concatFilePath, concatBuffer);</span><br><span class="line"></span><br><span class="line">        chunkPaths.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">path</span>) </span>&#123;</span><br><span class="line">            fs.unlinkSync(path)</span><br><span class="line">        &#125;)</span><br><span class="line">        cb();</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    readStream(chunkPaths, callback);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>buffer方式合并是一种常见的文件合并方式，方法是将各个分片文件分别用fs.readFile()方式读取，然后通过Buffer.concat()进行合并。</p>
+<p>这种方法简单易理解，但有个最大的缺点，就是你读取的文件有多大，合并的过程占用的内存就有多大，因为我们相当于把这个大文件的全部内容都一次性载入到内存中了，这是非常低效的。同时，Node默认的缓冲区大小的上限是2GB，一旦我们上传的大文件超出2GB，那使用这种方法就会失败。虽然可以通过修改缓冲区大小上限的方法来规避这个问题，但是鉴于这种合并方式极吃内存，我不建议您这么做。</p>
+<p>那么，有更好的方式吗？那是当然，下面介绍一种stream合并方式。</p>
+<h3 id="stream合并"><a href="#stream合并" class="headerlink" title="stream合并"></a>stream合并</h3><p>显然，stream（流，下面都用‘流’来表示stream）就是这种更好的方式。</p>
+<p>按照惯例，先贴代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 合并分片</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mergeChunks</span>(<span class="params">fileName, chunks, callback</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'chunks:'</span> + chunks);</span><br><span class="line">    <span class="keyword">let</span> chunkPaths = chunks.map(<span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> path.join(process.env.IMAGESDIR, name)</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 采用Stream方式合并</span></span><br><span class="line">    <span class="keyword">let</span> targetStream = fs.createWriteStream(path.join(process.env.IMAGESDIR, fileName));</span><br><span class="line">    <span class="keyword">const</span> readStream = <span class="function"><span class="keyword">function</span> (<span class="params">chunkArray, cb</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> path = chunkArray.shift();</span><br><span class="line">        <span class="keyword">let</span> originStream = fs.createReadStream(path);</span><br><span class="line">        originStream.pipe(targetStream, &#123;<span class="attr">end</span>: <span class="literal">false</span>&#125;);</span><br><span class="line">        originStream.on(<span class="string">"end"</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="comment">// 删除文件</span></span><br><span class="line">            fs.unlinkSync(path);</span><br><span class="line">            <span class="keyword">if</span> (chunkArray.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                readStream(chunkArray, callback)</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                cb()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    readStream(chunkPaths, callback);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="为什么说流更好呢？流到底是什么呢？"><a href="#为什么说流更好呢？流到底是什么呢？" class="headerlink" title="为什么说流更好呢？流到底是什么呢？"></a>为什么说流更好呢？流到底是什么呢？</h4><p>流是数据的集合 —— 就像数组或字符串一样。区别在于流中的数据可能不会立刻就全部可用，并且你无需一次性的把这些数据全部放入内存。这使得流在操作大量数据或是数据从外部来源逐段发送过来的时候变得非常有用。</p>
+<p>换句话说，当你使用buffer方式来处理一个2GB的文件，占用的内存可能是2GB以上，而当你使用流来处理这个文件，可能只会占用几十个M。这就是我们为什么选择流的原因所在。</p>
+<p>在Node.js中，有4种基本类型的流，分别是可读流，可写流，双向流以及变换流。</p>
+<ul>
+<li>可读流是对一个可以读取数据的源的抽象。fs.createReadStream 方法是一个可读流的例子。</li>
+<li>可写流是对一个可以写入数据的目标的抽象。fs.createWriteStream 方法是一个可写流的例子。</li>
+<li>双向流既是可读的，又是可写的。TCP socket 就属于这种。</li>
+<li>变换流是一种特殊的双向流，它会基于写入的数据生成可供读取的数据。</li>
+</ul>
+<p>所有的流都是EventEmitter的实例。它们发出可用于读取或写入数据的事件。然而，我们可以利用pipe方法以一种更简单的方式使用流中的数据。</p>
+<p>在上面那段代码中，我们首先通过fs.createWriteStream()创建了一个可写流，用来存放最终合并的文件。然后使用fs.createReadStream()分别读取各个分片后的文件，再通过pipe()方式将读取的数据像倒水一样“倒”到可写流中，到监控到一杯水倒完后，马上接着倒下一杯，直到全部倒完为止。此时，全部文件合并完毕。</p>
+<h3 id="追加文件方式合并"><a href="#追加文件方式合并" class="headerlink" title="追加文件方式合并"></a>追加文件方式合并</h3><p>追加文件方式合并指的是使用fs.appendFile()的方式来进行合并。fs.appendFile()的作用是异步地追加数据到一个文件，如果文件不存在则创建文件。data可以是一个字符串或buffer。例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fs.appendFile(<span class="string">'message.txt'</span>, <span class="string">'data to append'</span>, (err) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'The "data to append" was appended to file!'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>使用这种方法也可以将文件合并，虽然我没有在项目中实验，但通过在网上查的资料来看，性能强过buffer合并方式，但不及流合并方式。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><hr>
+<p>这篇文章虽然是谈前台分片和后台合并，但是由于前台分片主要是使用webUploader实现的，因此侧重点都在后台合并上。</p>
+<p>后台合并主要有3种方式：buffer合并、流合并、追加文件方式合并。三种方式各有各的特点，但是在大文件合并上，我推荐使用流方式合并，流合并占内存最少，效率最高，是处理大文件的最佳选择。</p>
+
+  </section>
+
+  <section class="post-comments">
+    <div id="container"></div>
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            id: '谈一谈大文件上传——前台分片和后台合并', //github限制label长度不得超过50，修改label为中文名节省空间
+            owner: 'tuobaye0711',
+            repo: 'tuobaye0711.github.io',
+            oauth: {
+                client_id: '7c63ec766ab0084a9849',
+                client_secret: 'e0bfadcadf48977a1a9b8b083de499d311a8dcfe',
+            },
+        })
+        gitment.render('container')
+    </script>
+</section>
+
+
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2016-2018. |  <a href="https://tuobaye0711.github.io/">拓跋的前端客栈</a>给您敬茶 |  主题基于<a
+                href="https://github.com/someus/huno">Huno</a>改写 | <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span> | <span id="busuanzi_container_site_uv" style="font-size: 0.8em">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+    </span>
+    </span>
+
+</footer>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            MathJax.Hub.Config({
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]}
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>

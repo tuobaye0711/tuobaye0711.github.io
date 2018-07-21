@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      3分钟搞懂CSS3 Transform属性 | 拓跋的前端客栈 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="zhleven">
+    
+    
+
+    <meta name="description" content="transform是CSS3中非常有用的一个属性，今天我们就来挑战一下3分钟能否搞懂transform的基本用途吧~">
+<meta name="keywords" content="CSS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="3分钟搞懂CSS3 Transform属性 | 拓跋的前端客栈">
+<meta property="og:url" content="https://tuobaye0711.github.io/2018/01/17/3分钟搞懂CSS3-transform属性/index.html">
+<meta property="og:site_name" content="拓跋的前端客栈">
+<meta property="og:description" content="transform是CSS3中非常有用的一个属性，今天我们就来挑战一下3分钟能否搞懂transform的基本用途吧~">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/01/17/3分钟搞懂CSS3-transform属性/transform转换.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/01/17/3分钟搞懂CSS3-transform属性/skew.png">
+<meta property="og:updated_time" content="2018-03-04T15:08:12.766Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="3分钟搞懂CSS3 Transform属性 | 拓跋的前端客栈">
+<meta name="twitter:description" content="transform是CSS3中非常有用的一个属性，今天我们就来挑战一下3分钟能否搞懂transform的基本用途吧~">
+<meta name="twitter:image" content="https://tuobaye0711.github.io/2018/01/17/3分钟搞懂CSS3-transform属性/transform转换.png">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    <link rel="stylesheet" href="/css/uno.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">拓跋的前端客栈</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          江湖的尽头是否只剩孤独
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">首页</a></li>
+              
+                
+                <li class="navigation__item"><a href="/about" title="" class="">关于</a></li>
+              
+                
+                <li class="navigation__item"><a href="/archive" title="" class="">归档</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li class="navigation__item">
+        <a href="https://github.com/tuobaye0711" title="GitHub" target="view_window">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+      <!-- email -->
+      <li class="navigation__item">
+          <a href="mailto:tuobaye0711@163.com" title="Email" target="view_window">
+              <i class='icon icon-mail'></i>
+              <span class="label">mail</span>
+          </a>
+      </li>
+      <!-- RSS -->
+      <li class="navigation__item">
+        <a href="/atom.xml" title="RSS" target="view_window">
+            <i class='icon icon-rss'></i>
+            <span class="label">RSS</span>
+        </a>
+    </li>
+    
+
+    <!-- China social icon -->
+    <!--
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+    -->
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">3分钟搞懂CSS3 Transform属性</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2018-01-17" class="post-meta__date date">2018-01-17</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+
+          
+             &#8226; 标签:
+            <font class="tags">
+              <a class="tags-link" href="/tags/CSS/">CSS</a>
+            </font>
+          
+
+      </span> | <span id="busuanzi_container_page_pv" style="font-size: 0.8em">
+  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <p>欢迎光临我的博客<a href="http://tuobaye.com" target="_blank" rel="noopener">拓跋的前端客栈</a>，这个是<a href="http://tuobaye.com/2018/01/17/3%E5%88%86%E9%92%9F%E6%90%9E%E6%87%82CSS3-transform%E5%B1%9E%E6%80%A7/" target="_blank" rel="noopener">原文地址</a>。如果您发现我文章中存在错误，请尽情向我吐槽，大家一起学习一起进步φ(&gt;ω&lt;*)</p>
+<hr>
+<blockquote>
+<p>CSS transform 属性允许你修改CSS视觉格式模型的坐标空间。使用它，元素可以被转换（translate）、旋转（rotate）、缩放（scale）、倾斜（skew）。</p>
+</blockquote>
+<p>首先有个直观的印象，接下来放大招了~</p>
+<p><img src="/2018/01/17/3分钟搞懂CSS3-transform属性/transform转换.png" alt="transform转换"></p>
+<p>怎么样，是不是很直观？如果图片不清晰，在图片上点击右键-“在新标签页中打开图片”，然后在图片上点放大镜就可以查看原图了。</p>
+<p>接下来有更直观的，我手写了一个简单的transform体验器，自己尝试一下吧：</p>
+<p><a href="http://tuobaye.com/demo/transform" target="_blank" rel="noopener">transform体验器</a></p>
+<p>不知道你搞懂了吗？</p>
+<p>PS:</p>
+<ul>
+<li>transform是一个理解上很简单，使用起来却很有难度的属性。短时间内能理解80%就不错了，想完全掌握还需要多多练习。</li>
+<li>本例中为了尽可能缩短篇幅，没有涉及到transform中matrix部分和rotate3d的部分，想要继续深入的话可以自行查找资料学习。</li>
+<li>translateZ()是一个很特别的属性，需要结合perspective(透视)来理解。perspective可以简单理解为视点与屏幕之间的距离。当未设置perspective属性时，translateZ()的变化不会有任何影响。而设置perspective以后，translateZ()就符合“近大远小”的规律，Z轴上离你越近，图形显示越大。直到大过perspective值的时候，你就看不见了，这时候你就可以理解为元素到你“脑后”去了，人理所当然的看不见脑后的东西。</li>
+<li>skew比较难搞懂，直接在图里用文字很难描述清楚。这里引用<a href="https://www.zhihu.com/question/21725826" target="_blank" rel="noopener">知乎-css3中-webkit-transform 的 skew 如何使用？</a>中Kori Lee的回复比较容易理解</li>
+</ul>
+<p><img src="/2018/01/17/3分钟搞懂CSS3-transform属性/skew.png" alt="skew"></p>
+
+  </section>
+
+  <section class="post-comments">
+    <div id="container"></div>
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            id: '3分钟搞懂CSS3 Transform属性', //github限制label长度不得超过50，修改label为中文名节省空间
+            owner: 'tuobaye0711',
+            repo: 'tuobaye0711.github.io',
+            oauth: {
+                client_id: '7c63ec766ab0084a9849',
+                client_secret: 'e0bfadcadf48977a1a9b8b083de499d311a8dcfe',
+            },
+        })
+        gitment.render('container')
+    </script>
+</section>
+
+
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2016-2018. |  <a href="https://tuobaye0711.github.io/">拓跋的前端客栈</a>给您敬茶 |  主题基于<a
+                href="https://github.com/someus/huno">Huno</a>改写 | <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span> | <span id="busuanzi_container_site_uv" style="font-size: 0.8em">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+    </span>
+    </span>
+
+</footer>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            MathJax.Hub.Config({
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]}
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      使用Code-Printer生成一份炫酷的简历 | 拓跋的前端客栈 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="zhleven">
+    
+    
+
+    <meta name="description" content="欢迎光临我的博客拓跋的前端客栈，这个是原文地址，这个是项目地址，欢迎star&amp;amp;fork。如果您发现我文章中存在错误，请尽情向我吐槽，大家一起学习一起进步φ(&amp;gt;ω&amp;lt;*)  DEMO 最终效果请点击这里，是不是有点意思？  源码分析 code-printer的原理是首先搭起一个骨架，然后通过遍历的方式，一点一点地往骨架里塞东西。 骨架主要有三块：  &amp;lt;pre id=”my-c">
+<meta name="keywords" content="CSS,JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Code-Printer生成一份炫酷的简历 | 拓跋的前端客栈">
+<meta property="og:url" content="https://tuobaye0711.github.io/2018/01/23/使用code-printer生成一份炫酷的简历/index.html">
+<meta property="og:site_name" content="拓跋的前端客栈">
+<meta property="og:description" content="欢迎光临我的博客拓跋的前端客栈，这个是原文地址，这个是项目地址，欢迎star&amp;amp;fork。如果您发现我文章中存在错误，请尽情向我吐槽，大家一起学习一起进步φ(&amp;gt;ω&amp;lt;*)  DEMO 最终效果请点击这里，是不是有点意思？  源码分析 code-printer的原理是首先搭起一个骨架，然后通过遍历的方式，一点一点地往骨架里塞东西。 骨架主要有三块：  &amp;lt;pre id=”my-c">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/01/23/使用code-printer生成一份炫酷的简历/code-printer.png">
+<meta property="og:updated_time" content="2018-03-04T15:08:12.820Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Code-Printer生成一份炫酷的简历 | 拓跋的前端客栈">
+<meta name="twitter:description" content="欢迎光临我的博客拓跋的前端客栈，这个是原文地址，这个是项目地址，欢迎star&amp;amp;fork。如果您发现我文章中存在错误，请尽情向我吐槽，大家一起学习一起进步φ(&amp;gt;ω&amp;lt;*)  DEMO 最终效果请点击这里，是不是有点意思？  源码分析 code-printer的原理是首先搭起一个骨架，然后通过遍历的方式，一点一点地往骨架里塞东西。 骨架主要有三块：  &amp;lt;pre id=”my-c">
+<meta name="twitter:image" content="https://tuobaye0711.github.io/2018/01/23/使用code-printer生成一份炫酷的简历/code-printer.png">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    <link rel="stylesheet" href="/css/uno.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">拓跋的前端客栈</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          江湖的尽头是否只剩孤独
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">首页</a></li>
+              
+                
+                <li class="navigation__item"><a href="/about" title="" class="">关于</a></li>
+              
+                
+                <li class="navigation__item"><a href="/archive" title="" class="">归档</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li class="navigation__item">
+        <a href="https://github.com/tuobaye0711" title="GitHub" target="view_window">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+      <!-- email -->
+      <li class="navigation__item">
+          <a href="mailto:tuobaye0711@163.com" title="Email" target="view_window">
+              <i class='icon icon-mail'></i>
+              <span class="label">mail</span>
+          </a>
+      </li>
+      <!-- RSS -->
+      <li class="navigation__item">
+        <a href="/atom.xml" title="RSS" target="view_window">
+            <i class='icon icon-rss'></i>
+            <span class="label">RSS</span>
+        </a>
+    </li>
+    
+
+    <!-- China social icon -->
+    <!--
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+    -->
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">使用Code-Printer生成一份炫酷的简历</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2018-01-23" class="post-meta__date date">2018-01-23</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+
+          
+             &#8226; 标签:
+            <font class="tags">
+              <a class="tags-link" href="/tags/CSS/">CSS</a>, <a class="tags-link" href="/tags/JavaScript/">JavaScript</a>
+            </font>
+          
+
+      </span> | <span id="busuanzi_container_page_pv" style="font-size: 0.8em">
+  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <p>欢迎光临我的博客<a href="http://tuobaye.com" target="_blank" rel="noopener">拓跋的前端客栈</a>，这个是<a href="http://tuobaye.com/2018/01/23/%E4%BD%BF%E7%94%A8code-printer%E7%94%9F%E6%88%90%E4%B8%80%E4%BB%BD%E7%82%AB%E9%85%B7%E7%9A%84%E7%AE%80%E5%8E%86/" target="_blank" rel="noopener">原文地址</a>，这个是<a href="https://github.com/tuobaye0711/code-printer" target="_blank" rel="noopener">项目地址</a>，欢迎star&amp;fork。如果您发现我文章中存在错误，请尽情向我吐槽，大家一起学习一起进步φ(&gt;ω&lt;*)</p>
+<hr>
+<h3 id="DEMO"><a href="#DEMO" class="headerlink" title="DEMO"></a>DEMO</h3><hr>
+<p>最终效果请点击<strong><a href="http://tuobaye.com/demo/code-printer" target="_blank" rel="noopener">这里</a></strong>，是不是有点意思？</p>
+<p><img src="/2018/01/23/使用code-printer生成一份炫酷的简历/code-printer.png" alt="code-printer.png"></p>
+<h3 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h3><hr>
+<p>code-printer的原理是首先搭起一个骨架，然后通过遍历的方式，一点一点地往骨架里塞东西。</p>
+<p>骨架主要有三块：</p>
+<ul>
+<li>&lt;pre id=”my-code”&gt;: 主要用来展示的HTML代码的，带标签</li>
+<li>&lt;style id=”style-elem”&gt;: 主要填CSS代码的，用于把&lt;pre&gt;里特定的标签转换成特定的样式</li>
+<li>&lt;div id=”script-area”&gt;: 主要是填JS代码的。但是由于一个字符一个字符往里面填代码会出现大量报错，因此这部分需要一个段落的JS代码全部书写完毕以后，通过一个命令符’~’来一次性填入。</li>
+</ul>
+<h4 id="printCodes"><a href="#printCodes" class="headerlink" title="printCodes"></a><strong>printCodes</strong></h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> printCodes = <span class="function"><span class="keyword">function</span> (<span class="params">message, index, interval</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (index &lt; message.length) &#123;</span><br><span class="line">        $code_pre.scrollTop = $code_pre.scrollHeight;</span><br><span class="line">        printChar(message[index++]);</span><br><span class="line">        <span class="keyword">return</span> setTimeout((<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> printCodes(message, index, interval);</span><br><span class="line">        &#125;), speed);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这段代码的主要作用就是遍历打印字符，同时每次打印的时候都将滚动条拖到最底下，保证用户能看到最新的变化。</p>
+<h4 id="printChar"><a href="#printChar" class="headerlink" title="printChar"></a><strong>printChar</strong></h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> printChar = <span class="function"><span class="keyword">function</span> (<span class="params">which</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> char, formatted_code, prior_block_match, prior_comment_match, script_tag;</span><br><span class="line">    <span class="keyword">if</span> (which === <span class="string">"`"</span>) &#123;</span><br><span class="line">        <span class="comment">// 重置为空字符串，防止打印出来</span></span><br><span class="line">        which = <span class="string">""</span>;</span><br><span class="line">        isJs = !isJs;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (isJs) &#123;</span><br><span class="line">        <span class="keyword">if</span> (which === <span class="string">"~"</span> &amp;&amp; !openComment) &#123;</span><br><span class="line">            script_tag = createElement(<span class="string">"script"</span>);</span><br><span class="line">            <span class="comment">// two matches based on prior scenario</span></span><br><span class="line">            prior_comment_match = <span class="regexp">/(?:\*\/([^\~]*))$/</span>;</span><br><span class="line">            prior_block_match = <span class="regexp">/([^~]*)$/</span>;</span><br><span class="line">            <span class="keyword">if</span> (unformatted_code.match(prior_comment_match)) &#123;</span><br><span class="line">                script_tag.innerHTML = unformatted_code.match(prior_comment_match)[<span class="number">0</span>].replace(<span class="string">"*/"</span>, <span class="string">""</span>) + <span class="string">"\n\n"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                script_tag.innerHTML = unformatted_code.match(prior_block_match)[<span class="number">0</span>] + <span class="string">"\n\n"</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            $script_area.innerHTML = <span class="string">""</span>;</span><br><span class="line">            $script_area.appendChild(script_tag);</span><br><span class="line">        &#125;</span><br><span class="line">        char = which;</span><br><span class="line">        formatted_code = jsHighlight($code_pre.innerHTML, char);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        char = which === <span class="string">"~"</span> ? <span class="string">""</span> : which;</span><br><span class="line">        $style_elem.innerHTML += char;</span><br><span class="line">        formatted_code = cssHighlight($code_pre.innerHTML, char);</span><br><span class="line">    &#125;</span><br><span class="line">    prevAsterisk = which === <span class="string">"*"</span>;</span><br><span class="line">    prevSlash = (which === <span class="string">"/"</span>) &amp;&amp; !openComment;</span><br><span class="line">    openInteger = which.match(<span class="regexp">/[0-9]/</span>) || (openInteger &amp;&amp; which.match(<span class="regexp">/[\.\%pxems]/</span>)) ? <span class="literal">true</span> : <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (which === <span class="string">'"'</span>) &#123;</span><br><span class="line">        openString = !openString;</span><br><span class="line">    &#125;</span><br><span class="line">    unformatted_code += which;</span><br><span class="line">    <span class="keyword">return</span> $code_pre.innerHTML = formatted_code;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>printChar</strong>函数是code-printer的核心函数，这个函数会根据当前的代码是JS还是CSS，来进行不同的处理。</p>
+<p>如何判断是JS还是CSS代码呢？默认设置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> isJs = <span class="literal">false</span>;</span><br></pre></td></tr></table></figure>
+<p>也就是默认是CSS，然后以 <strong>`</strong> 作为切换符号，每次遇到 <strong>`</strong> 就切换一次语言。</p>
+<p>当前字符属于JS时，在没遇到执行符号 <strong>~</strong> 之前，<strong>printChar</strong>只是单纯的打印格式化后的字符。遇到 <strong>~</strong> 以后，<strong>printChar</strong>进行了如下操作：</p>
+<ol>
+<li>函数首先通过正则匹配，匹配出之前的JS整段代码。</li>
+<li>再调用<strong>createElement()</strong>来创造一对&lt;script&gt;&lt;/script&gt;标签，用来存放JS代码。</li>
+<li>然后将处理过的JS代码存入&lt;script&gt;&lt;/script&gt;标签内。</li>
+<li>最后通过<strong>$script_area.appendChild()</strong>的方式将&lt;script&gt;&lt;/script&gt;及其内部的JS代码存入&lt;div id=”script-area”&gt;中。注意，每次调用<strong>$script_area.appendChild()</strong>之前，都要将之前&lt;div id=”script-area”&gt;清空一遍，防止之前的JS代码再执行一次。</li>
+</ol>
+<p>当前字符属于CSS时，每次打印过程，一方面会将未格式化的字符串传入&lt;style id=”style-elem”&gt;中，用以生成样式。另一方面会将格式化的代码输出到&lt;pre id=”my-code”&gt;中，用以展示代码。</p>
+<h4 id="cssHighlight和jsHighlight"><a href="#cssHighlight和jsHighlight" class="headerlink" title="cssHighlight和jsHighlight"></a><strong>cssHighlight</strong>和<strong>jsHighlight</strong></h4><p>这两个函数十分类似，主要作用就是通过正则匹配，给不同类型的字符两端封上不同的标签，用以高亮代码。举个栗子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (openInteger &amp;&amp; !which.match(<span class="regexp">/[0-9\.]/</span>) &amp;&amp; !openString &amp;&amp; !openComment) &#123;</span><br><span class="line">    s = string.replace(<span class="regexp">/([0-9\.]*)$/</span>, <span class="string">"&lt;em class=\"int\"&gt;$1&lt;/em&gt;"</span> + which);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这就是一处典型的匹配+替换标签组合拳。作用是代码在以数字结尾时，给数字两端封上&lt;em class=”int”&gt;&lt;/em&gt;的标签。</p>
+<p>代码中还有很多用作标志位的参数，比如说<strong>openInteger</strong>，表示这段输入都是数字。通过对这些控制位进行操作，可以将零散的字符分成一段一段的，方便进行处理。</p>
+<p>其他部分就不谈了，自己可以看<a href="https://github.com/tuobaye0711/code-printer/blob/master/src/app.js" target="_blank" rel="noopener">源代码</a>，我已经加了备注。</p>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><hr>
+<p>您可以fork过去直接修改，也可以按照如下步骤操作</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/tuobaye0711/code-printer.git</span><br></pre></td></tr></table></figure>
+<p>安装依赖文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<p>打包文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
+<p>起服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run server</span><br></pre></td></tr></table></figure>
+<p>修改配置说明：</p>
+<p>resume 文件存放简历或者其他静态资源</p>
+<p>source/code.js 存放需要打印并展示样式的代码（CSS/JS）</p>
+<p>source/app.js 是主代码，可以修改一些比如说打印速度、高亮色等配置</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><hr>
+<p>能在自己网站挂一份带打印特效的简历，想必能让人眼前一亮吧。这篇文章主要安利了一下我这个名为code-printer的小项目，希望能帮到各位~</p>
+
+  </section>
+
+  <section class="post-comments">
+    <div id="container"></div>
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            id: '使用Code-Printer生成一份炫酷的简历', //github限制label长度不得超过50，修改label为中文名节省空间
+            owner: 'tuobaye0711',
+            repo: 'tuobaye0711.github.io',
+            oauth: {
+                client_id: '7c63ec766ab0084a9849',
+                client_secret: 'e0bfadcadf48977a1a9b8b083de499d311a8dcfe',
+            },
+        })
+        gitment.render('container')
+    </script>
+</section>
+
+
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2016-2018. |  <a href="https://tuobaye0711.github.io/">拓跋的前端客栈</a>给您敬茶 |  主题基于<a
+                href="https://github.com/someus/huno">Huno</a>改写 | <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span> | <span id="busuanzi_container_site_uv" style="font-size: 0.8em">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+    </span>
+    </span>
+
+</footer>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            MathJax.Hub.Config({
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]}
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>

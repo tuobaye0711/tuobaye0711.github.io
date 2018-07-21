@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      【译】Chrome浏览器开发者工具的13个有趣技巧——希望你已经掌握 | 拓跋的前端客栈 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="zhleven">
+    
+    
+
+    <meta name="description" content="Chrome浏览器提供了一套非常出色的开发者工具来帮助您在Web平台上开发。下面我将介绍13个有趣的技巧，掌握他们对你只有好处。">
+<meta name="keywords" content="外文翻译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【译】Chrome浏览器开发者工具的13个有趣技巧——希望你已经掌握 | 拓跋的前端客栈">
+<meta property="og:url" content="https://tuobaye0711.github.io/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/index.html">
+<meta property="og:site_name" content="拓跋的前端客栈">
+<meta property="og:description" content="Chrome浏览器提供了一套非常出色的开发者工具来帮助您在Web平台上开发。下面我将介绍13个有趣的技巧，掌握他们对你只有好处。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/1.gif">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/2.gif">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/3.gif">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/4.gif">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/4.2.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/5.gif">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/6.gif">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/7.gif">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/8.gif">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/9.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/10.gif">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/11.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/12.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/13.gif">
+<meta property="og:updated_time" content="2018-04-20T15:44:49.473Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【译】Chrome浏览器开发者工具的13个有趣技巧——希望你已经掌握 | 拓跋的前端客栈">
+<meta name="twitter:description" content="Chrome浏览器提供了一套非常出色的开发者工具来帮助您在Web平台上开发。下面我将介绍13个有趣的技巧，掌握他们对你只有好处。">
+<meta name="twitter:image" content="https://tuobaye0711.github.io/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/1.gif">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    <link rel="stylesheet" href="/css/uno.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">拓跋的前端客栈</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          江湖的尽头是否只剩孤独
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">首页</a></li>
+              
+                
+                <li class="navigation__item"><a href="/about" title="" class="">关于</a></li>
+              
+                
+                <li class="navigation__item"><a href="/archive" title="" class="">归档</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li class="navigation__item">
+        <a href="https://github.com/tuobaye0711" title="GitHub" target="view_window">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+      <!-- email -->
+      <li class="navigation__item">
+          <a href="mailto:tuobaye0711@163.com" title="Email" target="view_window">
+              <i class='icon icon-mail'></i>
+              <span class="label">mail</span>
+          </a>
+      </li>
+      <!-- RSS -->
+      <li class="navigation__item">
+        <a href="/atom.xml" title="RSS" target="view_window">
+            <i class='icon icon-rss'></i>
+            <span class="label">RSS</span>
+        </a>
+    </li>
+    
+
+    <!-- China social icon -->
+    <!--
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+    -->
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">【译】Chrome浏览器开发者工具的13个有趣技巧——希望你已经掌握</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2018-03-26" class="post-meta__date date">2018-03-26</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+
+          
+             &#8226; 标签:
+            <font class="tags">
+              <a class="tags-link" href="/tags/外文翻译/">外文翻译</a>
+            </font>
+          
+
+      </span> | <span id="busuanzi_container_page_pv" style="font-size: 0.8em">
+  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <p>Chrome浏览器提供了一套非常出色的开发者工具来帮助您在Web平台上开发。下面我将介绍13个有趣的技巧，掌握他们对你只有好处。</p>
+<h3 id="1-在Elements面板中拖放元素"><a href="#1-在Elements面板中拖放元素" class="headerlink" title="1. 在Elements面板中拖放元素"></a>1. 在Elements面板中拖放元素</h3><hr>
+<p>在Elements面板中，你可以拖放任意的HTML元素，并在整个页面中更改其位置：</p>
+<p><img src="/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/1.gif" alt="Drag-and-drop in the Elements panel"></p>
+<h3 id="2-在控制台中引用当前选定的元素"><a href="#2-在控制台中引用当前选定的元素" class="headerlink" title="2. 在控制台中引用当前选定的元素"></a>2. 在控制台中引用当前选定的元素</h3><hr>
+<p>在Elements面板中，选择一个节点，然后输入$0控制台以引用它：</p>
+<p><img src="/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/2.gif" alt="Reference the currently selected element in the Console"></p>
+<h3 id="3-使用控制台中最后一个操作的值"><a href="#3-使用控制台中最后一个操作的值" class="headerlink" title="3. 使用控制台中最后一个操作的值"></a>3. 使用控制台中最后一个操作的值</h3><hr>
+<p>使用$_引用在控制台执行的前一操作的返回值：</p>
+<p><img src="/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/3.gif" alt="Use the value of the last operation in the Console"></p>
+<h3 id="4-添加CSS并编辑元素状态"><a href="#4-添加CSS并编辑元素状态" class="headerlink" title="4. 添加CSS并编辑元素状态"></a>4. 添加CSS并编辑元素状态</h3><hr>
+<p>在Elements面板中有2个超级有用的按钮。</p>
+<p>第一个可以为你的选择器(selector)增加新的CSS属性：</p>
+<p><img src="/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/4.gif" alt="Add CSS and edit the element state"></p>
+<p>第二个可以为你触发选定元素的状态，这样你就可以看到当它处于活动状态(active)，悬停状态(hovered)，焦点状态(focus)等等时应用的样式：</p>
+<p><img src="/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/4.2.png" alt="Add CSS and edit the element state"></p>
+<h3 id="5-将修改后的CSS保存到文件"><a href="#5-将修改后的CSS保存到文件" class="headerlink" title="5. 将修改后的CSS保存到文件"></a>5. 将修改后的CSS保存到文件</h3><hr>
+<p>点击你编辑的CSS文件的名称，进入到Sources面板，你会发现你的修改已经在里面了。然后你可以对你实时的编辑进行保存。</p>
+<p>这个修改不适用于添加的新选择器，也不适用于element.style属性，仅仅适用于原有选择器。</p>
+<p><img src="/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/5.gif" alt="Save to file the modified CSS"></p>
+<h3 id="6-截图单个元素"><a href="#6-截图单个元素" class="headerlink" title="6. 截图单个元素"></a>6. 截图单个元素</h3><hr>
+<p>选择一个元素，MAC下按cmd+shift+p、windows下按ctrl+shift+p来打开命令菜单，然后输入<strong>Capture node screenshot</strong>：</p>
+<p><img src="/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/6.gif" alt="Screenshot a single element"></p>
+<h3 id="7-使用CSS选择器查找元素"><a href="#7-使用CSS选择器查找元素" class="headerlink" title="7. 使用CSS选择器查找元素"></a>7. 使用CSS选择器查找元素</h3><hr>
+<p>MAC下按cmd+f、windows下按ctrl+f来打开搜索框</p>
+<p>您可以在其中键入任何字符串以匹配源代码，或者也可以使用CSS选择器让Chrome为您生成一个图像：</p>
+<p><img src="/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/7.gif" alt="Find an element using CSS selectors"></p>
+<h3 id="8-控制台中的shift和enter"><a href="#8-控制台中的shift和enter" class="headerlink" title="8. 控制台中的shift和enter"></a>8. 控制台中的shift和enter</h3><hr>
+<p>要编写跨越控制台多行的命令，请按shift+enter</p>
+<p>准备就绪后，在脚本末尾按Enter键即可执行该操作：</p>
+<p><img src="/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/8.gif" alt="Shift-enter in the Console"></p>
+<h3 id="9-跳转"><a href="#9-跳转" class="headerlink" title="9. 跳转"></a>9. 跳转</h3><hr>
+<p>在Sources面板中：</p>
+<ul>
+<li><p>cmd+o(windows下ctrl+o) 显示你页面加载的所有文件</p>
+</li>
+<li><p>cmd+shift+o(windows下ctrl+shift+o) 显示当前文件中的symbols（属性、函数、类等）</p>
+</li>
+<li><p>cmd+o(windows下ctrl+o) 跳转到指定行</p>
+</li>
+</ul>
+<p>准备就绪后，在脚本末尾按Enter键即可执行该操作：</p>
+<p><img src="/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/9.png" alt="Go to…"></p>
+<h3 id="10-监听表达式"><a href="#10-监听表达式" class="headerlink" title="10. 监听表达式"></a>10. 监听表达式</h3><hr>
+<p>不需要一次又一次地输入一个变量名或者表达式，你只需将他们添加到监视列表中就可以时时观察它们的变化：</p>
+<p><img src="/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/10.gif" alt="Watch Expression"></p>
+<h3 id="11-XHR-Fetch调试"><a href="#11-XHR-Fetch调试" class="headerlink" title="11. XHR/Fetch调试"></a>11. XHR/Fetch调试</h3><hr>
+<p>从调试器打开<strong>XHR/Fetch Breakpoints</strong>面板。</p>
+<p>你可以针对某一个请求或者请求的关键字设置断点：</p>
+<p><img src="/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/11.png" alt="XHR/Fetch debugging"></p>
+<h3 id="12-调试DOM修改"><a href="#12-调试DOM修改" class="headerlink" title="12. 调试DOM修改"></a>12. 调试DOM修改</h3><hr>
+<p>右键单击某个DOM元素，并选择Break on下的subtree modifications。这样调试器就可以在脚本遍历到该元素并且要修改它的时候自动停止，以让用户进行调试检查。</p>
+<p><img src="/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/12.png" alt="XHR/Fetch debugging"></p>
+<h3 id="13-找到CSS属性定义的位置"><a href="#13-找到CSS属性定义的位置" class="headerlink" title="13. 找到CSS属性定义的位置"></a>13. 找到CSS属性定义的位置</h3><hr>
+<p>MAC使用cmd+鼠标左键(windows下使用ctrl+鼠标左键)点击Elements面板中的CSS属性，可以直接帮您定位到Source面板中相应CSS定义的位置：</p>
+<p><img src="/2018/03/26/【自译】Chrome浏览器开发者工具的12个有趣技巧——希望已经掌握/13.gif" alt="Use the value of the last operation in the Console"></p>
+<h3 id="原文链接"><a href="#原文链接" class="headerlink" title="原文链接"></a>原文链接</h3><hr>
+<p><a href="https://flaviocopes.com/chrome-devtools-tips/" target="_blank" rel="noopener">https://flaviocopes.com/chrome-devtools-tips/</a></p>
+
+  </section>
+
+  <section class="post-comments">
+    <div id="container"></div>
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            id: '【译】Chrome浏览器开发者工具的13个有趣技巧——希望你已经掌握', //github限制label长度不得超过50，修改label为中文名节省空间
+            owner: 'tuobaye0711',
+            repo: 'tuobaye0711.github.io',
+            oauth: {
+                client_id: '7c63ec766ab0084a9849',
+                client_secret: 'e0bfadcadf48977a1a9b8b083de499d311a8dcfe',
+            },
+        })
+        gitment.render('container')
+    </script>
+</section>
+
+
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2016-2018. |  <a href="https://tuobaye0711.github.io/">拓跋的前端客栈</a>给您敬茶 |  主题基于<a
+                href="https://github.com/someus/huno">Huno</a>改写 | <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span> | <span id="busuanzi_container_site_uv" style="font-size: 0.8em">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+    </span>
+    </span>
+
+</footer>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            MathJax.Hub.Config({
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]}
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      Nginx 配置指南 | 拓跋的前端客栈 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="zhleven">
+    
+    
+
+    <meta name="description" content="Nginx是最初由Igor Sysoev编写的HTTP和反向代理服务器，邮件代理服务器和通用TCP/UDP代理服务器。很长时间以来，它一直在许多重负荷的俄罗斯网站上运行，包括Yandex，Mail.Ru，VK和Rambler。根据Netcraft，2017年10月，Nginx服务或代理了29.43％最繁忙的站点。下面是一些成功案例：Dropbox，Netflix，Wordpress.com，Fas">
+<meta name="keywords" content="Nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx 配置指南 | 拓跋的前端客栈">
+<meta property="og:url" content="https://tuobaye0711.github.io/2017/11/11/Nginx 配置指南/index.html">
+<meta property="og:site_name" content="拓跋的前端客栈">
+<meta property="og:description" content="Nginx是最初由Igor Sysoev编写的HTTP和反向代理服务器，邮件代理服务器和通用TCP/UDP代理服务器。很长时间以来，它一直在许多重负荷的俄罗斯网站上运行，包括Yandex，Mail.Ru，VK和Rambler。根据Netcraft，2017年10月，Nginx服务或代理了29.43％最繁忙的站点。下面是一些成功案例：Dropbox，Netflix，Wordpress.com，Fas">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://tuobaye0711.github.io/2017/11/11/Nginx%20配置指南/nginx.png">
+<meta property="og:updated_time" content="2018-03-04T15:08:12.778Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx 配置指南 | 拓跋的前端客栈">
+<meta name="twitter:description" content="Nginx是最初由Igor Sysoev编写的HTTP和反向代理服务器，邮件代理服务器和通用TCP/UDP代理服务器。很长时间以来，它一直在许多重负荷的俄罗斯网站上运行，包括Yandex，Mail.Ru，VK和Rambler。根据Netcraft，2017年10月，Nginx服务或代理了29.43％最繁忙的站点。下面是一些成功案例：Dropbox，Netflix，Wordpress.com，Fas">
+<meta name="twitter:image" content="https://tuobaye0711.github.io/2017/11/11/Nginx%20配置指南/nginx.png">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    <link rel="stylesheet" href="/css/uno.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">拓跋的前端客栈</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          江湖的尽头是否只剩孤独
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">首页</a></li>
+              
+                
+                <li class="navigation__item"><a href="/about" title="" class="">关于</a></li>
+              
+                
+                <li class="navigation__item"><a href="/archive" title="" class="">归档</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li class="navigation__item">
+        <a href="https://github.com/tuobaye0711" title="GitHub" target="view_window">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+      <!-- email -->
+      <li class="navigation__item">
+          <a href="mailto:tuobaye0711@163.com" title="Email" target="view_window">
+              <i class='icon icon-mail'></i>
+              <span class="label">mail</span>
+          </a>
+      </li>
+      <!-- RSS -->
+      <li class="navigation__item">
+        <a href="/atom.xml" title="RSS" target="view_window">
+            <i class='icon icon-rss'></i>
+            <span class="label">RSS</span>
+        </a>
+    </li>
+    
+
+    <!-- China social icon -->
+    <!--
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+    -->
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">Nginx 配置指南</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2017-11-11" class="post-meta__date date">2017-11-11</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+
+          
+             &#8226; 标签:
+            <font class="tags">
+              <a class="tags-link" href="/tags/Nginx/">Nginx</a>
+            </font>
+          
+
+      </span> | <span id="busuanzi_container_page_pv" style="font-size: 0.8em">
+  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <h2 id="什么是Nginx？"><a href="#什么是Nginx？" class="headerlink" title="什么是Nginx？"></a>什么是Nginx？</h2><hr>
+<p><img src="/2017/11/11/Nginx 配置指南/nginx.png" alt="Nginx"></p>
+<p>没有什么文档比直接从<a href="">Nginx官网</a>来的更准确清晰了。</p>
+<blockquote>
+<p>Nginx [engine x] is an HTTP and reverse proxy server, a mail proxy server, and a generic TCP/UDP proxy server, originally written by Igor Sysoev. For a long time, it has been running on many heavily loaded Russian sites including Yandex, Mail.Ru, VK, and Rambler. According to Netcraft, Nginx served or proxied 29.43% busiest sites in October 2017. Here are some of the success stories: Dropbox, Netflix, Wordpress.com, FastMail.FM.</p>
+</blockquote>
+<p>Nginx [engine x]是最初由Igor Sysoev编写的HTTP和反向代理服务器，邮件代理服务器和通用TCP/UDP代理服务器。很长时间以来，它一直在许多重负荷的俄罗斯网站上运行，包括Yandex，Mail.Ru，VK和Rambler。根据Netcraft，2017年10月，Nginx服务或代理了 29.43％最繁忙的站点。下面是一些成功案例： Dropbox， Netflix， Wordpress.com， FastMail.FM。</p>
+<p>Nginx的主要特性：</p>
+<ul>
+<li>Basic HTTP server features(基本的HTTP服务器功能)</li>
+<li>Other HTTP server features(其他HTTP服务器功能)</li>
+<li>Mail proxy server features(邮件代理服务器功能)</li>
+<li>TCP/UDP proxy server features(TCP/UDP代理服务器功能)</li>
+<li>Architecture and scalability(架构和可扩展性)</li>
+</ul>
+<h2 id="为什么要使用Nginx，跟以前用的tomcat有什么区别？"><a href="#为什么要使用Nginx，跟以前用的tomcat有什么区别？" class="headerlink" title="为什么要使用Nginx，跟以前用的tomcat有什么区别？"></a>为什么要使用Nginx，跟以前用的tomcat有什么区别？</h2><hr>
+<p>虽然大家都叫web server，但是Nginx和tomcat有本质的不同。</p>
+<p>Nginx常用来做静态内容服务器和代理服务器，用来放置静态资源或者转发请求给后面的应用服务；而tomcat常用来做应用容器，让java app在其中运行。</p>
+<p>因此，严格来说，Nginx应该叫<span style="color:red">HTTP Server</span>，而tomcat则是一个<span style="color:red">Application Server</span></p>
+<p>一个 HTTP Server关心的是HTTP协议层面的传输和访问控制，所以在Nginx上你可以看到代理、负载均衡等功能。客户端通过HTTP Server 访问服务器上存储的资源（HTML 文件、图片文件等等）。通过CGI技术，也可以将处理过的内容通过HTTP Server分发，但是一个HTTP Server始终只是把服务器上的文件如实的通过HTTP协议传输给客户端。</p>
+<p>而应用服务器，则是一个应用执行的容器。它首先需要支持开发语言的 Runtime（对于 Tomcat 来说，就是 Java），保证应用能够在应用服务器上正常运行。其次，需要支持应用相关的规范，例如类库、安全方面的特性。对于 Tomcat 来说，就是需要提供 JSP/Sevlet 运行需要的标准类库、Interface 等。为了方便，应用服务器往往也会集成 HTTP Server 的功能，但是不如专业的 HTTP Server 那么强大，所以应用服务器往往是运行在 HTTP Server 的背后，执行应用，将动态的内容转化为静态的内容之后，通过 HTTP Server 分发到客户端。</p>
+<p>于我个人来说，选择Nginx主要是因为其占用资源低的优点，比起tomcat，选择Nginx能给我释放大量的系统内存，供我其他IDE和chrome使用。</p>
+<h2 id="nginx-conf配置文件指南"><a href="#nginx-conf配置文件指南" class="headerlink" title="nginx.conf配置文件指南"></a>nginx.conf配置文件指南</h2><hr>
+<p>Nginx的安装，启动，关闭等步骤的教程在这里我们就不做赘述了，我们来主要谈一谈nginx.conf文件应该如何配置，这是nginx的灵魂所在。</p>
+<h3 id="Nginx配置文件结构"><a href="#Nginx配置文件结构" class="headerlink" title="Nginx配置文件结构"></a>Nginx配置文件结构</h3><p>nginx包含由配置文件中指定的指令控制的模块。指令分为<strong>简单指令</strong>和<strong>块指令</strong>。</p>
+<p>一个简单的指令由<strong>名称</strong>和<strong>参数</strong>组成，以空格分隔，并以分号（;）结束:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root /data/www;</span><br></pre></td></tr></table></figure>
+<p>一个block指令和一个简单的指令有相同的结构，但是<strong>不是以分号结尾，而是用一系列由大括号（{和}）包围的附加指令来结束</strong>。如果一个block指令在大括号内可以有其他的指令，它就被称为一个context（上下文，例如：events，http，server和location）:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    server &#123;</span><br><span class="line">        #location / &#123;</span><br><span class="line">             proxy_pass   http:<span class="comment">//127.0.0.1:8090/;</span></span><br><span class="line">             proxy_redirect  http:<span class="comment">//127.0.0.1:8090/ /;</span></span><br><span class="line">             proxy_connect_timeout <span class="number">600</span>s;</span><br><span class="line">             proxy_read_timeout <span class="number">600</span>s;</span><br><span class="line">             proxy_send_timeout <span class="number">600</span>s;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>置于任何context之外的配置文件中的指令被认为是在main context中。在<em>events</em>和<em>http</em>指令驻留在main content中，<em>server</em>是在<em>http</em>中，<em>location</em>则在<em>server</em>中。</p>
+<p>#后面的部分是注释：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># 这是一段注释</span><br></pre></td></tr></table></figure>
+<h3 id="Nginx作为静态服务器使用"><a href="#Nginx作为静态服务器使用" class="headerlink" title="Nginx作为静态服务器使用"></a>Nginx作为静态服务器使用</h3><p>作为一个Web服务器，其最主要的任务是作为静态服务器使用。</p>
+<p>你需要将静态网页和文件放到一个目录（例如/data/www），将图片等文件放到另一个目录（例如/data/images），然后在nginx.conf中进行配置。这需要在<em>http</em>模块下的<em>server</em>模块内新建两个<em>location</em>模块：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">    <span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">location</span> / &#123;</span><br><span class="line">            <span class="attribute">root</span> /data/www;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="attribute">location</span> /images/ &#123;</span><br><span class="line">            <span class="attribute">root</span> /data;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看起来很好理解吧~也可以直接把文件放到一块，直接location配置绝对路径：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">location</span> / &#123;</span><br><span class="line">    <span class="attribute">root</span>   F:\webapp\portal;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Nginx在未配置监听端口的情况下默认监听80端口，因此，你可以通过在本地访问 <a href="http://localhost/" target="_blank" rel="noopener">http://localhost/</a> 或者 <a href="http://127.0.0.1/" target="_blank" rel="noopener">http://127.0.0.1/</a> 来访问你的网站。</p>
+<p>怎么样？赶紧启动一下Nginx吧，你的静态网站已经可以在本地运行了！修改配置后重启Nginx的命令是：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure>
+<p>如果您的Nginx无法启动或者出现其他错误，您可以尝试在 <em>/usr/local/nginx/logs</em> 或者 <em>/var/log/nginx</em> 中的 <em>access.log</em> 以及 <em>error.log</em> 中查找原因</p>
+<h3 id="搭建简单的代理服务器"><a href="#搭建简单的代理服务器" class="headerlink" title="搭建简单的代理服务器"></a>搭建简单的代理服务器</h3><p>Nginx经常作为反向代理服务器来使用，这意味着Nginx服务器接收请求，将其传递给被代理服务器，从中检索响应并将其发送给客户端。</p>
+<blockquote>
+<p>反向代理（Reverse Proxy）方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个服务器。通过在网络各处放置反向代理节点服务器所构成的在现有的互联网基础之上的一层智能虚拟网络，CDN系统能够实时地根据网络流量和各节点的连接、负载状况以及到用户的距离和响应时间等综合信息将用户的请求重新导向离用户最近的服务节点上。</p>
+</blockquote>
+<p>下面，我们将配置一个基本的代理服务器，它会处理本地图片文件的请求并返回其他的请求给被代理的服务器。在这个例子中，两个服务器将在一个Nginx实例上定义。</p>
+<p>首先，在nginx的配置文件中增加一个server块来定义代理服务器，其中包含以下内容：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">8080</span>;</span><br><span class="line">    <span class="attribute">root</span> /data/up1;</span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这将是一个简单的服务器，它监听8080端口。（如果不定义listen值的话，默认监听80端口）并将所有请求映射到本地文件系统上的目录/data/up1。创建这个目录并把index.html文件放进去。请注意，该root指令放置在server context中。当响应请求的 location 区块中，没有自己的 root 指令，上述的 root 指令才会被使用。</p>
+<p>接下来，使用上一节中的服务器配置并对其进行修改，使其成为代理服务器配置。在第一个location块中，设置proxy_pass 指令，并在参数中配置指定的代理服务器的协议、名称和端口号（在我们的例子中是这样 <a href="http://localhost:8080）：" target="_blank" rel="noopener">http://localhost:8080）：</a></p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://localhost:8080;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="attribute">location</span> /images/ &#123;</span><br><span class="line">        <span class="attribute">root</span> /data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们将修改第二个location块，它将当前带有/images/前缀的请求映射到/data/images目录下，使其与具有典型文件扩展名的图像请求匹配。修改的location块如下所示：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">location</span> <span class="regexp">~ \.(gif|jpg|png)$</span> &#123;</span><br><span class="line">    <span class="attribute">root</span> /data/images;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该参数是一个正则表达式，它会匹配所有以.gif、.jpg 或者.png结尾的URI。一个正则表达式需要以~开头。匹配到的请求会被映射到/data/images目录下。</p>
+<p>当Nginx通过location去响应一个请求时，它会先检测带有前缀的location指令，兽先是检测带有<strong>最长</strong>前缀的 location，其次检测正则表达式。如果被正则的匹配的规则匹配成功，Nginx会选择使用该location的规则，否则，会选择之前缓存的规则。</p>
+<p>最终，一个代理服务器的配置结果如下：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://localhost:8080/;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="attribute">location</span> <span class="regexp">~ \.(gif|jpg|png)$</span> &#123;</span><br><span class="line">        <span class="attribute">root</span> /data/images;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该服务器将过滤以.gif、.jpg或者.png结尾的请求，并将它们映射到/data/images目录（通过添加URI到root指令的参数），并将所有其他请求传递给上述代理服务器。</p>
+<p>要应用新配置，请保存修改后的配置文件，并nginx -s reload一下。</p>
+<p>更多Nginx代理配置指令，尽在<a href="https://nginx.org/en/docs/http/ngx_http_proxy_module.html" target="_blank" rel="noopener">ngx_http_proxy_module</a></p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2>
+  </section>
+
+  <section class="post-comments">
+    <div id="container"></div>
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            id: 'Nginx 配置指南', //github限制label长度不得超过50，修改label为中文名节省空间
+            owner: 'tuobaye0711',
+            repo: 'tuobaye0711.github.io',
+            oauth: {
+                client_id: '7c63ec766ab0084a9849',
+                client_secret: 'e0bfadcadf48977a1a9b8b083de499d311a8dcfe',
+            },
+        })
+        gitment.render('container')
+    </script>
+</section>
+
+
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2016-2018. |  <a href="https://tuobaye0711.github.io/">拓跋的前端客栈</a>给您敬茶 |  主题基于<a
+                href="https://github.com/someus/huno">Huno</a>改写 | <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span> | <span id="busuanzi_container_site_uv" style="font-size: 0.8em">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+    </span>
+    </span>
+
+</footer>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            MathJax.Hub.Config({
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]}
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>

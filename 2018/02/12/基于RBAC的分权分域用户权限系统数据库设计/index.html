@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      基于RBAC的分权分域用户权限系统数据库设计 | 拓跋的前端客栈 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="zhleven">
+    
+    
+
+    <meta name="description" content="最近要开发一个新的系统，系统里面可以有许多不同的社区，每个社区下面有不同的项目。项目和项目、社区和社区之间都是相互独立的。我所做的工作是设计一套权限管理系统，这套系统允许不同的用户在不同的社区或者项目之中有不同的权限，可以保证用户无法做出越权的操作。">
+<meta name="keywords" content="mysql,技术杂谈">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于RBAC的分权分域用户权限系统数据库设计 | 拓跋的前端客栈">
+<meta property="og:url" content="https://tuobaye0711.github.io/2018/02/12/基于RBAC的分权分域用户权限系统数据库设计/index.html">
+<meta property="og:site_name" content="拓跋的前端客栈">
+<meta property="og:description" content="最近要开发一个新的系统，系统里面可以有许多不同的社区，每个社区下面有不同的项目。项目和项目、社区和社区之间都是相互独立的。我所做的工作是设计一套权限管理系统，这套系统允许不同的用户在不同的社区或者项目之中有不同的权限，可以保证用户无法做出越权的操作。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/02/12/基于RBAC的分权分域用户权限系统数据库设计/分权分域数据库设计.png">
+<meta property="og:updated_time" content="2018-03-04T15:08:12.823Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于RBAC的分权分域用户权限系统数据库设计 | 拓跋的前端客栈">
+<meta name="twitter:description" content="最近要开发一个新的系统，系统里面可以有许多不同的社区，每个社区下面有不同的项目。项目和项目、社区和社区之间都是相互独立的。我所做的工作是设计一套权限管理系统，这套系统允许不同的用户在不同的社区或者项目之中有不同的权限，可以保证用户无法做出越权的操作。">
+<meta name="twitter:image" content="https://tuobaye0711.github.io/2018/02/12/基于RBAC的分权分域用户权限系统数据库设计/分权分域数据库设计.png">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    <link rel="stylesheet" href="/css/uno.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">拓跋的前端客栈</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          江湖的尽头是否只剩孤独
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">首页</a></li>
+              
+                
+                <li class="navigation__item"><a href="/about" title="" class="">关于</a></li>
+              
+                
+                <li class="navigation__item"><a href="/archive" title="" class="">归档</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li class="navigation__item">
+        <a href="https://github.com/tuobaye0711" title="GitHub" target="view_window">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+      <!-- email -->
+      <li class="navigation__item">
+          <a href="mailto:tuobaye0711@163.com" title="Email" target="view_window">
+              <i class='icon icon-mail'></i>
+              <span class="label">mail</span>
+          </a>
+      </li>
+      <!-- RSS -->
+      <li class="navigation__item">
+        <a href="/atom.xml" title="RSS" target="view_window">
+            <i class='icon icon-rss'></i>
+            <span class="label">RSS</span>
+        </a>
+    </li>
+    
+
+    <!-- China social icon -->
+    <!--
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+    -->
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">基于RBAC的分权分域用户权限系统数据库设计</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2018-02-12" class="post-meta__date date">2018-02-12</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+
+          
+             &#8226; 标签:
+            <font class="tags">
+              <a class="tags-link" href="/tags/mysql/">mysql</a>, <a class="tags-link" href="/tags/技术杂谈/">技术杂谈</a>
+            </font>
+          
+
+      </span> | <span id="busuanzi_container_page_pv" style="font-size: 0.8em">
+  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><hr>
+<p>最近要开发一个新的系统，系统里面可以有许多不同的社区，每个社区下面有不同的项目。项目和项目、社区和社区之间都是相互独立的。我所做的工作是设计一套权限管理系统，这套系统允许不同的用户在不同的社区或者项目之中有不同的权限，可以保证用户无法做出越权的操作。</p>
+<p>经过了一番努力，设计出了一套基于RBAC的分权分域的用户权限系统。</p>
+<p>首先介绍一下什么是RBAC:</p>
+<blockquote>
+<p>以角色为基础的访问控制（英语：Role-based access control, RBAC），是资讯安全领域中，一种较新且广为使用的访问控制机制，其不同于强制访问控制以及自由选定访问控制直接赋予使用者权限，而是将权限赋予角色。1996年，莱威·桑度（Ravi Sandhu）等人在前人的理论基础上，提出以角色为基础的访问控制模型，故该模型又被称为RBAC96。之后，美国国家标准局重新定义了以角色为基础的访问控制模型，并将之纳为一种标准，称之为NIST RBAC。<br>以角色为基础的访问控制模型是一套较强制访问控制以及自由选定访问控制更为中性且更具灵活性的访问控制技术。</p>
+</blockquote>
+<p>在一个组织中，会因为不同的作业功能产生不同的角色，执行某项操作的权限会被赋予特定的角色。组织成员或者工作人员（抑或其它系统用户）则被赋予不同的角色，这些用户通过被赋予角色来取得执行某项计算机系统功能的权限。</p>
+<ul>
+<li>S = 主体 = 一名使用者或自动代理人</li>
+<li>R = 角色 = 被定义为一个授权等级的工作职位或职称</li>
+<li>P = 权限 = 一种存取资源的方式</li>
+<li>SE = 会期 = S，R或P之间的映射关系</li>
+<li>SA = 主体指派</li>
+<li>PA = 权限指派</li>
+<li>RH = 角色阶层。能被表示为：≥（x ≥ y 代表 x 继承 y 的权限）</li>
+<li>一个主体可对应多个角色。</li>
+<li>一个角色可对应多个主体。</li>
+<li>一个角色可拥有多个权限。</li>
+<li>一种权限可被分配给许多个角色。</li>
+<li>一个角色可以有专属于自己的权限。</li>
+</ul>
+<h2 id="数据库结构设计"><a href="#数据库结构设计" class="headerlink" title="数据库结构设计"></a>数据库结构设计</h2><hr>
+<p>项目使用的mysql数据库，设计表格的大体结构如下：</p>
+<p><img src="/2018/02/12/基于RBAC的分权分域用户权限系统数据库设计/分权分域数据库设计.png" alt="数据库结构设计"></p>
+<p>蓝底模块为<strong>基本表</strong>，黄底模块为<strong>关系表</strong>。</p>
+<p>基本表有</p>
+<ul>
+<li>t_user</li>
+<li>t_role</li>
+<li>t_permission</li>
+<li>t_operation</li>
+</ul>
+<p>关系表有</p>
+<ul>
+<li>t_user_role_community</li>
+<li>t_user_role_project</li>
+<li>t_role_permission</li>
+<li>t_permission_operation</li>
+</ul>
+<p>权限判断的主要思路是根据用户传过来的社区ID/项目ID+用户ID+发起的请求路径，通过多表联查，来确定用户在对应的社区/项目内所对应的角色是否具有权限执行响应请求的操作。</p>
+<p>由于在域方面，有社区和项目两个尺度，其中社区包含项目。但是由于一些其他原因，在社区表中无法表示出与项目的从属关系，只能把t_user_role表复用，分身成两张表：t_user_role_community和t_user_role_project。</p>
+<p>由于我们的鉴权系统整个流程都是一对多的关系，即一个用户可能对应多个角色，一个角色可能对应多种权限，一种权限又能对应多种操作。因此，一个用户能对应N多种操作，同时，由于中间的多重映射关系，一个用户对某个操作可能会对应多次。</p>
+<p>我们采用多表联查的方式，输入项为用户+操作（操作具体表示为request的method+url），使用如下SQL语句进行查询，只要查询结果不为空，即证明用户有相应的操作权限：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">    *</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">    t_user_role_community</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> t_role_permission</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> t_permission_operation <span class="keyword">ON</span> t_user_role_community.strRole = t_role_permission.strRole</span><br><span class="line"><span class="keyword">AND</span> t_role_permission.nPermission = t_permission_operation.nPermission</span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line">    nUser = <span class="number">10025</span></span><br><span class="line"><span class="keyword">AND</span> nCommunity = <span class="number">1</span></span><br><span class="line"><span class="keyword">AND</span> strMethod = <span class="string">'get'</span></span><br><span class="line"><span class="keyword">AND</span> strUrl = <span class="string">'/api/t_service'</span></span><br></pre></td></tr></table></figure>
+<p>这样做实际上只查询了社区线的权限，此外还有项目线的权限以及非社区非项目线的权限（例如个人中心、系统管理之类的，我们把这部分的域直接设置为nCommunity=0，即项目编号为0），想要覆盖所有的域，我们相当于要同时多表联查三次，只要其中任意一次能够查到数据，则表明用户有执行该操作的权限。我们可以用UNION语句来实现：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">SELECT</span></span><br><span class="line">    *</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">    t_user_role_community</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> t_role_permission</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> t_permission_operation <span class="keyword">ON</span> t_user_role_community.strRole = t_role_permission.strRole</span><br><span class="line"><span class="keyword">AND</span> t_role_permission.nPermission = t_permission_operation.nPermission</span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line">    nUser = <span class="number">10025</span></span><br><span class="line"><span class="keyword">AND</span> (nCommunity = <span class="number">0</span> <span class="keyword">OR</span> nCommunity = <span class="number">0</span>)</span><br><span class="line"><span class="keyword">AND</span> strMethod = <span class="string">'get'</span></span><br><span class="line"><span class="keyword">AND</span> strUrl = <span class="string">'/api/t_service'</span>)</span><br><span class="line"><span class="keyword">UNION</span></span><br><span class="line">(<span class="keyword">SELECT</span></span><br><span class="line">    *</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">    t_user_role_project</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> t_role_permission</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> t_permission_operation <span class="keyword">ON</span> t_user_role_project.strRole = t_role_permission.strRole</span><br><span class="line"><span class="keyword">AND</span> t_role_permission.nPermission = t_permission_operation.nPermission</span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line">    nUser = <span class="number">10025</span></span><br><span class="line"><span class="keyword">AND</span> nProject = <span class="number">0</span></span><br><span class="line"><span class="keyword">AND</span> strMethod = <span class="string">'get'</span></span><br><span class="line"><span class="keyword">AND</span> strUrl = <span class="string">'/api/t_service'</span>)</span><br></pre></td></tr></table></figure>
+<p>好啦，这就实现了一个相对完整的分权分域的系统啦~</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><hr>
+<p>整个鉴权过程是放在后台以中间件的形式存在的。所有发送的请求都要经过鉴权中间件才能继续往后走下去。</p>
+<p>因此，除了在数据库层面进行设计以外，还要在后台代码进行一些必要性的优化。比如说有一类操作的对应权限是通用权限，这类接口占所有接口的一半以上。因此在鉴权中间件我会先判断一步是否为通用权限，若是则跳过接下来的鉴权，直接判过；不是的话再按照既定流程继续鉴权。</p>
+<p>也可以在鉴权层增加日志打印，把所有经过鉴权的请求记录在案，以便日后追踪。</p>
+<p>写到这里突然发现，我这个前端，越做越往后了…</p>
+
+  </section>
+
+  <section class="post-comments">
+    <div id="container"></div>
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            id: '基于RBAC的分权分域用户权限系统数据库设计', //github限制label长度不得超过50，修改label为中文名节省空间
+            owner: 'tuobaye0711',
+            repo: 'tuobaye0711.github.io',
+            oauth: {
+                client_id: '7c63ec766ab0084a9849',
+                client_secret: 'e0bfadcadf48977a1a9b8b083de499d311a8dcfe',
+            },
+        })
+        gitment.render('container')
+    </script>
+</section>
+
+
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2016-2018. |  <a href="https://tuobaye0711.github.io/">拓跋的前端客栈</a>给您敬茶 |  主题基于<a
+                href="https://github.com/someus/huno">Huno</a>改写 | <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span> | <span id="busuanzi_container_site_uv" style="font-size: 0.8em">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+    </span>
+    </span>
+
+</footer>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            MathJax.Hub.Config({
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]}
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>
