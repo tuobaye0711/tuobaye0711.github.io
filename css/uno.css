@@ -1345,10 +1345,7 @@ a {
 
 a:hover {
     color: green;
-    -o-transition: .5s;
-    -ms-transition: .5s;
-    -moz-transition: .5s;
-    -webkit-transition: .5s;
+    transition: .5s;
 }
 
 h1,
@@ -1498,8 +1495,6 @@ code {
 
 .block-heading {
     display: inline;
-    float: left;
-    width: 940px;
     margin: 0 10px;
     position: relative;
     bottom: -15px;
@@ -1859,7 +1854,6 @@ nav {
 
 .navigation {
     display: inline-block;
-    float: left;
     position: relative;
     margin: 0;
     list-style-type: none;
