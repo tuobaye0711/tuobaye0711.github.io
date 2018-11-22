@@ -1,0 +1,1006 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>RevealJS : /Users/hailongzhang/github/markdown/PPT_VER:细解JavaScript ES7 ES8 ES9 新特性.md</title>
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/League.css" id="theme">
+        
+       
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/darkula.css">
+
+        
+
+        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+        <script>
+          document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+        </script>
+
+        <style type="text/css">
+            @page {    
+              margin: 0;
+              size: auto; 
+            }
+        </style>
+
+        <script>
+         if(window.location.search.match( /print-pdf-now/gi )) {
+           window.print();
+         }
+      </script>
+
+    </head>
+    <body>
+
+        <div class="reveal">
+            <div class="slides"><section ><section data-markdown><script type="text/template">
+# 细解JavaScript ES7 ES8 ES9 新特性
+</script></section><section data-markdown><script type="text/template">
+![es_16_17_18](img/es_16_17_18.png)
+</script></section></section><section  data-markdown><script type="text/template">
+题记：本文的大部分内容译自作者Axel Rauschmayer博士的网站，想了解更多关于作者的信息，可以浏览[Exploring JS: JavaScript books for programmers](http://exploringjs.com/)
+</script></section><section  data-markdown><script type="text/template">
+## 那些与ECMAScript有关的事情
+</script></section><section ><section data-markdown><script type="text/template">
+### 谁在设计ECMAScript?
+</script></section><section data-markdown><script type="text/template">
+TC39 (Technical Committee 39)。
+
+TC39 是推进 JavaScript 发展的委员会。其会员都是公司（其中主要是浏览器厂商）。TC39 定期召开会议，会议由会员公司的代表与特邀专家出席。会议纪录都可在网上查看，可以让你对 TC39 如何工作有一个清晰的概念。
+</script></section><section data-markdown><script type="text/template">
+很有意思的是，TC39 实行的是协商一致的原则：通过一项决议必须得到每一位会员（公司代表）的赞成。
+</script></section></section><section ><section data-markdown><script type="text/template">
+###  ECMAScript的发布周期
+</script></section><section data-markdown><script type="text/template">
+在2015年发布的 ECMAScript（ES6）新增内容很多，在 ES5 发布近 6 年（2009-11 至 2015-6）之后才将其标准化。两个发布版本之间时间跨度如此之大主要有两大原因：
+</script></section><section data-markdown><script type="text/template">
+- 比新版率先完成的特性，必须等待新版的完成才能发布。
+- 那些需要花长时间完成的特性，也顶着很大的压力被纳入这一版本，因为如果推迟到下一版本发布意味着又要等很久，这种特性也会推迟新的发布版本。
+</script></section><section data-markdown><script type="text/template">
+因此，从 ECMAScript 2016（ES7）开始，版本发布变得更加频繁，每年发布一个新版本，这么一来新增内容也会更小。新版本将会包含每年截止时间之前完成的所有特性。
+</script></section></section><section ><section data-markdown><script type="text/template">
+### ECMAScript的发布流程
+</script></section><section data-markdown><script type="text/template">
+每个 ECMAScript 特性的建议将会从阶段 0 开始， 然后经过下列几个成熟阶段。其中从一个阶段到下一个阶段必须经过 TC39 的批准。
+</script></section><section data-markdown><script type="text/template">
+1. stage-0 - Strawman: just an idea, possible Babel plugin.
+  任何讨论、想法、改变或者还没加到提案的特性都在这个阶段。只有TC39成员可以提交。
+
+  当前的stage 0列表可以查看这里 --> [Stage 0 Proposals](https://github.com/tc39/proposals/blob/master/stage-0-proposals.md)
+</script></section><section data-markdown><script type="text/template">
+2. stage-1 - Proposal: this is worth working on.
+
+  **什么是 Proposal？**一份新特性的正式建议文档。提案必须指明此建议的潜在问题，例如与其他特性之间的关联，实现难点等。
+</script></section><section data-markdown><script type="text/template">
+3. stage-2 - Draft: initial spec.
+
+  **什么是 Draft？**草案是规范的第一个版本。其与最终标准中包含的特性不会有太大差别。
+
+  草案之后，原则上只接受增量修改。这个阶段开始实验如何实现，实现形式包括polyfill, 实现引擎（提供草案执行本地支持），或者编译转换（例如babel）
+</script></section><section data-markdown><script type="text/template">
+4. stage-3 - Candidate: complete spec and initial browser implementations.
+
+  候选阶段，获得具体实现和用户的反馈。此后，只有在实现和使用过程中出现了重大问题才会修改。至少要在一个浏览器中实现，提供polyfill或者babel插件。
+
+  当前的stage 1-3列表可以查看这里 --> [ECMAScript proposals](https://github.com/tc39/proposals)
+</script></section><section data-markdown><script type="text/template">
+5. stage-4 - Finished: will be added to the next yearly release.
+
+  已经准备就绪，该特性会出现在下个版本的ECMAScript规范之中。
+
+  当前的finished列表可以查看这里 --> [Finished Proposals](https://github.com/tc39/proposals/blob/master/finished-proposals.md)
+</script></section></section><section  data-markdown><script type="text/template">
+## ES7新特性（ECMAScript 2016）
+
+![ECMAScript 2016](img/es2016.png)
+</script></section><section  data-markdown><script type="text/template">
+ES7在ES6的基础上主要添加了两项内容：
+
+- Array.prototype.includes()方法
+- 求幂运算符（**）
+</script></section><section ><section data-markdown><script type="text/template">
+###  Array.prototype.includes()方法
+</script></section><section data-markdown><script type="text/template">
+includes() 方法用来判断一个数组是否包含一个指定的值，根据情况，如果包含则返回 true，否则返回false。
+</script></section><section data-markdown><script type="text/template">
+```
+var array = [1, 2, 3];
+
+console.log(array.includes(2));
+// expected output: true
+
+var pets = ['cat', 'dog', 'bat'];
+
+console.log(pets.includes('cat'));
+// expected output: true
+
+console.log(pets.includes('at'));
+// expected output: false
+```
+</script></section><section data-markdown><script type="text/template">
+Array.prototype.includes()方法接收两个参数：
+
+- 要搜索的值
+- 搜索的开始索引。
+  
+
+当第二个参数被传入时，该方法会从索引处开始往后搜索（默认索引值为0）。若搜索值在数组中存在则返回true，否则返回false。 且看下面示例：
+</script></section><section data-markdown><script type="text/template">
+```
+['a', 'b', 'c', 'd'].includes('b')         // true
+['a', 'b', 'c', 'd'].includes('b', 1)      // true
+['a', 'b', 'c', 'd'].includes('b', 2)      // false
+```
+</script></section><section data-markdown><script type="text/template">
+乍一看，includes的作用跟数组的indexOf重叠，为什么要特意增加这么一个api呢？主要区别有以下几点：
+
+- 返回值。看一个函数，先看他们的返回值。indexOf的返回数是值型的，includes的返回值是布尔型，所以在if条件判断的时候includes要简单得多，而indexOf 需要多写一个条件进行判断。
+</script></section><section data-markdown><script type="text/template">
+```
+var ary = [1];
+if (ary.indexOf(1) !== -1) {
+    console.log("数组存在1")
+}
+if (ary.includes(1)) {
+    console.log("数组存在1")
+}
+```
+</script></section><section data-markdown><script type="text/template">
+- NaN的判断。如果数组中有NaN，你又正好需要判断数组是否有存在NaN，这时你使用indexOf是无法判断的，你必须使用includes这个方法。
+
+```
+var ary1 = [NaN];
+console.log(ary1.indexOf(NaN))//-1
+console.log(ary1.includes(NaN))//true
+```
+</script></section><section data-markdown><script type="text/template">
+- 当数组的有空的值的时候，includes会认为空的值是undefined，而indexOf不会。
+
+```
+var ary1 = new Array(3);
+console.log(ary1.indexOf(undefined));//-1
+console.log(ary1.includes(undefined))//true
+```
+</script></section></section><section ><section data-markdown><script type="text/template">
+### 求幂运算符（**）
+
+加/减法我们通常都是用其中缀形式，直观易懂。在ECMAScript2016中，我们可以使用`**`来替代Math.pow。
+</script></section><section data-markdown><script type="text/template">
+```javascript
+4 ** 3           // 64
+```
+
+效果等同于
+
+```javascript
+Math.pow(4,3)
+```
+</script></section><section data-markdown><script type="text/template">
+值得一提的是，作为中缀运算符，**还支持以下操作
+
+```javascript
+let n = 4;
+n **= 3;
+// 64
+```
+</script></section></section><section  data-markdown><script type="text/template">
+## ES8新特性（ECMAScript 2017）
+
+![ECMAScript 2017](img/es2017.png)
+</script></section><section  data-markdown><script type="text/template">
+在2017年1月的TC39会议上，ECMAScript 2017的最后一个功能“Shared memory and atomics”推进到第4阶段。这意味着它的功能集现已完成。
+</script></section><section ><section data-markdown><script type="text/template">
+ECMAScript 2017特性一览
+
+主要新功能：
+
+- 异步函数 Async Functions（Brian Terlson）
+- 共享内存和Atomics（Lars T. Hansen）
+</script></section><section data-markdown><script type="text/template">
+次要新功能：
+
+- Object.values / Object.entries（Jordan Harband）
+- String padding（Jordan Harband，Rick Waldron）
+- Object.getOwnPropertyDescriptors() （Jordan Harband，Andrea Giammarchi）
+- 函数参数列表和调用中的尾逗号（Jeff Morrison）
+</script></section></section><section ><section data-markdown><script type="text/template">
+### Async Functions
+</script></section><section data-markdown><script type="text/template">
+Async Functions也就是我们常说的Async/Await，相信大家对于这个概念都已经不陌生了。Async/Await是一种用于处理JS异步操作的语法糖，可以帮助我们摆脱回调地狱，编写更加优雅的代码。
+</script></section><section data-markdown><script type="text/template">
+通俗的理解，async关键字的作用是告诉编译器对于标定的函数要区别对待。当编译器遇到标定的函数中的await关键字时，要暂时停止运行，带到await标定的函数处理完毕后，再进行相应操作。如果该函数fulfiled了，则返回值是fulfillment value，否则得到的就是reject value。
+</script></section><section data-markdown><script type="text/template">
+下面通过拿普通的promise写法来对比，就很好理解了：
+
+```javascript
+async function asyncFunc() {
+    const result = await otherAsyncFunc();
+    console.log(result);
+}
+
+// Equivalent to:
+function asyncFunc() {
+    return otherAsyncFunc()
+    .then(result => {
+        console.log(result);
+    });
+}
+```
+</script></section><section data-markdown><script type="text/template">
+按顺序处理多个异步函数的时候优势更为明显：
+
+```javascript
+async function asyncFunc() {
+    const result1 = await otherAsyncFunc1();
+    console.log(result1);
+    const result2 = await otherAsyncFunc2();
+    console.log(result2);
+}
+
+// Equivalent to:
+function asyncFunc() {
+    return otherAsyncFunc1()
+    .then(result1 => {
+        console.log(result1);
+        return otherAsyncFunc2();
+    })
+    .then(result2 => {
+        console.log(result2);
+    });
+}
+```
+</script></section><section data-markdown><script type="text/template">
+并行处理多个异步函数：
+
+```javascript
+async function asyncFunc() {
+    const [result1, result2] = await Promise.all([
+        otherAsyncFunc1(),
+        otherAsyncFunc2(),
+    ]);
+    console.log(result1, result2);
+}
+
+// Equivalent to:
+function asyncFunc() {
+    return Promise.all([
+        otherAsyncFunc1(),
+        otherAsyncFunc2(),
+    ])
+    .then([result1, result2] => {
+        console.log(result1, result2);
+    });
+}
+```
+</script></section><section data-markdown><script type="text/template">
+处理错误：
+
+```javascript
+async function asyncFunc() {
+    try {
+        await otherAsyncFunc();
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+// Equivalent to:
+function asyncFunc() {
+    return otherAsyncFunc()
+    .catch(err => {
+        console.error(err);
+    });
+}
+```
+</script></section><section data-markdown><script type="text/template">
+Async Functions若是要展开去讲，可以占用很大段的篇幅。鉴于本文是一篇介绍性文章，在此不再进行深入。
+</script></section></section><section ><section data-markdown><script type="text/template">
+### SharedArrayBuffer和Atomics
+
+ECMAScript 2017 特性 SharedArrayBuffer 和 atomics，由Lars T. Hansen设计。它引入了一个新的构造函数 SharedArrayBuffer 和 具有辅助函数的命名空间对象 Atomics。
+</script></section><section data-markdown><script type="text/template">
+在我们开始之前，让我们澄清两个相似但截然不同的术语：并行(Parallelism) 和 并发(Concurrency) 。他们存在许多定义，我使用的定义如下
+
+- 并行(Parallelism) (parallel 并行 vs. serial 串行)：同时执行多个任务；
+- 并发(Concurrency) (concurrent 并发 vs. sequential 连续)：在重叠的时间段内（而不是一个接一个）执行几个任务。
+</script></section><section data-markdown><script type="text/template">
+#### JS并行的历史
+
+- JavaScript 在单线程中执行。某些任务可以异步执行：浏览器通常会在单线程中运行这些任务，然后通过回调将结果重新加入到单线程中。
+</script></section><section data-markdown><script type="text/template">
+- Web workers 将任务并行引入了 JavaScript ：这些是相对重量级的进程。每个 workers 都有自己的全局环境。默认情况下，不共享任何内容。 workers 之间的通信（或在 workers 和主线程之间的通信）发展：
+  - 起初，你只能发送和接收字符串。
+  - 然后，引入结构化克隆：可以发送和接收数据副本。结构化克隆适用于大多数数据（JSON 数据，TypedArray，正则表达式，Blob对象，ImageData对象等）。它甚至可以正确处理对象之间的循环引用。但是，不能克隆 error 对象，function 对象和 DOM 节点。
+  - 可在 workers 之间的转移数据:当接收方获得数据时，发送方失去访问权限。
+</script></section><section data-markdown><script type="text/template">
+- 通过 WebGL 使用 GPU 计算(它倾向于数据并行处理) 
+</script></section><section data-markdown><script type="text/template">
+#### 共享数组缓冲区（Shared Array Buffers）
+
+共享阵列缓冲区是更高并发抽象的基本构建块。它们允许您在多个 workers 和主线程之间共享 SharedArrayBuffer 对象的字节(该缓冲区是共享的，用于访问字节，将其封装在一个 TypedArray 中)这种共享有两个好处：
+
+你可以更快地在 workers 之间共享数据。
+workers 之间的协调变得更简单和更快（与 postMessage() 相比）。
+</script></section><section data-markdown><script type="text/template">
+```javascript
+// main.js
+const worker = new Worker('worker.js');
+
+// 要分享的buffer
+const sharedBuffer = new SharedArrayBuffer( // (A)
+    10 * Int32Array.BYTES_PER_ELEMENT); // 10 elements
+
+// 使用Worker共用sharedBuffer
+worker.postMessage({sharedBuffer}); // clone
+
+// 仅限本地使用
+const sharedArray = new Int32Array(sharedBuffer); // (B)
+```
+</script></section><section data-markdown><script type="text/template">
+创建一个共享数组缓冲区（Shared Array Buffers）的方法与创建普通的数组缓冲区(Array Buffer)类似：通过调用构造函数，并以字节的形式指定缓冲区的大小(行A)。你与 workers 共享的是 缓冲区（buffer） 。对于你自己的本地使用，你通常将共享数组缓冲区封装在 TypedArray 中(行B)。
+</script></section><section data-markdown><script type="text/template">
+workers的实现如下所列。
+
+```javascript
+// worker.js
+self.addEventListener('message', function (event) {
+    const {sharedBuffer} = event.data;
+    const sharedArray = new Int32Array(sharedBuffer); // (A)
+    // ···
+});
+```
+</script></section><section data-markdown><script type="text/template">
+#### sharedArrayBuffer 的 API
+</script></section><section data-markdown><script type="text/template">
+构造函数：
+
+- new SharedArrayBuffer(length)
+创建一个 length 字节的 buffer(缓冲区)。
+
+静态属性：
+
+- get SharedArrayBuffer[Symbol.species]
+默认情况下返回 this。 覆盖以控制 slice() 的返回。
+</script></section><section data-markdown><script type="text/template">
+实例属性：
+
+- get SharedArrayBuffer.prototype.byteLength()
+返回 buffer(缓冲区) 的字节长度。
+
+- SharedArrayBuffer.prototype.slice(start, end)
+创建一个新的 this.constructor[Symbol.species] 实例，并用字节填充从（包括）开始到（不包括）结束的索引。
+</script></section><section data-markdown><script type="text/template">
+#### Atomics: 安全访问共享数据
+
+举一个例子
+
+```javascript
+// main.js
+sharedArray[1] = 11;
+sharedArray[2] = 22;
+```
+</script></section><section data-markdown><script type="text/template">
+在单线程中，您可以重新排列这些写入操作，因为在中间没有读到任何内容。 对于多线程，当你期望以特定顺序执行写入操作时，就会遇到麻烦：
+
+``` javascript
+// worker.js
+while (sharedArray[2] !== 22) ;
+console.log(sharedArray[1]); // 0 or 11
+```
+</script></section><section data-markdown><script type="text/template">
+Atomics 方法可以用来与其他 workers 进行同步。例如，以下两个操作可以让你读取和写入数据，并且不会被编译器重新排列：
+
+- Atomics.load(ta : TypedArray, index)
+- Atomics.store(ta : TypedArray, index, value : T)
+  
+--
+
+这个想法是使用常规操作读取和写入大多数数据，而 Atomics 操作（load ，store 和其他操作）可确保读取和写入安全。通常，您将使用自定义同步机制，例如锁，其实现基于Atomics。
+</script></section><section data-markdown><script type="text/template">
+这是一个非常简单的例子，它总是有效的：
+
+```JavaScript
+// main.js
+console.log('notifying...');
+Atomics.store(sharedArray, 0, 123);
+
+// worker.js
+while (Atomics.load(sharedArray, 0) !== 123) ;
+console.log('notified');
+```
+</script></section><section data-markdown><script type="text/template">
+#### Atomics 的 API
+
+Atomic 函数的主要操作数必须是 Int8Array ，Uint8Array ，Int16Array ，Uint16Array ，Int32Array 或 Uint32Array 的一个实例。它必须包裹一个 SharedArrayBuffer 。
+
+所有函数都以 atomically 方式进行操作。存储操作的顺序是固定的并且不能由编译器或 CPU 重新排序。
+</script></section><section data-markdown><script type="text/template">
+加载和存储
+
+- Atomics.load(ta : TypedArray<T>, index) : T
+读取和返回 ta[index] 上的元素，返回数组指定位置上的值。
+- Atomics.store(ta : TypedArray<T>, index, value : T) : T
+在 ta[index] 上写入 value，并且返回 value。
+- Atomics.exchange(ta : TypedArray<T>, index, value : T) : T
+将 ta[index] 上的元素设置为 value ，并且返回索引 index 原先的值。
+- Atomics.compareExchange(ta : TypedArray<T>, index, expectedValue, replacementValue) : T
+如果 ta[index] 上的当前元素为 expectedValue , 那么使用 replacementValue 替换。并且返回索引 index 原先（或者未改变）的值。
+</script></section><section data-markdown><script type="text/template">
+简单修改 TypeArray 元素
+
+以下每个函数都会在给定索引处更改 TypeArray 元素：它将一个操作符应用于元素和参数，并将结果写回元素。它返回元素的原始值。
+
+- Atomics.add(ta : TypedArray<T>, index, value) : T
+执行 ta[index] += value 并返回 ta[index] 的原始值。
+- Atomics.sub(ta : TypedArray<T>, index, value) : T
+执行 ta[index] -= value 并返回 ta[index] 的原始值。
+- Atomics.and(ta : TypedArray<T>, index, value) : T
+执行 ta[index] &amp;= value 并返回 ta[index] 的原始值。
+- Atomics.or(ta : TypedArray<T>, index, value) : T
+执行 ta[index] |= value 并返回 ta[index] 的原始值。
+- Atomics.xor(ta : TypedArray<T>, index, value) : T
+执行 ta[index] ^= value 并返回 ta[index] 的原始值。
+</script></section><section data-markdown><script type="text/template">
+等待和唤醒
+
+- Atomics.wait(ta: Int32Array, index, value, timeout=Number.POSITIVE_INFINITY) : ('not-equal' | 'ok' | 'timed-out')
+如果 ta[index] 的当前值不是 value ，则返回 'not-equal'。否则继续等待，直到我们通过 Atomics.wake() 唤醒或直到等待超时。 在前一种情况下，返回 'ok'。在后一种情况下，返回'timed-out'。timeout 以毫秒为单位。记住此函数执行的操作：“如果 ta[index] 为 value，那么继续等待” 。
+- Atomics.wake(ta : Int32Array, index, count)
+唤醒等待在 ta[index] 上的 count workers。
+</script></section></section><section ><section data-markdown><script type="text/template">
+### Object.values and Object.entries
+</script></section><section data-markdown><script type="text/template">
+Object.values(obj) 方法返回一个给定对象自己的所有可枚举属性值的数组，值的顺序与使用for...in循环的顺序相同 ( 区别在于for-in循环枚举原型链中的属性 )。
+
+obj参数是需要待操作的对象。可以是一个对象，或者一个数组（是一个带有数字下标的对象，[10,20,30] -> {0: 10,1: 20,2: 30})。
+</script></section><section data-markdown><script type="text/template">
+```javascript
+const obj = { x: 'xxx', y: 1 };
+Object.values(obj); // ['xxx', 1]
+
+const obj = ['e', 's', '8']; // 相当于 { 0: 'e', 1: 's', 2: '8' };
+Object.values(obj); // ['e', 's', '8']
+
+// 当我们使用数字键值时，返回的是数字排序
+// 根据键值排序
+const obj = { 10: 'xxx', 1: 'yyy', 3: 'zzz' };
+Object.values(obj); // ['yyy', 'zzz', 'xxx']
+
+Object.values('es8'); // ['e', 's', '8']
+```
+</script></section><section data-markdown><script type="text/template">
+Object.entries 方法返回一个给定对象自身可遍历属性 [key, value] 的数组， 排序规则和 Object.values 一样。这个方法的声明比较琐碎:
+
+```javascript
+const obj = { x: 'xxx', y: 1 };
+Object.entries(obj); // [['x', 'xxx'], ['y', 1]]
+
+const obj = ['e', 's', '8'];
+Object.entries(obj); // [['0', 'e'], ['1', 's'], ['2', '8']]
+
+const obj = { 10: 'xxx', 1: 'yyy', 3: 'zzz' };
+Object.entries(obj); // [['1', 'yyy'], ['3', 'zzz'], ['10': 'xxx']]
+
+Object.entries('es8'); // [['0', 'e'], ['1', 's'], ['2', '8']]
+```
+</script></section></section><section ><section data-markdown><script type="text/template">
+### String padding
+</script></section><section data-markdown><script type="text/template">
+为 String 对象增加了 2 个函数：padStart 和 padEnd。
+
+像它们名字那样，这几个函数的主要目的就是填补字符串的首部和尾部，为了使得到的结果字符串的长度能达到给定的长度。你可以通过特定的字符，或者字符串，或者默认的空格填充它。下面是函数的声明：
+</script></section><section data-markdown><script type="text/template">
+```javascript
+str.padStart(targetLength [, padString])
+str.padEnd(targetLength [, padString])
+```
+
+这些函数的第一个参数是 targetLength（目标长度），这个是结果字符串的长度。第二个参数是可选的 padString（填充字符），一个用于填充到源字符串的字符串。默认值是空格。
+</script></section><section data-markdown><script type="text/template">
+```javascript
+'es8'.padStart(2);          // 'es8'
+'es8'.padStart(5);          // '  es8'
+'es8'.padStart(6, 'woof');  // 'wooes8'
+'es8'.padStart(14, 'wow');  // 'wowwowwowwoes8'
+'es8'.padStart(7, '0');     // '0000es8'
+
+'es8'.padEnd(2);            // 'es8'
+'es8'.padEnd(5);            // 'es8  '
+'es8'.padEnd(6, 'woof');    // 'es8woo'
+'es8'.padEnd(14, 'wow');    // 'es8wowwowwowwo'
+'es8'.padEnd(7, '6');       // 'es86666'
+```
+</script></section></section><section ><section data-markdown><script type="text/template">
+### Object.getOwnPropertyDescriptors
+</script></section><section data-markdown><script type="text/template">
+getOwnPropertyDescriptors 方法返回指定对象所有自身属性的描述对象。属性描述对象是直接在对象上定义的，而不是继承于对象的原型。ES2017加入这个函数的主要动机在于方便将一个对象深度拷贝给另一个对象，同时可以将getter/setter拷贝。声明如下：
+
+```javascript
+Object.getOwnPropertyDescriptors(obj)
+```
+
+obj 是待操作对象。返回的描述对象键值有：configurable, enumerable, writable, get, set and value。
+</script></section><section data-markdown><script type="text/template">
+```javascript
+const obj = { 
+  get es7() { return 777; },
+  get es8() { return 888; }
+};
+Object.getOwnPropertyDescriptor(obj);
+// {
+//   es7: {
+//     configurable: true,
+//     enumerable: true,
+//     get: function es7(){}, //the getter function
+//     set: undefined
+//   },
+//   es8: {
+//     configurable: true,
+//     enumerable: true,
+//     get: function es8(){}, //the getter function
+//     set: undefined
+//   }
+// }
+```
+</script></section></section><section ><section data-markdown><script type="text/template">
+### 结尾逗号
+</script></section><section data-markdown><script type="text/template">
+结尾逗号用代码展示非常明了：
+
+```javascript
+// 参数定义时
+function foo(
+    param1,
+    param2,
+) {}
+
+// 函数调用时
+foo(
+    'abc',
+    'def',
+);
+
+// 对象中
+let obj = {
+    first: 'Jane',
+    last: 'Doe',
+};
+
+// 数组中
+let arr = [
+    'red',
+    'green',
+    'blue',
+];
+```
+</script></section><section data-markdown><script type="text/template">
+这个改动有什么好处呢？
+
+- 首先，重新排列项目更简单，因为如果最后一项更改其位置，则不必添加和删除逗号。
+- 其次，它可以帮助版本控制系统跟踪实际发生的变化。例如，从：
+</script></section><section data-markdown><script type="text/template">
+```javascript
+[
+  'foo'
+]
+```
+
+修改为
+
+```javascript
+[
+  'foo',
+  'bar'
+]
+```
+
+导致'foo'和'bar'两行都被标记为已更改，即使唯一真正的变化是后一条线被添加。
+</script></section></section><section  data-markdown><script type="text/template">
+## ES9新特性（ECMAScript 2018）
+</script></section><section  data-markdown><script type="text/template">
+![ECMAScript 2017](/img/es2018.png)
+</script></section><section ><section data-markdown><script type="text/template">
+ES9的新特性索引如下：
+
+主要新功能：
+
+- 异步迭代（Domenic Denicola，Kevin Smith）
+- Rest/Spread 属性（SebastianMarkbåge）
+</script></section><section data-markdown><script type="text/template">
+新的正则表达式功能：
+
+- RegExp named capture groups（Gorkem Yakin，Daniel Ehrenberg）
+- RegExp Unicode Property Escapes（Mathias Bynens）
+- RegExp Lookbehind Assertions（Gorkem Yakin，NozomuKatō，Daniel Ehrenberg）
+- s (dotAll) flag for regular expressions（Mathias Bynens）
+</script></section><section data-markdown><script type="text/template">
+其他新功能：
+
+- Promise.prototype.finally() （Jordan Harband）
+- 模板字符串修改（Tim Disney）
+</script></section></section><section ><section data-markdown><script type="text/template">
+### 异步迭代
+</script></section><section data-markdown><script type="text/template">
+#### 首先来回顾一下同步迭代器：
+
+ES6引入了同步迭代器，其工作原理如下：
+
+- Iterable：一个对象，表示可以通过Symbol.iterator方法进行迭代。
+- Iterator：通过调用iterable [Symbol.iterator] ()返回的对象。它将每个迭代元素包装在一个对象中，并通过其next()方法一次返回一个。
+- IteratorResult：返回的对象next()。属性value包含一个迭代的元素，属性done是true 后最后一个元素。
+</script></section><section data-markdown><script type="text/template">
+示例：
+```javascript
+const iterable = ['a', 'b'];
+const iterator = iterable[Symbol.iterator]();
+iterator.next()
+// { value: 'a', done: false }
+iterator.next()
+// { value: 'b', done: false }
+iterator.next()
+// { value: undefined, done: true }
+```
+</script></section><section data-markdown><script type="text/template">
+#### 异步迭代器
+
+先前的迭代方式是同步的，并不适用于异步数据源。例如，在以下代码中，readLinesFromFile()无法通过同步迭代传递其异步数据：
+
+```javascript
+for (const line of readLinesFromFile(fileName)) {
+    console.log(line);
+}
+```
+</script></section><section data-markdown><script type="text/template">
+异步迭代器和常规迭代器的工作方式非常相似，但是异步迭代器涉及promise:
+
+```javascript
+async function example() {
+  // 普通迭代器:
+  const iterator = createNumberIterator();
+  iterator.next(); // Object {value: 1, done: false}
+  iterator.next(); // Object {value: 2, done: false}
+  iterator.next(); // Object {value: 3, done: false}
+  iterator.next(); // Object {value: undefined, done: true}
+
+  // 异步迭代器:
+  const asyncIterator = createAsyncNumberIterator();
+  const p = asyncIterator.next(); // Promise
+  await p;// Object {value: 1, done: false}
+  await asyncIterator.next(); // Object {value: 2, done: false}
+  await asyncIterator.next(); // Object {value: 3, done: false}
+  await asyncIterator.next(); // Object {value: undefined, done: true}
+}
+```
+</script></section><section data-markdown><script type="text/template">
+异步迭代器对象的next()方法返回了一个Promise，解析后的值跟普通的迭代器类似。
+
+```javascript
+const promises = [
+    new Promise(resolve => resolve(1)),
+    new Promise(resolve => resolve(2)),
+    new Promise(resolve => resolve(3)),
+];
+
+async function test() {
+    for await (const p of promises) {
+        console.log(p);
+    }
+}
+test(); //1 ,2 3
+```
+</script></section></section><section ><section data-markdown><script type="text/template">
+### Rest/Spread 属性
+</script></section><section data-markdown><script type="text/template">
+这个就是我们通常所说的rest参数和扩展运算符，这项特性在ES6中已经引入，但是ES6中的作用对象仅限于数组：
+
+```javascript
+restParam(1, 2, 3, 4, 5);
+
+function restParam(p1, p2, ...p3) {
+  // p1 = 1
+  // p2 = 2
+  // p3 = [3, 4, 5]
+}
+
+const values = [99, 100, -1, 48, 16];
+console.log( Math.max(...values) ); // 100
+```
+</script></section><section data-markdown><script type="text/template">
+在ES9中，为对象提供了像数组一样的rest参数和扩展运算符：
+
+```javascript
+const obj = {
+  a: 1,
+  b: 2,
+  c: 3,
+}
+const { a, ...param } = obj;
+  console.log(a)     //1
+  console.log(param) //{b: 2, c: 3}
+
+function foo({a, ...param}) {
+  console.log(a)     //1
+  console.log(param) //{b: 2, c: 3}
+}
+```
+</script></section></section><section ><section data-markdown><script type="text/template">
+### 正则表达式命名捕获组
+</script></section><section data-markdown><script type="text/template">
+#### 编号的捕获组
+
+```javascript
+//正则表达式命名捕获组
+const RE_DATE = /([0-9]{4})-([0-9]{2})-([0-9]{2})/;
+
+const matchObj = RE_DATE.exec('1999-12-31');
+const year = matchObj[1]; // 1999
+const month = matchObj[2]; // 12
+const day = matchObj[3]; // 31
+```
+</script></section><section data-markdown><script type="text/template">
+通过数字引用捕获组有几个缺点：
+
+- 找到捕获组的数量是一件麻烦事：必须使用括号。
+- 如果要了解组的用途，则需要查看正则表达式。
+- 如果更改捕获组的顺序，则还必须更改匹配代码。
+</script></section><section data-markdown><script type="text/template">
+#### 命名的捕获组
+
+ES9中可以通过名称来识别捕获组：`(?<year>[0-9]{4})`
+
+在这里，我们用名称标记了前一个捕获组year。该名称必须是合法的JavaScript标识符（认为变量名称或属性名称）。匹配后，您可以通过访问捕获的字符串matchObj.groups.year来访问。
+</script></section><section data-markdown><script type="text/template">
+让我们重写前面的代码：
+
+```javascript
+const RE_DATE = /(?<year>[0-9]{4})-(?<month>[0-9]{2})-(?<day>[0-9]{2})/;
+
+const matchObj = RE_DATE.exec('1999-12-31');
+const year = matchObj.groups.year; // 1999
+const month = matchObj.groups.month; // 12
+const day = matchObj.groups.day; // 31
+
+// 使用解构语法更为简便
+const {groups: {day, year}} = RE_DATE.exec('1999-12-31');
+console.log(year); // 1999
+console.log(day); // 31
+```
+</script></section><section data-markdown><script type="text/template">
+可以发现，命名捕获组有以下优点：
+
+- 找到捕获组的“ID”更容易。
+- 匹配代码变为自描述性的，因为捕获组的ID描述了正在捕获的内容。
+- 如果更改捕获组的顺序，则无需更改匹配代码。
+- 捕获组的名称也使正则表达式更容易理解，因为您可以直接看到每个组的用途。
+</script></section></section><section ><section data-markdown><script type="text/template">
+### 正则表达式 Unicode 转义
+</script></section><section data-markdown><script type="text/template">
+该特性允许您使用`\p{}`通过提及大括号内的Unicode字符属性来匹配字符,在正则表达式中使用标记 `u` (unicode) 设置。
+
+```javascript
+/^\p{White_Space}+$/u.test('\t \n\r')
+// true
+/^\p{Script=Greek}+$/u.test('μετά')
+// true
+```
+</script></section><section data-markdown><script type="text/template">
+#### 一些对于Unicode的科普
+
+```
+- Name：唯一名称，由大写字母，数字，连字符和空格组成。例如：
+  - A： Name = LATIN CAPITAL LETTER A
+  - 😀： Name = GRINNING FACE
+
+- General_Category：对字符进行分类。例如：
+  - X： General_Category = Lowercase_Letter
+  - $： General_Category = Currency_Symbol
+
+- White_Space：用于标记不可见的间距字符，例如空格，制表符和换行符。例如：
+  - \ T： White_Space = True
+  - π： White_Space = False
+
+- Age：引入字符的Unicode标准版本。例如：欧元符号€在Unicode标准的2.1版中添加。
+  - €： Age = 2.1
+
+- Script：是一个或多个书写系统使用的字符集合。
+  - 有些脚本支持多种写入系统。例如，拉丁文脚本支持英语，法语，德语，拉丁语等书写系统。
+  - 某些语言可以用多个脚本支持的多个备用写入系统编写。例如，土耳其语在20世纪初转换为拉丁文字之前使用了阿拉伯文字。
+  - 例子：
+    - α： Script = Greek
+    - Д： Script = Cyrillic
+```
+</script></section><section data-markdown><script type="text/template">
+#### 正则表达式的Unicode属性转义
+
+```
+- 匹配其属性prop具有值的所有字符value：
+
+  `\p{prop=value}`
+
+- 匹配所有没有属性prop值的字符value：
+
+  `\P{prop=value}`
+
+- 匹配二进制属性bin_prop为True的所有字符：
+
+  `\p{bin_prop}`
+
+- 匹配二进制属性bin_prop为False的所有字符：
+
+  `\P{bin_prop}`
+```
+</script></section><section data-markdown><script type="text/template">
+- 匹配空格：
+
+```javascript
+/^\p{White_Space}+$/u.test('\t \n\r')
+//true
+```
+
+匹配字母：
+
+```javascript
+/^\p{Letter}+$/u.test('πüé')
+//true
+```
+</script></section><section data-markdown><script type="text/template">
+匹配希腊字母：
+
+```javascript
+/^\p{Script=Greek}+$/u.test('μετά')
+//true
+```
+匹配拉丁字母：
+
+```javascript
+/^\p{Script=Latin}+$/u.test('Grüße')
+//true
+```
+</script></section></section><section ><section data-markdown><script type="text/template">
+### 正则表达式反向断言
+</script></section><section data-markdown><script type="text/template">
+先来看下正则表达式先行断言是什么：
+
+如获取货币的符号
+```javascript
+const noReLookahead = /\D(\d+)/,
+      reLookahead = /\D(?=\d+)/,
+      match1 = noReLookahead.exec('$123.45'),
+      match2 = reLookahead.exec('$123.45');
+console.log(match1[0]); // $123   
+console.log(match2[0]); // $
+```
+</script></section><section data-markdown><script type="text/template">
+在ES9中可以允许反向断言：
+
+```javascript
+const reLookahead = /(?<=\D)[\d\.]+/;
+      match = reLookahead.exec('$123.45');
+console.log(match[0]); // 123.45
+```
+</script></section></section><section ><section data-markdown><script type="text/template">
+### 正则表达式dotAll模式
+</script></section><section data-markdown><script type="text/template">
+正则表达式中点.匹配除回车外的任何单字符，标记s改变这种行为，允许行终止符的出现，例如：
+
+```javascript
+/hello.world/.test('hello\nworld');  // false
+/hello.world/s.test('hello\nworld'); // true
+```
+</script></section></section><section ><section data-markdown><script type="text/template">
+### Promise.prototype.finally()
+</script></section><section data-markdown><script type="text/template">
+这个基本没什么好讲的，看名字就能看懂了。其用法如下：
+
+```javascript
+promise
+  .then(result => {···})
+  .catch(error => {···})
+  .finally(() => {···});
+```
+
+finally的回调总会被执行。
+</script></section></section><section ><section data-markdown><script type="text/template">
+### 模板字符串修改
+</script></section><section data-markdown><script type="text/template">
+ES2018 移除对 ECMAScript 在带标签的模版字符串中转义序列的语法限制。
+之前，\u开始一个 unicode 转义，\x开始一个十六进制转义，\后跟一个数字开始一个八进制转义。这使得创建特定的字符串变得很麻烦，例如Windows文件路径 C:\uuu\xxx\111。
+</script></section><section data-markdown><script type="text/template">
+要取消转义序列的语法限制，可在模板字符串之前使用标记函数String.raw:
+
+```javascript
+`\u{54}`
+// "T"
+String.raw`\u{54}`
+// "\u{54}"
+```
+</script></section></section><section  data-markdown><script type="text/template">
+## 结语
+</script></section><section  data-markdown><script type="text/template">
+ECMAScript的演化不会停止，但是除了ES6这个史无前例的版本带来了海量的新知识点以外，之后的每一个版本都是一年一发，仅带有少量的增量更新。一年更新的东西花半个小时就能搞懂了，完全没必要畏惧。
+</script></section><section  data-markdown><script type="text/template">
+Stay hungry. Stay foolish.</script></section></div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            function extend() {
+              var target = {};
+              for (var i = 0; i < arguments.length; i++) {
+                var source = arguments[i];
+                for (var key in source) {
+                  if (source.hasOwnProperty(key)) {
+                    target[key] = source[key];
+                  }
+                }
+              }
+              return target;
+            }
+            // Optional libraries used to extend on reveal.js
+            var deps = [
+              { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+              { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
+              { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
+              { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+              { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+              { src: 'plugin/math/math.js', async: true }
+            ];
+            // default options to init reveal.js
+            var defaultOptions = {
+              controls: true,
+              progress: true,
+              history: true,
+              center: true,
+              transition: 'default',
+              dependencies: deps
+            };
+            // options from URL query string
+            var queryOptions = Reveal.getQueryHash() || {};
+            var options = {
+  "notesSeparator": "note:",
+  "separator": "^[\r\n?|\n]---[\r\n?|\n]$",
+  "verticalSeparator": "^[\r\n?|\n]--[\r\n?|\n]$",
+  "theme": "League",
+  "highlightTheme": "darkula",
+  "controls": true,
+  "progress": true,
+  "slideNumber": false,
+  "history": true,
+  "keyboard": true,
+  "overview": true,
+  "center": true,
+  "touch": true,
+  "loop": false,
+  "rtl": false,
+  "shuffle": false,
+  "fragments": true,
+  "embedded": false,
+  "help": true,
+  "showNotes": false,
+  "autoSlide": 0,
+  "autoSlideStoppable": true,
+  "mouseWheel": false,
+  "hideAddressBar": true,
+  "previewLinks": false,
+  "transition": "convex",
+  "transitionSpeed": "default",
+  "backgroundTransition": "default",
+  "viewDistance": 3,
+  "parallaxBackgroundImage": "",
+  "parallaxBackgroundSize": "",
+  "parallaxBackgroundHorizontal": null,
+  "parallaxBackgroundVertical": null,
+  "slideExplorerEnabled": true,
+  "browserPath": null,
+  "attributes": ""
+};
+            options = extend(defaultOptions, options, queryOptions);
+            Reveal.initialize(options);
+
+        </script>
+        
+    </body>
+</html>
