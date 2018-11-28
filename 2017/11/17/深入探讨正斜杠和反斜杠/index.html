@@ -298,23 +298,44 @@ classes that you can use:
 
   </section>
 
+  <!--
   <section class="post-comments">
-    <div id="container"></div>
-    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-    <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
-    <script>
-        var gitment = new Gitment({
-            id: '深入探讨正斜杠和反斜杠', //github限制label长度不得超过50，修改label为中文名节省空间
-            owner: 'tuobaye0711',
-            repo: 'tuobaye0711.github.io',
-            oauth: {
-                client_id: '7c63ec766ab0084a9849',
-                client_secret: 'e0bfadcadf48977a1a9b8b083de499d311a8dcfe',
-            },
-        })
-        gitment.render('container')
-    </script>
+      <div id="container"></div>
+      <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+      <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+      <script>
+          var gitment = new Gitment({
+              id: '深入探讨正斜杠和反斜杠', //github限制label长度不得超过50，修改label为中文名节省空间
+              owner: 'tuobaye0711',
+              repo: 'tuobaye0711.github.io',
+              oauth: {
+                  client_id: '7c63ec766ab0084a9849',
+                  client_secret: 'e0bfadcadf48977a1a9b8b083de499d311a8dcfe',
+              },
+          })
+          gitment.render('container')
+      </script>
+  </section>
+-->
+
+// 使用gitalk作为评论系统
+<section class="post-comments">
+  <div id="container"></div>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+  <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+  <script>
+    var gitalk = new Gitalk({
+      id: "深入探讨正斜杠和反斜杠", //github限制label长度不得超过50，修改label为中文名节省空间
+      owner: "tuobaye0711",
+      repo: "tuobaye0711.github.io",
+      clientID: "7c63ec766ab0084a9849",
+      clientSecret: "e0bfadcadf48977a1a9b8b083de499d311a8dcfe",
+      distractionFreeMode: false
+    });
+    gitalk.render("container");
+  </script>
 </section>
+
 
 
 </article>
