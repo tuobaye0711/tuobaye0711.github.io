@@ -28,7 +28,8 @@
 <meta property="og:image" content="https://tuobaye0711.github.io/2018/11/27/细解JavaScript-ES7-ES8-ES9-新特性/es2016.png">
 <meta property="og:image" content="https://tuobaye0711.github.io/2018/11/27/细解JavaScript-ES7-ES8-ES9-新特性/es2017.png">
 <meta property="og:image" content="https://tuobaye0711.github.io/2018/11/27/细解JavaScript-ES7-ES8-ES9-新特性/es2018.png">
-<meta property="og:updated_time" content="2018-11-27T11:23:41.984Z">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/11/27/细解JavaScript-ES7-ES8-ES9-新特性/Unicode.png">
+<meta property="og:updated_time" content="2018-11-28T01:21:58.978Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="细解JavaScript ES7 ES8 ES9 新特性 | 拓跋的前端客栈">
 <meta name="twitter:description" content="ECMAScript的演化不会停止，但是我们完全没必要害怕。除了ES6这个史无前例的版本带来了海量的信息和知识点以外，之后每年一发的版本都仅仅带有少量的增量更新，一年更新的东西花半个小时就能搞懂了，完全没必要畏惧。本文将带您花大约一个小时左右的时间，迅速过一遍ES7,ES8,ES9的新特性。">
@@ -631,6 +632,14 @@ classes that you can use:
 </ul>
 <h3 id="正则表达式-Unicode-转义"><a href="#正则表达式-Unicode-转义" class="headerlink" title="正则表达式 Unicode 转义"></a>正则表达式 Unicode 转义</h3><p>该特性允许您使用<code>\p{}</code>通过提及大括号内的Unicode字符属性来匹配字符,在正则表达式中使用标记 <code>u</code> (unicode) 设置。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/^\p&#123;White_Space&#125;+$/u.test(<span class="string">'\t \n\r'</span>)</span><br><span class="line"><span class="comment">// true</span></span><br><span class="line">/^\p&#123;Script=Greek&#125;+$/u.test(<span class="string">'μετά'</span>)</span><br><span class="line"><span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<h4 id="新方法匹配中文字符"><a href="#新方法匹配中文字符" class="headerlink" title="新方法匹配中文字符"></a>新方法匹配中文字符</h4><p>由于在Unicode里面，中文字符对应的Unicode Script是<strong>Han</strong>，于是我们就可以用这个reg来匹配中文：</p>
+<p><code>/\p{Script=Han}/u</code></p>
+<p>这样我们就可以不用记忆繁琐又不好记的<code>/[\u4e00-\u9fa5]/</code>了，况且这个表达式已经有些年头了，说实话，后来又新增的属性为Han的字符并不在这个范围内，因此这个有年头reg并不一定好使。</p>
+<p>我随便从网上找了一个Unicode8.0添加的中文字符“𬬭”,我测了一下两种reg的兼容性：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">oldReg=<span class="regexp">/[\u4e00-\u9fa5]/</span></span><br><span class="line">newReg=<span class="regexp">/\p&#123;Script=Han&#125;/u</span></span><br><span class="line"></span><br><span class="line">oldReg.test(<span class="string">'abc'</span>)</span><br><span class="line"><span class="comment">// false</span></span><br><span class="line">newReg.test(<span class="string">'abc'</span>)</span><br><span class="line"><span class="comment">// false</span></span><br><span class="line"></span><br><span class="line">oldReg.test(<span class="string">'地平线'</span>)</span><br><span class="line"><span class="comment">// true</span></span><br><span class="line">newReg.test(<span class="string">'地平线'</span>)</span><br><span class="line"><span class="comment">// true</span></span><br><span class="line"></span><br><span class="line">oldReg.test(<span class="string">'𬬭'</span>)</span><br><span class="line"><span class="comment">// false</span></span><br><span class="line">newReg.test(<span class="string">'𬬭'</span>)</span><br><span class="line"><span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p><a href="http://www.unicode.org/charts/PDF/U4E00.pdf" target="_blank" rel="noopener">http://www.unicode.org/charts/PDF/U4E00.pdf</a></p>
+<p>可以参考一下这个PDF，是Unicode的汉字全集，从524页9FA6至526页（最后一页）用旧匹配方式都无法生效。</p>
+<p><img src="/2018/11/27/细解JavaScript-ES7-ES8-ES9-新特性/Unicode.png" alt="Unicode"></p>
 <h4 id="一些对于Unicode的科普"><a href="#一些对于Unicode的科普" class="headerlink" title="一些对于Unicode的科普"></a>一些对于Unicode的科普</h4><ul>
 <li><p>Name：唯一名称，由大写字母，数字，连字符和空格组成。例如：</p>
 <ul>
