@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://tuobaye0711.github.io/"/>
-  <updated>2018-11-28T11:06:43.833Z</updated>
+  <updated>2018-12-04T01:42:24.037Z</updated>
   <id>https://tuobaye0711.github.io/</id>
   
   <author>
@@ -15,6 +15,22 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>从零开始开发一个Node交互式命令行应用</title>
+    <link href="https://tuobaye0711.github.io/2018/12/03/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AANode%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%BA%94%E7%94%A8/"/>
+    <id>https://tuobaye0711.github.io/2018/12/03/从零开始开发一个Node交互式命令行应用/</id>
+    <published>2018-12-03T11:10:58.000Z</published>
+    <updated>2018-12-04T01:42:24.037Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+      <category term="Node.js JavaScript" scheme="https://tuobaye0711.github.io/tags/Node-js-JavaScript/"/>
+    
+  </entry>
   
   <entry>
     <title>细解JavaScript ES7 ES8 ES9 新特性</title>
