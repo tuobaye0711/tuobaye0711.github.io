@@ -27,7 +27,14 @@
 <meta property="og:image" content="https://tuobaye0711.github.io/2018/12/03/从零开始开发一个Node交互式命令行应用/puppeteer.png">
 <meta property="og:image" content="https://tuobaye0711.github.io/2018/12/03/从零开始开发一个Node交互式命令行应用/baidu.jpg">
 <meta property="og:image" content="https://tuobaye0711.github.io/2018/12/03/从零开始开发一个Node交互式命令行应用/javascript.json.png">
-<meta property="og:updated_time" content="2018-12-17T13:19:44.270Z">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/12/03/从零开始开发一个Node交互式命令行应用/cat.jpg">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/12/03/从零开始开发一个Node交互式命令行应用/commander.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/12/03/从零开始开发一个Node交互式命令行应用/inquirer1.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/12/03/从零开始开发一个Node交互式命令行应用/inquirer2.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/12/03/从零开始开发一个Node交互式命令行应用/inquirer3.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/12/03/从零开始开发一个Node交互式命令行应用/inquirer4.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/12/03/从零开始开发一个Node交互式命令行应用/inquirer5.png">
+<meta property="og:updated_time" content="2018-12-19T11:21:43.246Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零开始开发一个Node交互式命令行应用 | 拓跋的前端客栈">
 <meta name="twitter:description" content="对于大多数前端开发者而言，谈到命令行工具，大家肯定都用过。但是谈到开发命令行工具，估计就没几人有了解了。本文旨在用最短的时间内，帮您开发一个实用（斜眼笑）的命令行应用。">
@@ -284,7 +291,43 @@ classes that you can use:
 <p>然后是图片处理部分</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">page.on(<span class="string">"load"</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">await</span> autoScroll(page); <span class="comment">// 向下滚动加载图片</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"page loading done, start fetch..."</span>);</span><br><span class="line">  <span class="keyword">const</span> srcs = <span class="keyword">await</span> page.evaluate(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> images = <span class="built_in">document</span>.querySelectorAll(<span class="string">"img.main_img"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Array</span>.prototype.map.call(images, img =&gt; img.src);</span><br><span class="line">  &#125;); <span class="comment">// 获取所有img的src</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`get <span class="subst">$&#123;srcs.length&#125;</span> images, start download`</span>);</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; srcs.length; i++) &#123;</span><br><span class="line">    <span class="keyword">await</span> convert2Img(srcs[i], target);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`finished <span class="subst">$&#123;i + <span class="number">1</span>&#125;</span>/<span class="subst">$&#123;srcs.length&#125;</span> images`</span>);</span><br><span class="line">  &#125; <span class="comment">// 保存图片</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`job finished!`</span>);</span><br><span class="line">  <span class="keyword">await</span> browser.close();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>因为百度图片是往下滚动就可以继续懒加载。因此，我们想要加载更多图片，可以先往下滚动一会儿。然后通过分析 dom 结构来获取列表里所有图片的 src，最后进行下载。</p>
+<p>执行以下，就能得到一系列猫咪的图片：</p>
+<p><img src="/2018/12/03/从零开始开发一个Node交互式命令行应用/cat.jpg" alt="cat"></p>
 <p>图片下载的地方只写了主函数，更详细的代码可以去参见<a href="https://github.com/tuobaye0711/image-spider" target="_blank" rel="noopener">github</a>.</p>
+<p>至此，我们用 Node 和 Puppeteer 开发出了一个最基本的图片爬虫工具。</p>
+<h2 id="如何优化？"><a href="#如何优化？" class="headerlink" title="如何优化？"></a>如何优化？</h2><p>这个图片爬虫工具目前还有点 low 啊，我们的目标是要开发一个交互式的命令行应用，肯定不能止于此。有哪些可以进一步优化的点呢？经过简单的思考，我列了一下：</p>
+<ul>
+<li>下载图片的内容可以自定义</li>
+<li>可以支持用户选择图片下载张数</li>
+<li>支持命令行传参</li>
+<li>支持命令行交互</li>
+<li>交互界面美观</li>
+<li>支持双击直接运行</li>
+<li>支持全局命令行调用</li>
+</ul>
+<h2 id="使用使用-commander-js-支持命令行传参"><a href="#使用使用-commander-js-支持命令行传参" class="headerlink" title="使用使用 commander.js 支持命令行传参"></a>使用使用 commander.js 支持命令行传参</h2><p>Commander 是一款重量轻，表现力和强大的命令行框架。提供了用户命令行输入和参数解析强大功能。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> program = <span class="built_in">require</span>(<span class="string">"commander"</span>);</span><br><span class="line"></span><br><span class="line">program</span><br><span class="line">  .version(<span class="string">"0.0.1"</span>)</span><br><span class="line">  .description(<span class="string">"a test cli program"</span>)</span><br><span class="line">  .option(<span class="string">"-n, --name &lt;name&gt;"</span>, <span class="string">"your name"</span>, <span class="string">"zhl"</span>)</span><br><span class="line">  .option(<span class="string">"-a, --age &lt;age&gt;"</span>, <span class="string">"your age"</span>, <span class="string">"22"</span>)</span><br><span class="line">  .option(<span class="string">"-e, --enjoy [enjoy]"</span>)</span><br><span class="line">  .action(<span class="function"><span class="params">option</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'name: '</span>, option.name);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'age: '</span>, option.age);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'enjoy: '</span>, option.enjoy);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">program.parse(process.argv);</span><br></pre></td></tr></table></figure>
+<p>Commander十分容易上手，上面这一段代码仅用了寥寥数行，就定义了一个命令行的输入与输出。其中：</p>
+<ul>
+<li>version 定义版本号</li>
+<li>description 定义描述信息</li>
+<li>option 定义输入选项，传3个参数，如<code>option(&quot;-n, --name &lt;name&gt;&quot;, &quot;your name&quot;, &quot;GK&quot;)</code>，第一项是传参的值，-n是简写形式，–name是全称形式， <name>表示输入的参数，&lt;&gt;是必填项，如果是[]，则是选填项。第二项“your name”是求助help时的提示信息，告诉用户应该输入的内容，最后一项”GK”是默认值。</name></li>
+<li>action 定义执行的操作，是一个回调函数，入参是前文输入的option选项，如果没有输入option，则使用定义的默认值。</li>
+</ul>
+<p>要查询更详细的api，请参考<a href="http://tj.github.io/commander.js/" target="_blank" rel="noopener">Commander Api文档</a>。</p>
+<p>执行一下上述脚本，可以得到：</p>
+<p><img src="/2018/12/03/从零开始开发一个Node交互式命令行应用/commander.png" alt="commander.png"></p>
+<p>这样命令行就可以做到简单的交互效果了。但是有没有觉得不够好看呢，别急，继续往下看。</p>
+<h2 id="使用inquirer制作可交互命令行应用"><a href="#使用inquirer制作可交互命令行应用" class="headerlink" title="使用inquirer制作可交互命令行应用"></a>使用inquirer制作可交互命令行应用</h2><p>inquirer可以为Node制作可嵌入式的美观的命令行界面。</p>
+<p>可以提供问答式的命令输入：</p>
+<p><img src="/2018/12/03/从零开始开发一个Node交互式命令行应用/inquirer1.png" alt="inquirer1"></p>
+<p>可以提供多种形式的选择界面：</p>
+<p><img src="/2018/12/03/从零开始开发一个Node交互式命令行应用/inquirer2.png" alt="inquirer2"><br><img src="/2018/12/03/从零开始开发一个Node交互式命令行应用/inquirer3.png" alt="inquirer3"></p>
+<p>可以对输入信息进行校验：<br><img src="/2018/12/03/从零开始开发一个Node交互式命令行应用/inquirer4.png" alt="inquirer4"></p>
+<p>最后可以对输入信息进行处理：<br><img src="/2018/12/03/从零开始开发一个Node交互式命令行应用/inquirer5.png" alt="inquirer5"></p>
+<p>上面的例子是inquirer的官方例子，可以参考<a href="https://github.com/SBoudrias/Inquirer.js/blob/master/packages/inquirer/examples/pizza.js" target="_blank" rel="noopener">pizza.js</a></p>
+<p>inquirer的文档可以查看<a href="https://github.com/SBoudrias/Inquirer.js#documentation" target="_blank" rel="noopener">inquirer documents</a></p>
+<p>有了inquirer，我们就可以制作更为精美的交互式命令行工具了。</p>
 
   </section>
 
