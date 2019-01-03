@@ -34,7 +34,15 @@
 <meta property="og:image" content="https://tuobaye0711.github.io/2018/12/03/从零开始开发一个Node交互式命令行应用/inquirer3.png">
 <meta property="og:image" content="https://tuobaye0711.github.io/2018/12/03/从零开始开发一个Node交互式命令行应用/inquirer4.png">
 <meta property="og:image" content="https://tuobaye0711.github.io/2018/12/03/从零开始开发一个Node交互式命令行应用/inquirer5.png">
-<meta property="og:updated_time" content="2018-12-19T11:21:43.246Z">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/12/03/从零开始开发一个Node交互式命令行应用/chalk.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/12/03/从零开始开发一个Node交互式命令行应用/chalk2.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/12/03/从零开始开发一个Node交互式命令行应用/zhihu.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/12/03/从零开始开发一个Node交互式命令行应用/imgspd.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/12/03/从零开始开发一个Node交互式命令行应用/imgspd2.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/12/03/从零开始开发一个Node交互式命令行应用/imgspd3.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/12/03/从零开始开发一个Node交互式命令行应用/imgspd4.png">
+<meta property="og:image" content="https://tuobaye0711.github.io/2018/12/03/从零开始开发一个Node交互式命令行应用/gakki.png">
+<meta property="og:updated_time" content="2019-01-03T12:52:08.838Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零开始开发一个Node交互式命令行应用 | 拓跋的前端客栈">
 <meta name="twitter:description" content="对于大多数前端开发者而言，谈到命令行工具，大家肯定都用过。但是谈到开发命令行工具，估计就没几人有了解了。本文旨在用最短的时间内，帮您开发一个实用（斜眼笑）的命令行应用。">
@@ -248,7 +256,7 @@ classes that you can use:
   </header>
 
   <section id="post-content" class="article-content post">
-    <p>对于大多数前端开发者而言，谈到命令行工具，大家肯定都用过。但是谈到开发命令行工具，估计就没几人有了解了。本文旨在用最短的时间内，帮您开发一个实用（斜眼笑）的命令行应用。</p>
+    <p>对于大多数前端开发者而言，谈到命令行工具，大家肯定都用过。但是谈到开发命令行工具，估计就没几人有了解了。本文旨在用最短的时间内，帮您开发一个实用（斜眼笑）的图片爬虫命令行应用。</p>
 <h2 id="Puppeteer-简介"><a href="#Puppeteer-简介" class="headerlink" title="Puppeteer 简介"></a>Puppeteer 简介</h2><h3 id="什么是-Puppeteer"><a href="#什么是-Puppeteer" class="headerlink" title="什么是 Puppeteer?"></a>什么是 Puppeteer?</h3><p>Puppeteer 是 Google Chrome 团队官方的无界面（Headless）Chrome 工具。Chrome 作为浏览器市场的领头羊，Chrome Headless  将成为 web 应用   自动化测试   的行业标杆。所以我们很有必要来了解一下它。</p>
 <p><img src="/2018/12/03/从零开始开发一个Node交互式命令行应用/puppeteer.png" alt="puppeteer"></p>
 <h3 id="Puppeteer-可以做什么？"><a href="#Puppeteer-可以做什么？" class="headerlink" title="Puppeteer 可以做什么？"></a>Puppeteer 可以做什么？</h3><p>Puppeteer 可以做的事情有很多，包括但不限于：</p>
@@ -305,7 +313,7 @@ classes that you can use:
 <li>支持双击直接运行</li>
 <li>支持全局命令行调用</li>
 </ul>
-<h2 id="使用使用-commander-js-支持命令行传参"><a href="#使用使用-commander-js-支持命令行传参" class="headerlink" title="使用使用 commander.js 支持命令行传参"></a>使用使用 commander.js 支持命令行传参</h2><p>Commander 是一款重量轻，表现力和强大的命令行框架。提供了用户命令行输入和参数解析强大功能。</p>
+<h2 id="使用-commander-js-支持命令行传参"><a href="#使用-commander-js-支持命令行传参" class="headerlink" title="使用 commander.js 支持命令行传参"></a>使用 commander.js 支持命令行传参</h2><p>Commander 是一款重量轻，表现力和强大的命令行框架。提供了用户命令行输入和参数解析强大功能。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> program = <span class="built_in">require</span>(<span class="string">"commander"</span>);</span><br><span class="line"></span><br><span class="line">program</span><br><span class="line">  .version(<span class="string">"0.0.1"</span>)</span><br><span class="line">  .description(<span class="string">"a test cli program"</span>)</span><br><span class="line">  .option(<span class="string">"-n, --name &lt;name&gt;"</span>, <span class="string">"your name"</span>, <span class="string">"zhl"</span>)</span><br><span class="line">  .option(<span class="string">"-a, --age &lt;age&gt;"</span>, <span class="string">"your age"</span>, <span class="string">"22"</span>)</span><br><span class="line">  .option(<span class="string">"-e, --enjoy [enjoy]"</span>)</span><br><span class="line">  .action(<span class="function"><span class="params">option</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'name: '</span>, option.name);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'age: '</span>, option.age);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'enjoy: '</span>, option.enjoy);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">program.parse(process.argv);</span><br></pre></td></tr></table></figure>
 <p>Commander十分容易上手，上面这一段代码仅用了寥寥数行，就定义了一个命令行的输入与输出。其中：</p>
 <ul>
@@ -328,6 +336,34 @@ classes that you can use:
 <p>上面的例子是inquirer的官方例子，可以参考<a href="https://github.com/SBoudrias/Inquirer.js/blob/master/packages/inquirer/examples/pizza.js" target="_blank" rel="noopener">pizza.js</a></p>
 <p>inquirer的文档可以查看<a href="https://github.com/SBoudrias/Inquirer.js#documentation" target="_blank" rel="noopener">inquirer documents</a></p>
 <p>有了inquirer，我们就可以制作更为精美的交互式命令行工具了。</p>
+<h2 id="使用-chalk-js来让交互界面更美观"><a href="#使用-chalk-js来让交互界面更美观" class="headerlink" title="使用 chalk.js来让交互界面更美观"></a>使用 chalk.js来让交互界面更美观</h2><p><img src="/2018/12/03/从零开始开发一个Node交互式命令行应用/chalk.png" alt="chalk.js"></p>
+<p>chalk的语法非常简单：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> chalk = <span class="built_in">require</span>(<span class="string">'chalk'</span>);</span><br><span class="line"><span class="keyword">const</span> log = <span class="built_in">console</span>.log;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Combine styled and normal strings</span></span><br><span class="line">log(chalk.blue(<span class="string">'Hello'</span>) + <span class="string">' World'</span> + chalk.red(<span class="string">'!'</span>));</span><br><span class="line"><span class="comment">// Compose multiple styles using the chainable API</span></span><br><span class="line">log(chalk.blue.bgRed.bold(<span class="string">'Hello world!'</span>));</span><br><span class="line"><span class="comment">// Pass in multiple arguments</span></span><br><span class="line">log(chalk.blue(<span class="string">'Hello'</span>, <span class="string">'World!'</span>, <span class="string">'Foo'</span>, <span class="string">'bar'</span>, <span class="string">'biz'</span>, <span class="string">'baz'</span>));</span><br><span class="line"><span class="comment">// Nest styles</span></span><br><span class="line">log(chalk.red(<span class="string">'Hello'</span>, chalk.underline.bgBlue(<span class="string">'world'</span>) + <span class="string">'!'</span>));</span><br><span class="line"><span class="comment">// Nest styles of the same type even (color, underline, background)</span></span><br><span class="line">log(chalk.green(</span><br><span class="line">  <span class="string">'I am a green line '</span> +</span><br><span class="line">  chalk.blue.underline.bold(<span class="string">'with a blue substring'</span>) +</span><br><span class="line">  <span class="string">' that becomes green again!'</span></span><br><span class="line">));</span><br></pre></td></tr></table></figure>
+<p>可以输出如下信息，一看便懂：</p>
+<p><img src="/2018/12/03/从零开始开发一个Node交互式命令行应用/chalk2.png" alt="chalk2"></p>
+<h2 id="再让我们做点有意思的事情…"><a href="#再让我们做点有意思的事情…" class="headerlink" title="再让我们做点有意思的事情…"></a>再让我们做点有意思的事情…</h2><p>想必有人看到过下面知乎的控制台效果，既然要做点有意思的事情，今天我们不妨也把这种效果加到命令行程序里面，提升一下逼格。</p>
+<p><img src="/2018/12/03/从零开始开发一个Node交互式命令行应用/zhihu.png" alt="zhihu"></p>
+<p>首先我们准备一副ASCII码用来打印，各位可以自行搜索text转ASCII，网上的转化方案不要太多。我们准备制作的命令行image spider就制作一个IMG SPD的ASCII码字符串吧~</p>
+<p>经过挑选，效果如图:</p>
+<p><img src="/2018/12/03/从零开始开发一个Node交互式命令行应用/imgspd.png" alt="imgspd"></p>
+<p>这种复杂的字符串怎么打印出来呢？直接保存为string一定是不行的，格式会乱的一塌糊涂。</p>
+<p>想要能完整的打印出格式来，有一个取巧的方法，以注释的形式打印出来。什么能保存注释呢?~~ function。</p>
+<p>所以事情就简单到了打印一个function。但是直接打印函数还是不行的，这时候就用到了可以怼天怼地的toString()方法，我们只需要把注释中间的部分用正则匹配出来就行了，easy~</p>
+<p><img src="/2018/12/03/从零开始开发一个Node交互式命令行应用/imgspd2.png" alt="imgspd2"></p>
+<p>最后看一看效果，铛铛铛铛~</p>
+<p><img src="/2018/12/03/从零开始开发一个Node交互式命令行应用/imgspd3.png" alt="imgspd3"></p>
+<h2 id="支持双击运行"><a href="#支持双击运行" class="headerlink" title="支持双击运行"></a>支持双击运行</h2><p>这里使用一种叫做Shebang的技术。</p>
+<p>Shebang（也称为 Hashbang ）是一个由#和！构成的字符序列 #! ，其出现在文本文件的第一行的前两个字符。 在文件中存在 Shebang 的情况下，类 Unix 操作系统的程序加载器会分析 Shebang 后的内容，将这些内容作为解释器指令，并调用该指令，并将载有 Shebang 的文件路径作为该解释器的参数。</p>
+<p>node下我们使用#! /usr/bin/env node即可</p>
+<p>这时候我们便可以取消文件的扩展名.js了。</p>
+<h2 id="加入环境变量，支持全局调用"><a href="#加入环境变量，支持全局调用" class="headerlink" title="加入环境变量，支持全局调用"></a>加入环境变量，支持全局调用</h2><p>package.json里面配置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"bin"</span>: &#123;</span><br><span class="line">  <span class="string">"img-spd"</span>: <span class="string">"app"</span></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>执行npm link，它将会把img-spd这个字段复制到npm的全局模块安装文件夹node_modules内，并创建符号链接（symbolic link，软链接），也就是将 app 的路径加入环境变量 PATH。</p>
+<p>这时，在任意目录下，直接命令行输入img-spd即可运行此命令行</p>
+<h2 id="尾声"><a href="#尾声" class="headerlink" title="尾声"></a>尾声</h2><p>至此，要改进的地方已经全部修改完毕，快来看看我们的成品吧~</p>
+<p><img src="/2018/12/03/从零开始开发一个Node交互式命令行应用/imgspd4.png" alt="imgspd4"></p>
+<p>看着一整个文件夹的gakki，感觉满满的幸福要溢出来了</p>
+<p><img src="/2018/12/03/从零开始开发一个Node交互式命令行应用/gakki.png" alt="gakki"></p>
 
   </section>
 
