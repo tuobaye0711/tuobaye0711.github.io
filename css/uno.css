@@ -1656,7 +1656,7 @@ hr {
     width: 100%;
     max-width: none;
     height: 100%;
-    background-image: url("https://api.tuobaye.com:8888/wallpaper/random"), url(../images/background-cover.jpg);
+    background-image: url("https://122.51.142.179:3000/wallpaper/random"), url(../images/background-cover.jpg);
     background-position: top left;
     background-repeat: no-repeat;
     background-size: cover;
