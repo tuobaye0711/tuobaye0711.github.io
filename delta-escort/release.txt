@@ -1,0 +1,5 @@
+Release: 2026-09-22-r2
+Static reference ranking and full merchant rules.
+36 ranked services; 39 rule sections; 170 tier records; 40 archived original posters.
+Build checks passed: mobile 390px, desktop 1440px, search, Top 10, favorites, source image loading, JavaScript-disabled rule reading.
+Ranking remains a subjective 2026-09-18 snapshot. Rule summaries are separate from the unmodified merchant poster images.
