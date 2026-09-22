@@ -1,0 +1,220 @@
+{
+  "version": "2026-09-22-r2",
+  "source_snapshot": "2026-09-22",
+  "ranking_snapshot": "2026-09-18",
+  "ranked_games": 36,
+  "sections": 39,
+  "tier_records": 170,
+  "posters": [
+    {
+      "file": "posters/981791240.jpg",
+      "bytes": 1057013,
+      "sha256": "d5aad5f390d9d6da02947c2b3f55155e9fbdeb0d4149269b8d5775688955c2ac"
+    },
+    {
+      "file": "posters/981790802.jpg",
+      "bytes": 1839014,
+      "sha256": "f80dbdd67b9f552e143775a0c702b79659a965b8a5e1623d23bc640738a3c09c"
+    },
+    {
+      "file": "posters/981790897.jpg",
+      "bytes": 363910,
+      "sha256": "0e58a2f82dcbe8b7796096adb18db26eaffa0e8307d3e23ed0ca2f7a665b7f9c"
+    },
+    {
+      "file": "posters/981793693.jpg",
+      "bytes": 492467,
+      "sha256": "32588fde4f7ec9fd6cae685055a20dedeaa4dc86787c97fb007cc95978195fb2"
+    },
+    {
+      "file": "posters/981826700.jpg",
+      "bytes": 492294,
+      "sha256": "4a6f7cc4988f20ffeaac160f394141585ecefcc05f20a0869bf07347021a53ff"
+    },
+    {
+      "file": "posters/981826786.jpg",
+      "bytes": 1098771,
+      "sha256": "2c8b2d3c0a21dac62e8489377af934941bd7d345828860ee10615393be0533bd"
+    },
+    {
+      "file": "posters/981821898.jpg",
+      "bytes": 1458450,
+      "sha256": "8d4e4e279e6b6a371668808836eb8c3c8d7d25e41734d460cd474d4c4859ca2b"
+    },
+    {
+      "file": "posters/981809016.jpg",
+      "bytes": 523183,
+      "sha256": "5e847c4c6e0a499405c368fa165f4f7c523cf3d79e683bd01dd708a7142325ac"
+    },
+    {
+      "file": "posters/981812959.jpg",
+      "bytes": 266150,
+      "sha256": "123a5b00ee812a63b8d6afd80355b464aa7c455199f1f2e79568f80d46d42847"
+    },
+    {
+      "file": "posters/981813284.jpg",
+      "bytes": 452075,
+      "sha256": "0a94d5e9e27c9ec70f4c51b1595fae4f9937e5a58ec1a137929253f5fc2b2210"
+    },
+    {
+      "file": "posters/981813449.jpg",
+      "bytes": 714753,
+      "sha256": "e372f6e116d4dfe42dfd247701c635cf4bb167a03faa6bb147001cdd1095c15c"
+    },
+    {
+      "file": "posters/981816530.jpg",
+      "bytes": 851296,
+      "sha256": "317b57c08f8b0e66a265c7ac432b76f360567abd3e76e484537344cc5ff590af"
+    },
+    {
+      "file": "posters/981816600.jpg",
+      "bytes": 640587,
+      "sha256": "800d8c86bb0eb54fbfc683d20130f87b3913bd3ab9477393218825b3d8cccf0a"
+    },
+    {
+      "file": "posters/981821390.jpg",
+      "bytes": 1007439,
+      "sha256": "e9148ad6cc3399d63ff7353084c6182e728c581aece1d0e8958c5189e24d65a3"
+    },
+    {
+      "file": "posters/981822301.jpg",
+      "bytes": 506123,
+      "sha256": "df002cecdfc2d7f750d2e271c5eb2f92fd312957107cf30668d7296f85d2d379"
+    },
+    {
+      "file": "posters/981822832.jpg",
+      "bytes": 851955,
+      "sha256": "efd0c2fba9d069d13d6a7360205c1054b294d180a55b84c6c320f134b552063c"
+    },
+    {
+      "file": "posters/981824881.jpg",
+      "bytes": 266527,
+      "sha256": "a78cc6b45f3fe01d5bc350057bb844a0bc86ce8dbd1eee25ac125c3948796783"
+    },
+    {
+      "file": "posters/981825001.jpg",
+      "bytes": 87733,
+      "sha256": "288ed7a89e7f821103a5665c779084f69ebef586e95e8d544a05726d3db1e8b5"
+    },
+    {
+      "file": "posters/981825194.jpg",
+      "bytes": 183498,
+      "sha256": "be5696933c8f23f890b6acbcb17b02185f0622f9b7151ece700efecec1fadd71"
+    },
+    {
+      "file": "posters/981825315.jpg",
+      "bytes": 789222,
+      "sha256": "c9b6cd18079af857ed643fbccce94f10763efc83539473ec58d1d4a9e03826c8"
+    },
+    {
+      "file": "posters/981809736.jpg",
+      "bytes": 1381801,
+      "sha256": "0a39c6dc1355e58af2da3952d10dc129b8a266852fc374f627afebef8533dbea"
+    },
+    {
+      "file": "posters/981809232.jpg",
+      "bytes": 381058,
+      "sha256": "eedce01bb4a8e3d02520879a839c137c04c3c3608a6056e90bbe3814a5973473"
+    },
+    {
+      "file": "posters/981811626.jpg",
+      "bytes": 71965,
+      "sha256": "82c9d98b51134039203277d9943023f0de95058fb7adc88d98749673a45cc63d"
+    },
+    {
+      "file": "posters/982014647.jpg",
+      "bytes": 590779,
+      "sha256": "c1883750c80c840fbfe2cd70751501082eb39b51d76e482320e2020054381426"
+    },
+    {
+      "file": "posters/981802874.jpg",
+      "bytes": 563177,
+      "sha256": "267e45b743e28a8eb32d9cbdeef8362af44aebb18b860f375fca6343dff6cc54"
+    },
+    {
+      "file": "posters/981798688.jpg",
+      "bytes": 386827,
+      "sha256": "6e03964256383456b0e88702fe1e1a5eab7bc2e4688c2a061d83527267d96222"
+    },
+    {
+      "file": "posters/982014838.jpg",
+      "bytes": 634538,
+      "sha256": "b2dd21602bd3cc176ead8edeae83798bc680d740cfb9c5554692382429869b0f"
+    },
+    {
+      "file": "posters/981827305.jpg",
+      "bytes": 782120,
+      "sha256": "f5819708cdf0f447900b17d2bd744be399e1660f8aeb94c04d36041da72d38d2"
+    },
+    {
+      "file": "posters/982015220.jpg",
+      "bytes": 487282,
+      "sha256": "7a94325bc27bc34b954108d89ec6e3d6aa506c929cea72fcd7303939469e7f82"
+    },
+    {
+      "file": "posters/981877480.png",
+      "bytes": 3516557,
+      "sha256": "d9160e4cf98cd7a5cc4dc845eea6b4b6bd825cabfa40929c7ed93fae7713861d"
+    },
+    {
+      "file": "posters/988809846.jpg",
+      "bytes": 521697,
+      "sha256": "6f4dbae7d28fe4ea3ef3b81fce4d6ac4542729f2da6060783d9d8dd3017b8c7b"
+    },
+    {
+      "file": "posters/982779826.jpg",
+      "bytes": 294077,
+      "sha256": "87dd7f68f3e95a0a9aec233d91c2ad08f62b56d459b8f953ba8dc8732bb0ea06"
+    },
+    {
+      "file": "posters/982882282.jpg",
+      "bytes": 5027898,
+      "sha256": "ca69cf14ef6ab14982c681ce260962d2446b2491ab2a332ad3ed8568bccc60ff"
+    },
+    {
+      "file": "posters/984739701.jpg",
+      "bytes": 567888,
+      "sha256": "b2e63946a919b2782730907f8e9dcaec84a0e50a2ad621f076f36753ed73aaf5"
+    },
+    {
+      "file": "posters/989638947.jpg",
+      "bytes": 1143657,
+      "sha256": "13a68b12bc7ca9d2aeed895fc6276adc369e4d0b7505c27943487154a6cad1b5"
+    },
+    {
+      "file": "posters/989640159.jpg",
+      "bytes": 1098725,
+      "sha256": "84d62f8db5cc51ee3a37bc63b82fc41f3a45fb9a1e8d7b8d1559a986f34309ca"
+    },
+    {
+      "file": "posters/989640562.jpg",
+      "bytes": 567188,
+      "sha256": "ef5465b9d682950dc2ead9a553405b46708de34c8195a97ac14cc122e2fdfdaa"
+    },
+    {
+      "file": "posters/989641027.jpg",
+      "bytes": 942246,
+      "sha256": "6a94bf30a7dc6da09833d7cfe370f141b416d111a343b271deaa822fe54bd4af"
+    },
+    {
+      "file": "posters/989698084.jpg",
+      "bytes": 1028464,
+      "sha256": "9c40e99e5cd7981315675abd057d31dabcc747eba38e7f1cc142a030d78571a9"
+    },
+    {
+      "file": "posters/989704066.jpg",
+      "bytes": 457808,
+      "sha256": "75b6b02336fed319f9ea42be07e0c45d9f68f416216e272496cf75f91c446079"
+    }
+  ],
+  "checks": {
+    "javascript_errors": [],
+    "mobile_390px": "passed",
+    "desktop_1440px": "passed",
+    "search": "passed",
+    "top10": "passed",
+    "favorites": "passed",
+    "original_poster_load": "passed",
+    "javascript_disabled_fallback": "passed"
+  }
+}
