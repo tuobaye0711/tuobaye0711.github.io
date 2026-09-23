@@ -82,7 +82,10 @@ for updated in calibration['ranking']:
     item.update(updated)
     item['previousRank'] = previous_ranks[item['name']]
     rank_map[item['name']] = item
-DOC['version'] = calibration['version']
+for name,item in rank_map.items():
+    if name in YIELD_MAP:
+        item['yield'] = YIELD_MAP[name]
+DOC['version'] = YIELD['version']
 """)
 patch("'ranking_snapshot': '2026-09-18'","'ranking_snapshot': '2026-09-23'")
 patch("ident = 'play-' + str(rank or (idx + 1))","ident = 'play-' + str(analysis.get('previousRank', rank) or (idx + 1))")
@@ -115,7 +118,7 @@ with sync_playwright() as pw:
         errors=[]
         page.on('pageerror',lambda error:errors.append(str(error)))
         page.goto((ROOT/'index.html').as_uri())
-        assert page.locator('body').get_attribute('data-version')==CAL['version']
+        assert page.locator('body').get_attribute('data-version')==YIELD['version']
         assert page.locator('#play-2').get_attribute('data-rank')=='25'
         assert page.locator('#play-6').get_attribute('data-name')=='小香手'
         assert page.locator('#play-6').get_attribute('data-rank')=='18'
