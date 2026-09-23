@@ -220,7 +220,8 @@
     "calibration_panel": "passed",
     "all_36_ranks_reordered": "passed",
     "old_deep_links_preserved": "passed",
-    "40_original_posters_unchanged": "passed"
+    "40_original_posters_unchanged": "passed",
+    "little_giant_initial_hp_12_30": "passed"
   },
   "calibration": {
     "anonymous_cases": 1,
@@ -231,5 +232,16 @@
     "account_matchmaking_unverified": true,
     "user_photos_published": false,
     "previous_anchors_preserved": true
-  }
+  },
+  "content_corrections": [
+    {
+      "game": "小小巨人",
+      "date": "2026-09-23",
+      "part1_initial_hp": 12,
+      "part2_initial_hp": 30,
+      "source": "reader correction",
+      "ranking_recomputed": false,
+      "posters_modified": false
+    }
+  ]
 }
