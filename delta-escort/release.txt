@@ -1,6 +1,7 @@
-Release: 2026-09-23-r3
-High-pressure equipment-rich lobby reference ranking, calibrated with one anonymous 26-round order.
-36 updated ranks; 39 full rule sections; 170 tier records; 40 unchanged archived original merchant posters.
-Build checks passed: 360px/390px mobile, 1440px desktop, search, Top 10, favorites, original images, script-disabled reading, stable old deep links.
-User report and screenshot accounting differences are explicit. Actual net profit and official account-matching formula remain unknown.
-No user photos, account identifiers, or individual timestamps published.
+Release: 2026-09-23-r3-hp12-30
+Correction: Little Giant Part 1 starts at 12 HP (cap 25); Part 2 starts at 30 HP (no cap).
+Only these initial HP values were confirmed by the reader. Other uncertain prices and damage/healing rules retain their warnings.
+Removed obsolete reasoning based on a 1-HP start; this game's old numeric rank is retained only as a navigation position and explicitly marked pending reassessment.
+36 rank positions; 39 full rule sections; 170 tier records; 40 unchanged original merchant posters.
+Build and mobile checks passed, including exact corrected HP strings and absence of obsolete field values.
+No new user photographs or account identifiers were published.
