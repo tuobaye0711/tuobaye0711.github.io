@@ -4,6 +4,9 @@ on:
     branches: [master]
     paths:
       - 'delta-escort/build.py'
+      - 'delta-escort/build-v3.py'
+      - 'delta-escort/ranking-v3.json'
+      - '.github/workflows/delta-escort-build.yml'
   workflow_dispatch:
 permissions:
   contents: write
@@ -16,19 +19,21 @@ jobs:
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
-      - name: Install browser used to read the public merchant catalog
+      - name: Install browser for static page verification
         run: |
           python3 -m pip install playwright
           python3 -m playwright install --with-deps chromium
-      - name: Archive original posters, build and verify static pages
-        run: python3 delta-escort/build.py
+      - name: Build calibrated rankings and preserve archived source posters
+        env:
+          ESCORT_USE_ARCHIVED: '1'
+        run: python3 delta-escort/build-v3.py
       - name: Commit only Delta escort generated files
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add delta-escort/index.html delta-escort/posters delta-escort/build-report.json
+          git add delta-escort/index.html delta-escort/build-report.json
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m 'Fix Delta ranking rendering; include complete rules and original posters'
+          git commit -m 'Publish v3 high-pressure lobby ranking and anonymous order audit'
           git pull --rebase origin master
           git push origin HEAD:master
       - name: Save browser verification screenshots
