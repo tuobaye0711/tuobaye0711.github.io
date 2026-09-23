@@ -1,7 +1,8 @@
-Release: 2026-09-23-r3-hp12-30
-Correction: Little Giant Part 1 starts at 12 HP (cap 25); Part 2 starts at 30 HP (no cap).
-Only these initial HP values were confirmed by the reader. Other uncertain prices and damage/healing rules retain their warnings.
-Removed obsolete reasoning based on a 1-HP start; this game's old numeric rank is retained only as a navigation position and explicitly marked pending reassessment.
-36 rank positions; 39 full rule sections; 170 tier records; 40 unchanged original merchant posters.
-Build and mobile checks passed, including exact corrected HP strings and absence of obsolete field values.
-No new user photographs or account identifiers were published.
+Release: 2026-09-24-r5
+170 tier/benefit records, 148 conditional numerical models, 22 explicitly unmodeled/non-independent records.
+Three synthetic environment scenarios, 6000 repetitions per modeled tier/scenario, 200-round horizon. No fit of universal rates to the user's one stopped order.
+Mean, median, P10/P90, costs and completion/censoring displayed separately; high censoring excluded from default ranking. Costs are editable assumptions, not actual user losses or an official tax rate.
+Visually audited corrections include Little Giant 399/1999/2999 CNY, HP 12/30/40 and damage tiers; Blackhole Bakhesh 668 CNY, Prison 11-point 3388 CNY; Sand 1/2/5 rounds; event 138/228/368 CNY and 888/1388/2188 targets; Bingo 3–10 consecutive cells.
+Original 40 merchant posters preserved. 39 rule sections with stable deep links. Unsupported v4 hand-entered values withdrawn.
+Eight deterministic numerical tests and real Chromium tests at 360/390/1440px passed: search, scenario selection, net-cost inputs, favorites, source image, no-JavaScript reading.
+No user screenshots or account identifiers published.
