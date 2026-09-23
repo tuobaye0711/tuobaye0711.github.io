@@ -3,11 +3,10 @@ on:
   push:
     branches: [master]
     paths:
-      - 'delta-escort/build.py'
-      - 'delta-escort/build-v3.py'
-      - 'delta-escort/ranking-v3.json'
+      - 'delta-escort/simulation-v5.py'
+      - 'delta-escort/build-v5.py'
+      - 'delta-escort/model-v5-config.json'
       - 'delta-escort/rules.json'
-      - 'delta-escort/apply-corrections.py'
       - '.github/workflows/delta-escort-build.yml'
   workflow_dispatch:
 permissions:
@@ -18,34 +17,48 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-      - name: Apply scoped reader corrections
-        run: python3 delta-escort/apply-corrections.py
-      - name: Install browser for static page verification
+      - name: Preserve source evidence for visual audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: delta-source-audit
+          path: |
+            delta-escort/posters/
+            delta-escort/rules.json
+            delta-escort/source-manifest.json
+            delta-escort/data.js
+            delta-escort/ranking-v3.json
+            delta-escort/index.html
+      - name: Check v5 build availability
+        id: ready
         run: |
-          python3 -m pip install playwright
+          if test -f delta-escort/simulation-v5.py && test -f delta-escort/build-v5.py; then echo 'ready=true' >> "$GITHUB_OUTPUT"; else echo 'ready=false' >> "$GITHUB_OUTPUT"; fi
+      - name: Install numerical and browser dependencies
+        if: steps.ready.outputs.ready == 'true'
+        run: |
+          python3 -m pip install numpy scipy beautifulsoup4 playwright
           python3 -m playwright install --with-deps chromium
-      - name: Build calibrated rankings and preserve archived source posters
-        env:
-          ESCORT_USE_ARCHIVED: '1'
+      - name: Compute per-tier scenarios and verify mobile reference site
+        if: steps.ready.outputs.ready == 'true'
         run: |
-          python3 delta-escort/build-v3.py
-          python3 delta-escort/apply-corrections.py --check-page
-      - name: Commit only Delta escort content and generated files
+          python3 delta-escort/simulation-v5.py
+          python3 delta-escort/build-v5.py
+      - name: Commit only verified Delta generated files
+        if: steps.ready.outputs.ready == 'true'
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add delta-escort/rules.json delta-escort/ranking-v3.json delta-escort/data.js delta-escort/index.html delta-escort/build-report.json
+          git add delta-escort/index.html delta-escort/expected-yield-v5.json delta-escort/expected-yield-v5.csv delta-escort/model-v5-report.json
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m 'Correct Little Giant initial HP: Part 1 12, Part 2 30; withdraw stale analysis'
+          git commit -m 'Publish audited per-tier scenario returns and explicit model limitations'
           git pull --rebase origin master
           git push origin HEAD:master
-      - name: Save browser verification screenshots
-        if: always()
+      - name: Save browser checks
+        if: always() && steps.ready.outputs.ready == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: delta-escort-browser-verification
-          path: /tmp/escort-verified-*.png
+          name: delta-v5-browser-checks
+          path: /tmp/escort-v5-*.png
           if-no-files-found: ignore
