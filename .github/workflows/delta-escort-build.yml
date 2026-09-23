@@ -5,6 +5,7 @@ on:
     paths:
       - 'delta-escort/simulation-v5.py'
       - 'delta-escort/build-v5.py'
+      - 'delta-escort/audit-v5.py'
       - 'delta-escort/model-v5-config.json'
       - 'delta-escort/rules.json'
       - '.github/workflows/delta-escort-build.yml'
@@ -40,9 +41,10 @@ jobs:
         run: |
           python3 -m pip install numpy scipy beautifulsoup4 playwright
           python3 -m playwright install --with-deps chromium
-      - name: Compute per-tier scenarios and verify mobile reference site
+      - name: Audit rules, compute scenarios and verify mobile site
         if: steps.ready.outputs.ready == 'true'
         run: |
+          python3 delta-escort/audit-v5.py
           python3 delta-escort/simulation-v5.py
           python3 delta-escort/build-v5.py
       - name: Commit only verified Delta generated files
@@ -50,7 +52,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add delta-escort/index.html delta-escort/expected-yield-v5.json delta-escort/expected-yield-v5.csv delta-escort/model-v5-report.json
+          git add delta-escort/rules.json delta-escort/index.html delta-escort/expected-yield-v5.json delta-escort/expected-yield-v5.csv delta-escort/model-v5-report.json
           if git diff --cached --quiet; then exit 0; fi
           git commit -m 'Publish audited per-tier scenario returns and explicit model limitations'
           git pull --rebase origin master
