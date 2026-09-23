@@ -11,7 +11,7 @@ import os
 
 ROOT = Path(__file__).resolve().parent
 CAL = json.loads((ROOT / 'ranking-v3.json').read_text(encoding='utf-8'))
-assert CAL['version'] == '2026-09-23-r3'
+assert CAL['version'] == '2026-09-23-r4'\nYIELD = json.loads((ROOT / 'expected-yield-v4.json').read_text(encoding='utf-8'))\nYIELD_MAP = {x['name']: x for x in YIELD['items']}\nassert len(YIELD_MAP)==36
 assert sorted(x['rank'] for x in CAL['ranking']) == list(range(1, 37))
 assert len({x['name'] for x in CAL['ranking']}) == 36
 case = CAL['case']
@@ -63,7 +63,7 @@ for key,value in {
 }.items():
     CASE_HTML=CASE_HTML.replace(key,value)
 EXTRA_CSS='''
-.case-panel{margin:20px 0 22px;border:1px solid #496556;background:#111f18;border-radius:15px;padding:19px}.case-heading h2{font-size:22px;margin:5px 0 9px;line-height:1.4}.case-heading p{color:#c0d1c5;font-size:14px;margin:0}.case-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:17px 0}.case-metrics>div{border:1px solid #365241;border-radius:10px;padding:11px;background:#14271b}.case-metrics b{display:block;font-size:23px;color:#c5f0cd;line-height:1.3}.case-metrics span{font-size:11px;color:#b4c6b8;display:block;margin-top:5px}.case-key{font-size:14px;color:#d2e8d9}.case-review{border:1px solid #3b4e41;background:#101a14;border-radius:10px;margin:10px 0}.case-review>summary{cursor:pointer;padding:12px 13px;font-size:14px;font-weight:650;scroll-margin-top:160px}.case-body{padding:0 14px 16px}.case-body p{font-size:14px;overflow-wrap:anywhere}.table-scroll{overflow-x:auto;width:100%;margin:15px 0}.evidence-table{border-collapse:collapse;width:100%;font-size:12px;line-height:1.65;min-width:400px}.evidence-table th,.evidence-table td{border-bottom:1px solid #354c3f;padding:9px 8px;text-align:left;vertical-align:top}.evidence-table th{color:#c7e7d0}.scenario-grid{display:grid;gap:9px}.scenario{border:1px solid #344f3c;border-radius:10px;padding:12px}.scenario h4{color:#b1e5c2}.scenario p{margin:8px 0 0}.case-links{padding-left:20px}.case-links p{font-size:12px}.change-tag{font-size:11px;border:1px solid #4a6252;background:#213a29;border-radius:5px;padding:3px 6px;color:#c3ddca}.account-note{background:#18292b;border-left:3px solid #6d9e9a;padding:10px 12px;font-size:13px;color:#c7dddd;margin:12px 0}@media(min-width:780px){.case-metrics{grid-template-columns:repeat(4,minmax(0,1fr))}.scenario-grid{grid-template-columns:1fr 1fr}.case-panel{padding:23px}.case-heading h2{font-size:25px}}
+.case-panel{margin:20px 0 22px;border:1px solid #496556;background:#111f18;border-radius:15px;padding:19px}.case-heading h2{font-size:22px;margin:5px 0 9px;line-height:1.4}.case-heading p{color:#c0d1c5;font-size:14px;margin:0}.case-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:17px 0}.case-metrics>div{border:1px solid #365241;border-radius:10px;padding:11px;background:#14271b}.case-metrics b{display:block;font-size:23px;color:#c5f0cd;line-height:1.3}.case-metrics span{font-size:11px;color:#b4c6b8;display:block;margin-top:5px}.case-key{font-size:14px;color:#d2e8d9}.case-review{border:1px solid #3b4e41;background:#101a14;border-radius:10px;margin:10px 0}.case-review>summary{cursor:pointer;padding:12px 13px;font-size:14px;font-weight:650;scroll-margin-top:160px}.case-body{padding:0 14px 16px}.case-body p{font-size:14px;overflow-wrap:anywhere}.table-scroll{overflow-x:auto;width:100%;margin:15px 0}.evidence-table{border-collapse:collapse;width:100%;font-size:12px;line-height:1.65;min-width:400px}.evidence-table th,.evidence-table td{border-bottom:1px solid #354c3f;padding:9px 8px;text-align:left;vertical-align:top}.evidence-table th{color:#c7e7d0}.scenario-grid{display:grid;gap:9px}.scenario{border:1px solid #344f3c;border-radius:10px;padding:12px}.scenario h4{color:#b1e5c2}.scenario p{margin:8px 0 0}.case-links{padding-left:20px}.case-links p{font-size:12px}.yield-tag{font-size:11px;border:1px solid #4c6b5c;background:#173226;border-radius:5px;padding:3px 6px;color:#b9f0ca;font-weight:700}.yield-box{margin:14px 0;background:#14291e;border:1px solid #3b664c;border-radius:11px;padding:13px}.yield-box strong{color:#c4f0d1}.yield-box p{margin:6px 0;font-size:13px}.yield-box small{color:#91aa99}.change-tag{font-size:11px;border:1px solid #4a6252;background:#213a29;border-radius:5px;padding:3px 6px;color:#c3ddca}.account-note{background:#18292b;border-left:3px solid #6d9e9a;padding:10px 12px;font-size:13px;color:#c7dddd;margin:12px 0}@media(min-width:780px){.case-metrics{grid-template-columns:repeat(4,minmax(0,1fr))}.scenario-grid{grid-template-columns:1fr 1fr}.case-panel{padding:23px}.case-heading h2{font-size:25px}}
 '''
 source_path=ROOT/'build.py'
 code=source_path.read_text(encoding='utf-8')
@@ -91,11 +91,11 @@ patch("        title = f'<span class=\"rank\">","""        if rank:
         title = f'<span class="rank">""")
 patch('data-rank="{rank or 999}" data-minprice=','data-rank="{rank or 999}" data-oldrank="{analysis.get(\'previousRank\', rank) or 999}" data-minprice=')
 patch('<h4>同玩法档位优先顺序</h4>','<div class="account-note"><strong>账号／队伍变化后的敏感性</strong><p>{e(analysis.get("accountSensitivity"))}</p></div><h4>本次档位优先顺序</h4>')
-patch('沿用2026-09-18分析，属于主观概率判断；不是实测收益，也不是2026-09-22重新核定的购买结论。','2026-09-23按一单实战重新判断；只有千万388有本次样本，其余名次是条款与环境推断，不是已测出的收益率。')
-patch('规则阅读版 · v2','实战校准版 · v3')
-patch('先看懂玩法，<br>再选护航单。','高压装备局，<br>护航单怎么选？')
-patch('排行榜只是参考。每个条目都附有<strong>各价位差异、具体结单规则和商家原文海报</strong>，点开即可逐条核对。','结合一次26局、跨4天的订单重新排序。保留<strong>各价位差异、完整规则与40张商家原图</strong>，并把实战事实、推断和待核条款分开。')
-patch('排名沿用2026-09-18的主观概率判断，未掌握商家订单流水。文字规则为整理版，原文以完整海报为准；不清楚的数字保留“待核”。原图归档于2026-09-22，活动仍展示不代表仍有效。本页不是商家或游戏官方页面。','排名更新于2026-09-23：基于一单实战与条款推断，不是全店长期数据。15.4%是口述任务有效撤离样本比率，不是账号永久胜率；截图与口述口径差异已单列。价格与原图仍为9月22日归档，活动是否在售另行核对。不是游戏官方或商家承诺。')
+patch('沿用2026-09-18分析，属于主观概率判断；不是实测收益，也不是2026-09-22重新核定的购买结论。','2026-09-23按一单实战重新判断；新增“万哈夫币/元”毛收益模型。只有千万388有本次样本，其余为规则+概率假设的模型估值，不是商家承诺。')
+patch('规则阅读版 · v2','期望收益版 · v4')
+patch('先看懂玩法，<br>再选护航单。','每一块钱，<br>大概能吃多少万？')
+patch('排行榜只是参考。每个条目都附有<strong>各价位差异、具体结单规则和商家原文海报</strong>，点开即可逐条核对。','新增<strong>期望毛收益（万哈夫币/元）</strong>：每个玩法给中位估值、保守—乐观区间和置信度；规则、原图与实战复盘继续保留。')
+patch('排名沿用2026-09-18的主观概率判断，未掌握商家订单流水。文字规则为整理版，原文以完整海报为准；不清楚的数字保留“待核”。原图归档于2026-09-22，活动仍展示不代表仍有效。本页不是商家或游戏官方页面。','期望收益口径＝老板最终实际带出毛价值÷人民币价格，单位万哈夫币/元。区间表达掉落、撤离、任务推进、打手打法等不确定性；暂未扣战备、药弹、维修、交易损耗。不是商家承诺或长期实测。')
 patch('前36项按旧版参考名次排列，末3项为全店须知与储值说明。','前36项按本次高压装备局购买优先级排列，卡片标出旧→新名次；末3项为须知与储值。35／36项因报价或活动状态未确认，仅保留观察，不代表确认可下单。')
 patch('2026-09-22-r2','2026-09-23-r3',expected=None)
 patch("    assert content.count('class=\"play\"') == 39","""    content = content.replace('<div class="toolbar enhanced-only">', CASE_HTML + '<div class="toolbar enhanced-only">', 1)
@@ -137,4 +137,4 @@ report_path=ROOT/'build-report.json'
 report=json.loads(report_path.read_text())
 report['checks'].update({'mobile_360px':'passed','calibration_panel':'passed','all_36_ranks_reordered':'passed','old_deep_links_preserved':'passed','40_original_posters_unchanged':'passed'})
 report_path.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
-print('V3 passed: 36 new ranks, 39 sections, 170 tier records, 40 unchanged source posters; no uploaded user images.')
+print('V4 passed: 36 new ranks, 39 sections, 170 tier records, 40 unchanged source posters; no uploaded user images.')
