@@ -1,0 +1,80 @@
+name: Escort market supplementary evidence
+on:
+  push:
+    branches: ['research/escort-market-20260928']
+    paths: ['.github/workflows/escort-market-supplement.yml']
+permissions:
+  contents: read
+jobs:
+  supplement:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          pip install requests beautifulsoup4 pillow playwright
+          python -m playwright install --with-deps chromium
+      - run: |
+          mkdir -p /tmp/supp/pages /tmp/supp/images
+          cat > /tmp/supp.py <<'PY'
+          from pathlib import Path
+          from urllib.parse import urljoin,urlsplit
+          from bs4 import BeautifulSoup
+          import requests,json,hashlib,concurrent.futures,re,io
+          from PIL import Image
+          from playwright.sync_api import sync_playwright
+          R=Path('/tmp/supp');pages=[];ims={};hdr={'User-Agent':'Mozilla/5.0'}
+          def read(item):
+            name,u=item;key=hashlib.sha256(u.encode()).hexdigest()[:16];row={'shop':name,'url':u,'key':key}
+            try:
+              x=requests.get(u,headers=hdr,timeout=25);row['status']=x.status_code;x.raise_for_status();x.encoding='utf-8';s=BeautifulSoup(x.text,'html.parser');(R/'pages'/f'{key}.html').write_text(x.text)
+              row['title']=s.title.get_text() if s.title else '';row['links']=[{'text':a.get_text(' ',strip=True),'url':urljoin(u,a['href'])}for a in s.select('a[href]')]
+              row['images']=[urljoin(u,a.get('data-src')or a.get('src'))for a in s.select('img')if (a.get('data-src')or a.get('src','')).startswith(('http','/'))]
+              for t in s(['script','style']):t.decompose()
+              (R/'pages'/f'{key}.txt').write_text(s.get_text('\n',strip=True));row['text_file']=f'pages/{key}.txt'
+            except Exception as e:row['error']=type(e).__name__
+            return row
+          seeds=[('大饼','https://db.sybb.pw/pricing'),('聚琳琅','https://www.jllyx.com/'),('未来烽','https://www.mzdf.top/menu.html')]
+          with concurrent.futures.ThreadPoolExecutor(max_workers=3)as pool:pages=list(pool.map(read,seeds))
+          jobs=[]
+          for p in pages:
+            for a in p.get('links',[]):
+              if '/pricing/product/'in a['url']and any(v in a['text']for v in ['趣味','护航','体验']):jobs.append((p['shop'],a['url']))
+          with concurrent.futures.ThreadPoolExecutor(max_workers=5)as pool:pages.extend(pool.map(read,jobs[:65]))
+          with sync_playwright()as pw:
+            b=pw.chromium.launch(headless=True,args=['--disable-dev-shm-usage']);pg=b.new_page(viewport={'width':1440,'height':1000})
+            try:
+              pg.goto('https://www.jllyx.com/',wait_until='domcontentloaded',timeout=45000);pg.wait_for_timeout(5000)
+              html=pg.content();(R/'jll-rendered.html').write_text(html);(R/'jll-rendered.txt').write_text(pg.locator('body').inner_text())
+              links=pg.locator('a').evaluate_all('(es)=>es.map(e=>({text:e.textContent,url:e.href}))');(R/'jll-links.json').write_text(json.dumps(links,ensure_ascii=False))
+              (R/'jll-images.json').write_text(json.dumps(pg.locator('img').evaluate_all('(es)=>es.map(e=>({url:e.src,alt:e.alt}))'),ensure_ascii=False))
+              pg.screenshot(path=str(R/'jll-home.png'))
+            except Exception as e:print('JLL',type(e).__name__)
+            try:
+              pg.goto('https://app1.lilihuyu.com/s/pages/7000000005368056#tab=2300021214589087',wait_until='domcontentloaded',timeout=45000);pg.wait_for_timeout(6000)
+              tabs=pg.locator('[role=tab]').all_text_contents();out=[]
+              for name in tabs:
+                pg.evaluate('(n)=>{[...document.querySelectorAll("[role=tab]")].find(e=>e.textContent===n)?.click()}',name);pg.wait_for_timeout(150)
+                out.append({'name':name,'url':pg.url,'images':pg.locator('.hb-global-image').evaluate_all('(es)=>es.map(e=>({path:new URL(e.src).pathname,width:e.naturalWidth,height:e.naturalHeight}))')})
+              (R/'xixitang-live.json').write_text(json.dumps(out,ensure_ascii=False,indent=2))
+            except Exception as e:print('XIXITANG',type(e).__name__)
+            b.close()
+          for p in pages:
+            for u in p.get('images',[]):
+              if not any(v in u.lower()for v in ['logo','avatar','ghs','icon']):ims[u]=p['url']
+          def image(item):
+            u,ref=item;key=hashlib.sha256(u.encode()).hexdigest()[:16];row={'url':u,'key':key}
+            try:
+              x=requests.get(u,headers={**hdr,'Referer':ref},timeout=25);x.raise_for_status();im=Image.open(io.BytesIO(x.content));ext='.png'if im.format=='PNG'else'.jpg';row.update(file=f'images/{key}{ext}',width=im.width,height=im.height);(R/row['file']).write_bytes(x.content)
+            except Exception as e:row['error']=type(e).__name__
+            return row
+          with concurrent.futures.ThreadPoolExecutor(max_workers=6)as pool:images=list(pool.map(image,list(ims.items())[:130]))
+          (R/'manifest.json').write_text(json.dumps({'pages':pages,'images':images},ensure_ascii=False,indent=2));print('pages',len(pages),'images',len(images))
+          PY
+          python /tmp/supp.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: escort-market-supplement-20260928
+          path: /tmp/supp
+          retention-days: 3
