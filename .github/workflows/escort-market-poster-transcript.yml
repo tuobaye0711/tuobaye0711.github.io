@@ -1,0 +1,85 @@
+name: Escort selected poster transcription
+on:
+  push:
+    branches: ['research/escort-market-20260928']
+    paths: ['.github/workflows/escort-market-poster-transcript.yml']
+permissions:
+  contents: write
+  actions: read
+jobs:
+  transcribe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: escort-market-public-sources-20260928
+          run-id: 36373785394
+          github-token: ${{ github.token }}
+          path: /tmp/market
+      - uses: actions/download-artifact@v4
+        with:
+          name: escort-market-supplement-20260928
+          run-id: 36373937785
+          github-token: ${{ github.token }}
+          path: /tmp/supp
+      - name: Extract selected full rule posters in one OCR batch, not repeated crop guesses
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-chi-sim
+          pip install pillow
+          python - <<'PY'
+          from pathlib import Path
+          import json,re,hashlib
+          from PIL import Image
+          selected=[];seen=set();R=Path('escort-market-audit');(R/'poster-transcripts').mkdir(exist_ok=True)
+          for root in [Path('/tmp/market'),Path('/tmp/supp')]:
+            m=json.loads((root/'manifest.json').read_text());imgs={x['url']:x for x in m['images'] if 'file'in x}
+            for p in m['pages']:
+              if '/pricing/product/'not in p['url']:continue
+              text=(root/p['text_file']).read_text()if p.get('text_file')else''
+              if p['shop']=='血族':
+                wanted=any(w in text for w in ['板板不吃枪','小小巨人','单局3个金杯','沙保单','左轮单','红卡自由','翻翻乐','权利的游戏','浓缩铀样本','反应堆冷却核心','卫星锅','火箭燃料','保底1088W'])
+              elif p['shop']=='4AM页面店':wanted=any(w in text for w in ['小小巨人','千万','小金','不吃枪','黑洞','骰子','狗牌','金弹','沙色','沙保','熬鹰'])
+              elif p['shop']=='大饼':wanted=any(w in text for w in ['拯救AWM','绝密环游记','七宗罪','摸红单','消消乐','趣味游园会'])
+              else:wanted=False
+              if not wanted:continue
+              choices=[]
+              for im in p.get('images',[]):
+                u=im.get('url')if isinstance(im,dict)else im
+                if u in imgs and imgs[u]['height']>=600 and imgs[u]['width']>=500:choices.append(imgs[u])
+              # The final substantial product image is usually the full rules; large header tiles are excluded.
+              if choices:
+                im=choices[-1];blob=(root/im['file']).read_bytes();digest=hashlib.sha256(blob).hexdigest()
+                if digest not in seen:
+                  seen.add(digest);selected.append({'shop':p['shop'],'page':p['url'],'title':p.get('title'),'image':im['url'],'file':str(root/im['file']),'sha256':digest})
+          # Public Tencent document has 28 images, not the 4 initially visible. Sample every newly loaded full poster.
+          qpath=Path('/tmp/market/qq-images.json')
+          if qpath.exists():
+            for q in json.loads(qpath.read_text())[4:]:
+              if q.get('file'):selected.append({'shop':'游途','page':'https://docs.qq.com/doc/DS0FCYVdtbVhVSktn','title':'后续懒加载海报','image':q['url'],'file':'/tmp/market/'+q['file']})
+          # Bound this last-resort pass; originals remain in the evidence archive.
+          selected=selected[:60];files=[]
+          for i,row in enumerate(selected):
+            im=Image.open(row['file']).convert('RGB');im.thumbnail((1800,13000));p=Path('/tmp')/f'ocr-source-{i:02d}.png';im.save(p);files.append(str(p));row['index']=i
+          Path('/tmp/ocr-input-list.txt').write_text('\n'.join(files));(R/'poster-transcripts/index.json').write_text(json.dumps(selected,ensure_ascii=False,indent=2))
+          print('Selected source posters',len(selected))
+          PY
+          OMP_THREAD_LIMIT=1 tesseract /tmp/ocr-input-list.txt /tmp/poster-batch -l chi_sim+eng --psm 11
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          R=Path('escort-market-audit/poster-transcripts');items=json.loads((R/'index.json').read_text());pages=Path('/tmp/poster-batch.txt').read_text().split('\f')
+          for i,row in enumerate(items):
+            text=pages[i]if i<len(pages)else''
+            (R/f'{i:02d}.txt').write_text('UNVERIFIED OCR TRANSCRIPTION; NOT MERCHANT GUARANTEE\n'+json.dumps({k:v for k,v in row.items()if k!='file'},ensure_ascii=False)+'\n\n'+text)
+          PY
+      - name: Store flagged transcript on research branch only
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add escort-market-audit/poster-transcripts
+          git commit -m 'Add explicitly flagged image text layer for rule comparison'
+          git pull --rebase origin research/escort-market-20260928
+          git push origin HEAD:research/escort-market-20260928
