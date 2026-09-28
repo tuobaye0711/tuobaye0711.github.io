@@ -1,0 +1,143 @@
+name: Escort market public-source research
+on:
+  push:
+    branches: ['research/escort-market-20260928']
+    paths: ['.github/workflows/escort-market-research.yml']
+permissions:
+  contents: read
+jobs:
+  public-source-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          python -m pip install requests beautifulsoup4 pillow playwright
+          python -m playwright install --with-deps chromium
+      - name: Read public catalog pages and preserve exact source bytes
+        run: |
+          mkdir -p /tmp/escort-market/pages /tmp/escort-market/images /tmp/escort-market/baseline
+          cat > /tmp/research.py <<'PY'
+          import requests,json,re,hashlib,time,concurrent.futures,shutil
+          from pathlib import Path
+          from urllib.parse import urljoin,urlsplit
+          from bs4 import BeautifulSoup
+          from PIL import Image
+          ROOT=Path('/tmp/escort-market')
+          HEAD={'User-Agent':'Mozilla/5.0 (compatible; public catalog research)'}
+          seeds=[('战一下','https://zhan1x.com/'),('宅宅鼠','https://zhaizhaishu.com/'),('血族','https://xz.sybb.pw/pricing'),('4AM页面店','https://4am.sybb.pw/pricing'),('未来烽','https://www.mzdf.top/index.html'),('启示','https://qishigames.com/'),('长倾','https://about.fornoone.top/'),('K4','https://k4dianjing.com/sanjiaozhou/quweidan/'),('KP','https://www.kpdl.com/'),('虫二','https://www.ffldy.com/'),('觅尔线索','https://mireld.com/pricing'),('喵呜线索','https://www.maopw.com/')]
+          pages=[];images=[]
+          def getpage(item):
+            shop,url=item;key=hashlib.sha256(url.encode()).hexdigest()[:16]
+            row={'shop':shop,'url':url,'key':key,'retrieved_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())}
+            try:
+              r=requests.get(url,headers=HEAD,timeout=25);row['status']=r.status_code;row['final_url']=r.url
+              if r.status_code!=200:return row
+              if 'text/html' not in r.headers.get('content-type',''):return row
+              r.encoding='utf-8';soup=BeautifulSoup(r.text,'html.parser')
+              (ROOT/'pages'/f'{key}.html').write_text(r.text,encoding='utf-8')
+              row['title']=soup.title.get_text(' ',strip=True) if soup.title else ''
+              row['links']=[{'text':a.get_text(' ',strip=True),'url':urljoin(r.url,a['href'])} for a in soup.select('a[href]') if not a['href'].startswith(('javascript:','mailto:','tel:'))]
+              row['images']=[]
+              for x in soup.select('img'):
+                src=x.get('data-src') or x.get('src')
+                if src and not src.startswith('data:'):row['images'].append({'url':urljoin(r.url,src),'alt':x.get('alt','')})
+              for x in soup(['script','style','noscript']):x.decompose()
+              text=soup.get_text('\n',strip=True);(ROOT/'pages'/f'{key}.txt').write_text(text,encoding='utf-8')
+              row['text_file']=f'pages/{key}.txt';row['html_file']=f'pages/{key}.html'
+              row['text_len']=len(text)
+            except Exception as e:row['error']=type(e).__name__+':'+str(e)[:180]
+            return row
+          with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:pages=list(pool.map(getpage,seeds))
+          todo=[];seen={u for _,u in seeds}
+          for p in pages:
+            shop=p['shop']
+            for a in p.get('links',[]):
+              u=a['url'];t=a['text']
+              if u in seen or urlsplit(u).netloc!=urlsplit(p['url']).netloc:continue
+              include=False
+              if shop=='血族':include=('/pricing/product/' in u and '三角洲端游' in t and not any(v in t for v in ['钓鱼','小时陪玩','成就类','幸运']))
+              elif shop=='4AM页面店':include=('/pricing/product/' in u and any(v in t for v in ['趣味护航','指定护航','标准护航','特惠体验']))
+              elif shop in ['未来烽','启示','长倾','觅尔线索','喵呜线索','虫二','K4']:include=any(v in u for v in ['menu','pricing','product','huhang','service'])
+              elif shop=='战一下':include=any(u.endswith('/'+v) for v in ['services','faq','process'])
+              if include:seen.add(u);todo.append((shop,u))
+          todo=todo[:230]
+          with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
+            for p in pool.map(getpage,todo):pages.append(p)
+          # One further layer only for image-based menu centers, not infinite crawling.
+          more=[]
+          for p in pages:
+            if p['shop'] not in ['未来烽','启示','长倾']:continue
+            for a in p.get('links',[]):
+              u=a['url']
+              if u not in seen and urlsplit(u).netloc==urlsplit(p['url']).netloc and any(v in u for v in ['menu','detail','product']):seen.add(u);more.append((p['shop'],u))
+          with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:pages.extend(pool.map(getpage,more[:30]))
+          imgwork={}
+          for p in pages:
+            for im in p.get('images',[]):
+              u=im['url']
+              if any(v in u.lower() for v in ['cutout','-soft','avatar','logo','favicon','qrcode','ghs.png','beian']):continue
+              # Keep full product images; these often hold rules absent from HTML.
+              imgwork.setdefault(u,{'url':u,'referer':p['url'],'shops':[]})['shops'].append(p['shop'])
+          def getimage(row):
+            u=row['url'];key=hashlib.sha256(u.encode()).hexdigest()[:16];row=dict(row);row['key']=key
+            try:
+              r=requests.get(u,headers={**HEAD,'Referer':row['referer']},timeout=25)
+              if r.status_code!=200:row['status']=r.status_code;return row
+              if len(r.content)>15000000:row['error']='too_large';return row
+              import io
+              im=Image.open(io.BytesIO(r.content));ext='.png' if im.format=='PNG' else '.jpg'
+              if im.width<250 or im.height<200:row['error']='decorative_small';return row
+              (ROOT/'images'/f'{key}{ext}').write_bytes(r.content)
+              row.update(file=f'images/{key}{ext}',width=im.width,height=im.height,bytes=len(r.content),sha256=hashlib.sha256(r.content).hexdigest())
+            except Exception as e:row['error']=type(e).__name__
+            return row
+          with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:images=list(pool.map(getimage,list(imgwork.values())[:300]))
+          # Bring existing public research inputs for reproducible comparisons, not old EV output.
+          for filename in ['rules.json','source-manifest.json']:
+            p=Path('delta-escort')/filename
+            if p.exists():shutil.copy(p,ROOT/'baseline'/('xixitang-'+filename))
+          p=Path('delta-youtu/model.json')
+          if p.exists():shutil.copy(p,ROOT/'baseline'/'youtu-previous-rules.json')
+          (ROOT/'manifest.json').write_text(json.dumps({'pages':pages,'images':images},ensure_ascii=False,indent=2),encoding='utf-8')
+          print(json.dumps({'pages':len(pages),'pages_ok':sum(p.get('status')==200 for p in pages),'images':len(images),'images_ok':sum('file'in x for x in images)},ensure_ascii=False))
+          PY
+          python /tmp/research.py
+      - name: Read remaining publicly viewable Tencent document images
+        continue-on-error: true
+        timeout-minutes: 4
+        run: |
+          cat > /tmp/qqscroll.py <<'PY'
+          import json,time,requests,hashlib
+          from pathlib import Path
+          from playwright.sync_api import sync_playwright
+          R=Path('/tmp/escort-market');rows=[];seen=set()
+          with sync_playwright() as p:
+            b=p.chromium.launch(headless=True,args=['--disable-dev-shm-usage'])
+            page=b.new_page(viewport={'width':1500,'height':1100})
+            page.goto('https://docs.qq.com/doc/DS0FCYVdtbVhVSktn',wait_until='domcontentloaded',timeout=60000)
+            page.wait_for_timeout(12000)
+            for step in range(180):
+              urls=page.locator('img').evaluate_all('(els)=>els.map(e=>e.src).filter(s=>s.includes("docimg"))')
+              for u in urls:
+                if u not in seen:seen.add(u);rows.append({'url':u,'step':step})
+              state=page.evaluate('''()=>{const els=[...document.querySelectorAll('*')].filter(e=>e.scrollHeight>e.clientHeight+100&&e.clientHeight>200);els.sort((a,b)=>b.scrollHeight-a.scrollHeight);let el=els.find(e=>getComputedStyle(e).overflowY.match(/auto|scroll/))||els[0];if(!el)return null;let before=el.scrollTop;el.scrollTop+=800;return {before,after:el.scrollTop,h:el.scrollHeight,c:el.clientHeight};}''')
+              page.wait_for_timeout(160)
+              if step>5 and state and state['before']==state['after']:break
+            (R/'qq-document.html').write_text(page.content(),encoding='utf-8')
+            page.screenshot(path=str(R/'qq-document-end.png'))
+            b.close()
+          for row in rows:
+            try:
+              u=row['url'];r=requests.get(u,headers={'Referer':'https://docs.qq.com/','User-Agent':'Mozilla/5.0'},timeout=25);r.raise_for_status()
+              key=hashlib.sha256(u.encode()).hexdigest()[:16];path=R/'images'/f'qq-{key}.jpg';path.write_bytes(r.content);row['file']='images/'+path.name
+            except Exception as e:row['error']=type(e).__name__
+          (R/'qq-images.json').write_text(json.dumps(rows,ensure_ascii=False,indent=2));print('Tencent images',len(rows))
+          PY
+          python /tmp/qqscroll.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: escort-market-public-sources-20260928
+          path: /tmp/escort-market
+          retention-days: 3
