@@ -1,0 +1,14 @@
+{
+  "index": 11,
+  "path": "/tmp/rule-actual-11.png",
+  "image_url": "https://shenyun1.file.sybb.pw/451197/2026/08/13/51d6e9d8ea3440f5ba8213c643c2d897",
+  "sha256": "5f05cf2d0e0243aaacac70af7d00b88e0b500764c12a051e8612308bd2abd854",
+  "sources": [
+    {
+      "shop": "血族",
+      "url": "https://xz.sybb.pw/pricing/product/1061940259141",
+      "title": "巴克什-翻翻乐 - 陪玩项目 - 血族电竞"
+    }
+  ],
+  "transcription": "规则参考\n\n588档: 卡组12张，柠檬卡4张，需翻出全部柠檬卡才能结单，保底3000W\n\n翻到\"柠檬卡\"无任务，翻到任务卡需要完成任务，任务失败则+200W保底\n\n每撤离600w+1次翻牌次数，任务成功+1翻牌次数\n\n撤离成功+带出4格及以上大红 > 额外+1次翻牌次数\n\n带出\"非洲之星'或\"海洋之泪” > 额外+1次翻牌次数\n"
+}

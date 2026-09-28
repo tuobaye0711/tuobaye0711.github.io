@@ -1,0 +1,14 @@
+{
+  "index": 23,
+  "path": "/tmp/rule-actual-23.png",
+  "image_url": "https://shenyun1.file.sybb.pw/767881/2026/08/14/9e1793ea26e5475b836712e3972c235a",
+  "sha256": "8f0f9e0c0c0451ef1f506cea6381a4c10f79fa5fc14991723ff94605b2bf7cae",
+  "sources": [
+    {
+      "shop": "大饼",
+      "url": "https://db.sybb.pw/pricing/product/1246649337861",
+      "title": "拯救AWM 888保1888 - 陪玩项目 - 大饼电竞"
+    }
+  ],
+  "transcription": "加 国\n\nEE =\n\nily\n\nmil\n\npsi\n\n*         *         站         SN\n\nLentil\n\ng\n\n; Ay\n\ny 4)\n\n@)\n\nee\n\nv4)\n\n@ )\n\neca™\n\nat\n\nAga ING)\n\nvl\n\nSs.\n\noF\n\nYT\n\n二\n\n信人个他:\n\neeeee®\n\na\n\n| oe\n\nao\n\n绝密环\n\nalt\n\nic\n\n玩法详情 4\n\n需要珊着板板从绝密航天 PAHS A 复活\n\n并且成功撒高，单局收益需大于666W ，和寺\n\n包撤离 不计入保底\n\n价目表\n\no¢\n\n6\n\nJ\n\n688 {R 1688w 2 个不同的复活点撤高\n\n+ 1688 保 5888w 5 个不同的复活点撤离\n\n+ 2988 保 8888w 6 个不同的复活点撤高\n\n了人人<\n\n人人<\n\n| ase\n\ni 图\n\nAWM\n\n男 国\n\n玩法详情 :\n\n融妥市着板板从任意绝密地图 单局 市出\n\n效量的aowm ( 武器箱里摸出的不算 )\n\n不出不结\n\n价目表\n\no¢\n\n6\n\nJ\n\n888 保1888w wih 3 把AWM\n\n“%* 1888 保 5888w 单局带出5 把AWM\n\n“* 3888 保 1.3e\n\n单局带出 7 把AWM\n\n最终解释权归大饼电竞所有\n"
+}

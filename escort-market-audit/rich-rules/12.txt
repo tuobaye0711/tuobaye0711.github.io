@@ -1,0 +1,14 @@
+{
+  "index": 12,
+  "path": "/tmp/rule-actual-12.png",
+  "image_url": "https://shenyun1.file.sybb.pw/451197/2026/08/05/d69ae1064f554a14a5936ce9eb07968b",
+  "sha256": "581eaad39ebbcb9097adcabc7704f47ff8289ea62b0a125fb44061fe46421967",
+  "sources": [
+    {
+      "shop": "血族",
+      "url": "https://xz.sybb.pw/pricing/product/1054769920837",
+      "title": "航天基地-翻翻乐 - 陪玩项目 - 血族电竞"
+    }
+  ],
+  "transcription": "卡牌介绍\n\nBie\n\nTARGET\n\no\n\nrise\n\n翻到所有目标牌即通关\n\n芷务牌\n\nTASK\n\na\n\nx\n\n»\n\n牛角卡\n\n宿舍卡\n\n失败不可恢复\n\nARATE\n\nARATE\n\nAAR\n\n陪陪在下局游戏内措到5个牛\n\n无沦出生在哪里，必须闪击宿舍 ”两位陪玩只能穿四套进入游戏\n\n单局必须计概板开入个大保险\n\n角，在撤离时交给老板(老板可\n\n楼至少杀1人(出生在宿舍则任务\n\n可以击\n\n示委二\n\n7S\n\n(无需成功撤离)\n\n藏牛角)\n\nA\n\nA\n\ncare\n\ne\n\npeered\n\n577\n\n老鼠卡\n\nwae\n\nGm\n\nARATE\n\nARATE\n\nARATE\n\nARATE\n\n打手找到一只老鼠并投喂一个红\n\n单局带出5把80W及以上的枪\n\n开局6分钟必须完成击杀一队\n\n陪玩必须轮流在二员管道上\"跳\n\n色收集品(局外带入)\n\n舞”10秘钟\n"
+}

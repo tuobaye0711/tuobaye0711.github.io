@@ -1,0 +1,14 @@
+{
+  "index": 10,
+  "path": "/tmp/rule-actual-10.png",
+  "image_url": "https://shenyun1.file.sybb.pw/451197/2026/08/05/c828c7f662f34bb38cd8d3ba4cc58fcd",
+  "sha256": "6114df8e5b895784f81a2d19d0079fe511b680627ed8a643db70f45ae73044c2",
+  "sources": [
+    {
+      "shop": "血族",
+      "url": "https://xz.sybb.pw/pricing/product/1061940259141",
+      "title": "巴克什-翻翻乐 - 陪玩项目 - 血族电竞"
+    }
+  ],
+  "transcription": "卡牌介绍\n\nBie\n\nTARGET\n\no\n\nrise\n\n翻到所有目标牌即通关\n\n芷务牌\n\nTASK\n\n未\n\n六\n\nwie\n\ni}\n\nLad\n\nMy\n\n小红卡\n\n沙保卡\n\n4套卡\n\n板板不吃枪\n\n失败不可恢复\n\nARATE\n\nARATE\n\nAAR\n\n单局累计带出4格红 (RR\n\n当局措2个沙保，并成功撤离\n\n两位陪玩只能穿四套进入游戏，\n\n单局300W撤离，只吃穿的头甲\n\nth)\n\n可以击\n\nARSE\n\n7S\n\nBONWALUR TE (枪、配件\n\n由打手自行带回)\n\n六 4\n\nFark)\n\n六套卡\n\n—\n\n叶血猎大\n\n失败不可恢复\n\n失败不可恢复\n\n失败不可恢复\n\n失败不可恢复\n\n击落直升机一次 (非标杆任务)\n\n板板给打手们带入套头甲 (1\n\n打手玩疾风，单个疾风干员当局\n\n打手玩银收，击杀两个被闻脚印\n\n份) ，完成600W撤离。\n\nHAS ARLE\n\n或使用大招标记的人员\n"
+}

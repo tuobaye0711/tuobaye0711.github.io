@@ -1,0 +1,14 @@
+{
+  "index": 28,
+  "path": "/tmp/rule-actual-28.png",
+  "image_url": "https://shenyun1.file.sybb.pw/767881/2026/08/16/8d409db005634cd09ec24a287ff1a69a",
+  "sha256": "21739cd8250e44ea2ddb9ec2bba0eed8c96f3213d56308554d7f1055c6e55444",
+  "sources": [
+    {
+      "shop": "大饼",
+      "url": "https://db.sybb.pw/pricing/product/1248495374853",
+      "title": "七宗罪1688保5088w - 陪玩项目 - 大饼电竞"
+    }
+  ],
+  "transcription": "1\n\n7)\n\naw\n\na\n\npiv\n\nyn\n\n_@\n\nK\n\nSS)\n\nIST\n\nIGE || =\n\nart\n\n/ ZOZ6 /\n\n]\n\n258 t& 688w\n\n888 保1888w\n\n1688 42 5088w Ene Ges E>\n\n2688 42 8088w oe Core\n\nGira by SLES Disa\n\n任务详情\n\nOse\n\n两\n\n名陪玩开局\n\n7S AE AF\n\n一级头甲\n\n要求对局清图且撤高成功\n\ntats)\n\n须击败一队同行护子队(有红包\n\nCite):\n\n轮\n\n满改枪的队伍)且撤高成功\n\n两名陪玩全程不静步，进图就开始\n\n宣战清图撤离成功(只要静步就失败)\n\n—\n\n本\n\n夫止板板作为支援位给陪玩任何增\n\n技\n\n救人并且撤离成功\n\n矿玩在此任务需要班醒碑板不选支援位\n\ntte)\n\n单局板板吃10个保险\n\n(大保险和小保\n\n险)且撤离成功\n\nVE)\n\n超过1111W\n\n板板单局局内价值\n\nRAE\n\n累计击败8个女干员\n\n完成任务当局\n\nKe\n\nBm\n\n须撤离成功\n\nS\n\nEAA AS WEG\n"
+}

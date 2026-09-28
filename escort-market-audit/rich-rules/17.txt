@@ -1,0 +1,14 @@
+{
+  "index": 17,
+  "path": "/tmp/rule-actual-17.png",
+  "image_url": "https://shenyun1.file.sybb.pw/451197/2026/06/27/e8535bcdcdf64a62999a89352b712b14",
+  "sha256": "8590a27ee84d9b70473d3ed5ad11e49715f600f525bdb2e5bd2255ab17882c30",
+  "sources": [
+    {
+      "shop": "血族",
+      "url": "https://xz.sybb.pw/pricing/product/584380862405",
+      "title": "388 保1588W - 陪玩项目 - 血族电竞"
+    }
+  ],
+  "transcription": "Los akan MITA 5p\n\nOo\n\nSBOLISBOW\n\nUHR\n\n—~\n\n|\n\n/\n\n只吃穿的头甲背包和物资以及子弹〈枪、配件由打手自行带回 )\n\n打手减少了战备损耗，板板们也不会因为吃太多枪而导致\n\n收益过高，爆率下降，多吃几把的同时还能殉出大货。\n\n头甲穿回去还能卡战备，一箭双雕，双赢。\n\n注释: 如果出心或者泪，按价值20%算。\n\nSs\n\nN\n\nti\n"
+}

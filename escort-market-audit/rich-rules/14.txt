@@ -1,0 +1,14 @@
+{
+  "index": 14,
+  "path": "/tmp/rule-actual-14.png",
+  "image_url": "https://shenyun1.file.sybb.pw/451197/2026/08/13/bd0e9c97df894ca187238b4349fc248e",
+  "sha256": "5ef812fa2630e7436dad460e02336d3445556678280a8660806f24c42036e929",
+  "sources": [
+    {
+      "shop": "血族",
+      "url": "https://xz.sybb.pw/pricing/product/1198327547845",
+      "title": "潮汐监狱-翻翻乐 - 陪玩项目 - 血族电竞"
+    }
+  ],
+  "transcription": "上牌介绍\n\nBm\n\nTARGET\n\n海洋之泪\n\n翻到所有目标牌即通关\n\n芷务牌\n\nTASK\n\nWANTED\n\nad\n\nSS\n\n<2 S\n\nxX\n\na\n\ni\n\na\n\n猎杀BOSSs\n\n潮汐的救赎\n\n老鼠卡\n\n失败不可恢复\n\nARATE\n\nARATE\n\nARATE\n\nTER TET SS\", 20\n\n板板以囚徒\"状态下，以100W\n\n击败一名不带枪的老鼠或者圈养\n\n打手们和老板用连狙击败3名干\n\n没成功击杀或者被抢则任务失\n\n及|以上哈夫币撤离一次 (RRS\n\n一只老鼠 (板板自选) ，最后板\n\nRHE ERNE\n\n败，无需撤离成功。\n\n(没刷则下\n\n可以选择不当小黄人，全金红胸\n\n板撤离成功。\n\n一把继续)\n\n挂撤离1次)\n\n%\n\nMi\n\npeered\n\nSWF\n\n让\n\n海底捞\n\n板板不吃枪\n\n下\n\n失败不可恢复\n\n失败不可恢复\n\n失败不可恢复\n\n失败不可恢复\n\n开满5张不同房不，并i板板进\n\n看刷泪点5个或者摸5个贝壳\n\n单局300W撤离，只吃穿的头甲 ”开局6分钟必须完成击杀一队，\n\nase, tis.\n\n背包和物资以及子绊 (枪、配件\n\n无需撤离成功。\n\n由打手自行带回)\n"
+}

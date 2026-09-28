@@ -1,0 +1,14 @@
+{
+  "index": 15,
+  "path": "/tmp/rule-actual-15.png",
+  "image_url": "https://shenyun1.file.sybb.pw/451197/2026/08/13/063ac3b8b4594e45976caa4c1de40433",
+  "sha256": "d7fcd0c79318e073a8295ea071ffa3e0fa070d7e34bc2d2da6826512ce9193ab",
+  "sources": [
+    {
+      "shop": "血族",
+      "url": "https://xz.sybb.pw/pricing/product/1198327547845",
+      "title": "潮汐监狱-翻翻乐 - 陪玩项目 - 血族电竞"
+    }
+  ],
+  "transcription": "规则参考\n\n888档: 卡组12张，海洋之泪4张，需翻出全部海洋之泪才能结单\n\n保底3588W，每撤离700w+1次翻牌次数，任务成功+1翻牌次数\n\n翻到 海洋之泪'无任务，翻到任务卡需要完成任务，任务失败则+300W保底\n\n撤离成功+带出4格及以上大红 一 额外+1次翻牌次数\n\n带出\"非洲之星\"或\"海洋之泪” > BM VRE\n"
+}

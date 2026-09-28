@@ -1,0 +1,14 @@
+{
+  "index": 19,
+  "path": "/tmp/rule-actual-19.png",
+  "image_url": "https://shenyun1.file.sybb.pw/173728/2026/04/09/d2159dd0a16c4479b4aedbefbfb16da9",
+  "sha256": "117cfb92a5cf1b738842df07b33dd959ae61f346aa9cb5e3c211b580f2c15899",
+  "sources": [
+    {
+      "shop": "4AM页面店",
+      "url": "https://4am.sybb.pw/pricing/product/158469480709",
+      "title": "千万对赌单1088r保1000w - 陪玩项目 - 4AM电竞"
+    }
+  ],
+  "transcription": "» 1088保底1000W，单局未带出1000W\n\n一直打\n\n»> 此单炸单正常加保底，炸一把加50W，\n\n但不加在赌约上，加在累计保底上\n\n>> 特勤处六甲修完不低于100老板不能拒绝\n\n> 特勤处六头修完不低于42老板不能拒绝\n\n» 老太头必须38耐久以上\n"
+}

@@ -1,0 +1,14 @@
+{
+  "index": 18,
+  "path": "/tmp/rule-actual-18.png",
+  "image_url": "https://shenyun1.file.sybb.pw/451197/2026/06/08/97761ab51aee418fb97dc64bd23b107b",
+  "sha256": "7e3a166900b4d08bdf8ee057acd917a2c016be78179b97830a8b5b43750f225f",
+  "sources": [
+    {
+      "shop": "血族",
+      "url": "https://xz.sybb.pw/pricing/product/658753259845",
+      "title": "688保3000W - 陪玩项目 - 血族电竞"
+    }
+  ],
+  "transcription": "=\n\n反板不吃相。 Srey,\n\nSEXO GER 9 =\n\n吃穿的头甲青包和物资以及金弹 (枪、配件由打手自行带回 )\n\n打手减少了战备损耗，板板们也不会因为吃太多枪而导致\n\n收益过高，爆率下降，多吃几把的同时还能吏出大货。\n\n头甲穿回去还能卡战备，一稍双雕，双赢。\n\n注释: 如果出心或者泪，按价值20%算。\n\nN\n\nre\n"
+}

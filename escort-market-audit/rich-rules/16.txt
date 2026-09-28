@@ -1,0 +1,14 @@
+{
+  "index": 16,
+  "path": "/tmp/rule-actual-16.png",
+  "image_url": "https://shenyun1.file.sybb.pw/451197/2026/06/11/7744d3e49c43471cb14ae16c70a70940",
+  "sha256": "99588bedcd659be28bcb9a268837b9d8bc4983daf45545f965a5d4ba7a098eb8",
+  "sources": [
+    {
+      "shop": "血族",
+      "url": "https://xz.sybb.pw/pricing/product/721563435973",
+      "title": "188 保688W - 陪玩项目 - 血族电竞"
+    }
+  ],
+  "transcription": "Ls\n\n机\n\nRAR NIZHB fy) Se\n\n二一\n\nROMCOW GIERRR 中\n\n|\n\nRISFHLAPRANMAURFS 〈枪、配件由打手自行带回 )\n\n/\n\n打手减少了战备损耗，板板们也不会因为吃太多枪而导致\n\n收益过高，爆率下降，多吃几把的同时还能爽出大货。\n\n头甲穿回去还能卡战备，一稍双雕，双赢。\n\nER: 如果出心或者泪，按价值20%算。\n\nei\n\nN\n\niy\n"
+}
