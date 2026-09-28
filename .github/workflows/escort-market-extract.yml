@@ -1,0 +1,84 @@
+name: Escort market compact audit index
+on:
+  push:
+    branches: ['research/escort-market-20260928']
+    paths: ['.github/workflows/escort-market-extract.yml']
+permissions:
+  contents: write
+  actions: read
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: escort-market-public-sources-20260928
+          run-id: 36373785394
+          github-token: ${{ github.token }}
+          path: /tmp/market
+      - uses: actions/download-artifact@v4
+        with:
+          name: escort-market-supplement-20260928
+          run-id: 36373937785
+          github-token: ${{ github.token }}
+          path: /tmp/supp
+      - name: Index source text and source image locations
+        run: |
+          python -m pip install beautifulsoup4 pillow
+          python - <<'PY'
+          import json,collections,re,shutil
+          from pathlib import Path
+          from bs4 import BeautifulSoup
+          from PIL import Image,ImageDraw
+          O=Path('escort-market-audit');O.mkdir(exist_ok=True);(O/'text').mkdir(exist_ok=True)
+          pages=[];images=[];byshop={}
+          for root in [Path('/tmp/market'),Path('/tmp/supp')]:
+            m=json.loads((root/'manifest.json').read_text())
+            for p in m['pages']:
+              row={k:v for k,v in p.items() if k not in ['links','images']};row['image_urls']=[x.get('url','')if isinstance(x,dict)else x for x in p.get('images',[])];row['text_path']=None
+              if p.get('text_file'):
+                text=(root/p['text_file']).read_text();row['text_path']='text/'+p['key']+'.txt';(O/row['text_path']).write_text(text)
+                byshop.setdefault(p['shop'],[]).append({'url':p['url'],'title':p.get('title',''),'text':text,'image_urls':row['image_urls']})
+              pages.append(row)
+            for x in m.get('images',[]):
+              if 'file'in x:images.append({**x,'archive':root.name})
+          for shop,rows in byshop.items():
+            chunks=[]
+            for p in rows:
+              chunks.append('SOURCE: '+p['url']+'\nTITLE: '+p['title']+'\n'+p['text']+'\nIMAGES: '+'\n'.join(p['image_urls'])+'\n\n'+'='*40+'\n')
+            # keep separate chunks for easy connector paging
+            s=''.join(chunks)
+            for i in range(0,len(s),45000):(O/f'{shop}-{i//45000+1}.txt').write_text(s[i:i+45000])
+          for fn in ['qq-images.json']:
+            if (Path('/tmp/market')/fn).exists():shutil.copy(Path('/tmp/market')/fn,O/fn)
+          for fn in ['jll-rendered.txt','jll-links.json','jll-images.json','xixitang-live.json']:
+            if (Path('/tmp/supp')/fn).exists():shutil.copy(Path('/tmp/supp')/fn,O/fn)
+          (O/'pages.json').write_text(json.dumps(pages,ensure_ascii=False,indent=2));(O/'images.json').write_text(json.dumps(images,ensure_ascii=False,indent=2))
+          cnt=collections.Counter(p['shop']for p in pages if p.get('text_path'))
+          summary={'total_page_requests':len(pages),'text_pages':sum(bool(p.get('text_path'))for p in pages),'pages_per_shop':dict(cnt),'image_files':len(images),'qq_image_count':len(json.loads((O/'qq-images.json').read_text())) if (O/'qq-images.json').exists() else 0}
+          (O/'summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2));print(summary)
+          # Contact sheets are navigation only, not OCR evidence or new merchant offers.
+          T=Path('/tmp/compact');T.mkdir(exist_ok=True)
+          for part in range(0,len(images),36):
+            chunk=images[part:part+36];canvas=Image.new('RGB',(1200,1800),'white');draw=ImageDraw.Draw(canvas)
+            for j,row in enumerate(chunk):
+              im=Image.open(Path('/tmp')/row['archive']/row['file']).convert('RGB');im.thumbnail((190,265));x=(j%6)*200;y=(j//6)*300;canvas.paste(im,(x,y+22));draw.text((x+3,y+3),str(part+j)+' '+row['key'][:8],fill='black')
+            canvas.save(T/f'contact-{part//36}.jpg',quality=86)
+          for name in ['summary.json','pages.json','images.json','qq-images.json']:
+            if (O/name).exists():shutil.copy(O/name,T/name)
+          PY
+      - name: Save public text on research branch only
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add escort-market-audit
+          git commit -m 'Index public merchant source text and retrieval coverage'
+          git pull --rebase origin research/escort-market-20260928
+          git push origin HEAD:research/escort-market-20260928
+      - uses: actions/upload-artifact@v4
+        with:
+          name: escort-market-compact-audit
+          path: /tmp/compact
+          retention-days: 3
