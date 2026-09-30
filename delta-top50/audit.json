@@ -1,0 +1,26 @@
+{
+  "version": "cross-shop-2026-09-30",
+  "shops": 8,
+  "quotes_registered": 152,
+  "modeled_tiers": 145,
+  "critical_unknown_unmodeled": 7,
+  "longtail_excluded": 18,
+  "top50": 50,
+  "scene_count": 6,
+  "replications": 1600,
+  "horizon": 300,
+  "model_sha256": "454a02c2da7778cbbb74d89804af9c765a016fd7b75c5152f657e27987b74619",
+  "metric": "minimum of six scenario mean estimated net W/CNY, not a confidence bound or measured expectation",
+  "tiny_censor_top50": [
+    1,
+    7,
+    8,
+    45
+  ],
+  "result_origin": "computed locally by catalog.py + model.py; workbook and reproducible code delivered separately",
+  "checks": {
+    "static_50_rows": true,
+    "eight_shops": true,
+    "old_sites_untouched": true
+  }
+}
